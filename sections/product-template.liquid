@@ -13,7 +13,8 @@
   {% when 'large' %}
   {%- assign image_size = '920x' -%}
   {% endcase %}
-
+  <!-- Render check cart bag -->
+  {%- render 'check-items-cart' -%}
   <section class="section section--product-single js-product-single" data-section-id="{{ section.id }}" data-section-type="product-single">
 
     <div class="product-single product-single--{{ section.settings.layout }} product-single--text-{{ section.settings.text_color }} product-single--{{product.id}} js-product-{{product.id}}">
@@ -386,7 +387,7 @@
                     {% endif %}
 
                     <div class="product-single__add js-product-buttons{% unless product.available %} product-single__add--sold{% endunless %}">
-
+                      <p class="warning-same-cart hide">Sorry, You cannot add this product in the same cart.</p>
                       <button type="submit" name="add" class="c-btn c-btn--full c-btn--plus c-btn--{% if section.settings.enable_payment_button %}light{% else %}primary{% endif %} product-single__add-btn js-product-add">
                         <span class="js-product-add-text">{{ 'products.product.add_to_cart' | t }}</span>
                       </button>
@@ -952,6 +953,8 @@ $.ajax(settings).done(function (response) {
 {%- if section.settings.enable_zoom -%}
 {% render 'product-dialog' %}
 {%- endif -%}
+<script src="{{ 'product-customize.js' | asset_url }}" defer="defer"></script>
+
 
 {% schema %}
 {

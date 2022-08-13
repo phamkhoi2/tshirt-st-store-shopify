@@ -1,0 +1,6 @@
+node_modules
+config.yml
+theme.exe
+config/settings_data.json
+package-lock.json
+.DS_Store

@@ -1,0 +1,11 @@
+<div class="line_login__unlink_container">
+    {%- if customer.tags contains "LINEログイン" -%}
+      <a href="/a/line/?domain={{shop.permanent_domain}}&unlink">
+          LINEとの連携を解除する
+      </a>
+    {%- else -%}
+      <a href="/a/line/?domain={{shop.permanent_domain}}&relink">
+          LINEアカウントと連携する
+      </a>
+    {%- endif -%}
+  </div>

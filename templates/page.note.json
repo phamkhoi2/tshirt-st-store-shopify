@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "note": {
+      "type": "page-note",
+      "settings": {
+        "page_width": "wide"
+      }
+    }
+  },
+  "order": [
+    "note"
+  ]
+}

@@ -1,0 +1,82 @@
+<style>
+  .stamped-form-review-body > label {
+    width: auto;
+  }
+  #stamped-main-widget ::-webkit-input-placeholder {
+    color: #fff !important;
+  }
+  #stamped-main-widget ::-moz-placeholder {
+    color: #fff !important;
+  }
+  #stamped-main-widget :-ms-input-placeholder {
+    color: #fff !important;
+  }
+  #stamped-main-widget :-moz-placeholder {
+    color: #fff !important;
+  }
+  #stamped-main-widget ::placeholder {
+    color: #fff !important;
+  }
+</style>
+
+<!--Start Stamped.io Auto Installation-->
+<div id="stamped-main-widget" class="stamped-main-widget" data-widget-style="standard" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}" data-product-sku="{{product.handle}}" data-product-type="{{product.type}}">{{ product.metafields.stamped.reviews }}</div><!--End Stamped.io Auto Installation-->
+<script>                                        
+  function addEventListenerStamped(el, eventName, handler) { 
+    if (el.addEventListener) { el.addEventListener(eventName, handler); }
+    else { el.attachEvent('on' + eventName, function () { handler.call(el); }); } 
+  }
+
+  // addEventListenerStamped(document, 'stamped:reviews:loaded', function(e) {
+  	$(".stamped-form-contact-name > label").text("{{ section.settings.name_label }}");
+  	$(".stamped-form-contact-email > label").text("{{ section.settings.email_label }}");
+  	$(".stamped-form-review-rating > label").text("{{ section.settings.rating_label }}");
+  	$(".stamped-form-review-title > label").text("{{ section.settings.title_label }}");
+  	$(".stamped-form-review-body > label").text("{{ section.settings.body_label }}");
+  	$("#stamped-button-submit").attr("value", "{{ section.settings.submit_text }}");
+  // });
+</script>
+
+{% schema %}
+  {
+    "name": "Product review",
+    "settings": [
+		{
+          "type": "text",
+          "id": "name_label",
+          "label": "名前のラベル",
+          "default": "表示名"
+		},
+		{
+          "type": "text",
+          "id": "email_label",
+          "label": "メールのラベル",
+          "default": "メール"
+		},
+		{
+          "type": "text",
+          "id": "rating_label",
+          "label": "評価のラベル",
+          "default": "評価"
+		},
+		{
+          "type": "text",
+          "id": "title_label",
+          "label": "タイトルのラベル",
+          "default": "タイトル"
+		},	
+		{
+          "type": "text",
+          "id": "body_label",
+          "label": "本文のラベル",
+          "default": "他のユーザーの参考になる商品レビューをよろしくお願い致します。"
+		},
+		{
+          "type": "text",
+          "id": "submit_text",
+          "label": "送信ボタンのテキスト",
+          "default": "送信する"
+		}
+	]
+  }
+{% endschema %}

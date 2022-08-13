@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "brand": {
+      "type": "brand-list",
+      "settings": {
+        "brand_link_list": "brand"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "brand"
+  ]
+}

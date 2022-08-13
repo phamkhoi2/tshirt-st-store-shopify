@@ -1,0 +1,64 @@
+.login-form-section,
+.social-login-section {
+	margin: 0 0 2em;
+}
+.account__reset-link {
+	text-align: center;
+}
+.account__reset-link a {
+	font-size: 14px;
+	line-height: 1.5;
+	text-decoration: underline;
+	color: #069;
+}
+
+.social-login-section .one-click-social-login-buttons {
+	display: block;
+	/*height: calc(49px * 1) !important;*/
+}
+.line_login__button_container {
+	margin-bottom: 1.5em;
+}
+.line_login__button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 15px;
+	width: 98%;
+    height: 45px;
+    color: #fff;
+    background: #06C755;
+    padding: 0 10px;
+    margin: 0 auto;
+}
+.line_login__button .svg-icon {
+	width: 26px;
+	fill: currentColor;
+}
+.line_login__button .button-text {
+	flex: 1;
+	text-align: center;
+}
+.line_login__terms {
+	font-size: 12px;
+	line-height: 1.5;
+}
+@media(min-width: 560px){
+	.login-form-wrap {
+		display: flex;
+		justify-content: space-between;
+	}
+	.login-form-section,
+	.social-login-section {
+		width: calc(50% - 1em);
+	}
+	.account__form-buttons {
+		display: flex;
+		justify-content: space-between;
+	}
+	.account__form-buttons > * {
+		width: calc(50% - .5rem);
+		padding: 1rem;
+		margin: 0 !important;
+	}
+}

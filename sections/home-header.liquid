@@ -1,0 +1,354 @@
+{%- assign background-color = section.settings.background-color -%}
+{%- assign accent-color = section.settings.accent-color -%}
+{%- assign hover-color = section.settings.hover-color -%}
+{%- assign box-padding = section.settings.box-padding -%}
+{%- assign show-border = section.settings.show-border -%}
+{%- assign icon-box-style = section.settings.icon-box-style -%}
+{%- assign icon-box-width = section.settings.icon-box-width -%}
+{%- assign message-text = section.settings.message-text -%}
+{%- assign message-link = section.settings.message-link -%}
+{%- assign link-color = section.settings.link-color -%}
+{%- assign button-color = section.settings.button-color -%}
+{%- assign show-login-button = section.settings.show-login-button -%}
+{%- style -%}
+.template-index .main {
+	margin-top: 0;
+}
+{%- if show-border %}
+.home-header-wrap {
+	border-bottom: 1px solid {{ background-color }};
+}
+{% endif -%}
+.home-header-wrap .icon-box-list {
+	display: flex;
+	justify-content: space-between;
+	background-color: {{ background-color }};
+	padding: {{ box-padding }}px 18px;
+}
+.home-header-wrap .icon-box {
+	width: calc(100% / 3 - 5px);
+	background-color: #fff;
+	text-align: center;
+	padding: 1em 0;
+	{%- if icon-box-style == 'radius' -%}
+	border-radius: 10px;
+	{%- endif -%}
+}
+.home-header-wrap .icon-box.no-link {
+	pointer-events: none;
+}
+.home-header-wrap .icon-image {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 60px;
+	height: 48px;
+	margin: 0 auto 10px;
+}
+.home-header-wrap .icon-image .svg-icon {
+	width: 65px;
+	height: 48px;
+	oblect-fit: contain;
+}
+.home-header-wrap .icon-image .svg-icon .b {
+	fill: {{ accent-color }};
+	transition: .2s linear;
+}
+.home-header-wrap .sub-catch {
+	font-size: 10px;
+	line-height: 1;
+	letter-spacing: 0;
+	margin: 0 0 5px;
+}
+.home-header-wrap .catch-copy {
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0;
+	color: {{ accent-color }};
+	margin: 0;
+	transition: .2s linear;
+}
+.home-header-wrap .register-box {
+	padding: {{ box-padding }}px 18px;
+}
+.home-header-wrap a[class$="btn"] {
+	display: block;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	padding: 1em;
+	margin: 10px 0;
+	border: 2px solid {{ button-color }};
+	border-radius: 5px;
+}
+.home-header-wrap .register-btn {
+	color: {{ button-color }};
+}
+.home-header-wrap .login-btn {
+	background-color: {{ button-color }};
+	color: #fff;
+}
+.home-header-wrap .message {
+	text-align: center;
+	margin: 10px 0;
+}
+.home-header-wrap .message a {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	color: {{ link-color }};
+	text-decoration: underline;
+}
+.home-header-wrap .message .icon {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-right: .2em;
+}
+/* Hover action */
+.home-header-wrap .icon-box:hover {
+	opacity: 1;
+	box-shadow: 0 0 0 2px {{ hover-color }};
+}
+.home-header-wrap .icon-box:hover .icon-image .svg-icon .b {
+	fill: {{ hover-color }};
+}
+.home-header-wrap .icon-box:hover .catch-copy {
+	color: {{ hover-color }};
+}
+@media screen and (min-width: 960px) {
+	.home-header-wrap {
+		display: flex;
+	}
+	.home-header-wrap .icon-box-list {
+		width: {{ icon-box-width }}%;
+		padding: {{ box-padding }}px 24px;
+	}
+	.home-header-wrap .icon-box {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 1em;
+	}
+	.home-header-wrap .icon-image {
+		margin: 0 .5em 0 0;
+	}
+	.home-header-wrap .icon-text {
+		text-align: left;
+		white-space: nowrap;
+	}
+	.home-header-wrap .sub-catch {
+		font-size: 12px;
+	}
+	.home-header-wrap .catch-copy {
+		font-size: 18px;
+	}
+	.home-header-wrap .register-box {
+		flex: 1;
+		padding: {{ box-padding }}px 24px;
+	}
+	.home-header-wrap .buttons {
+		display: flex;
+		justify-content: space-between;
+		margin: 0 0 5px;
+	}
+	.home-header-wrap a[class$="btn"] {
+		flex: 1;
+		{%- if show-login-button %}
+		max-width: calc(50% - 5px);
+		{% endif -%}
+		margin: 0;
+	}
+	.home-header-wrap .message {
+		margin: 0;
+	}
+}
+{%- endstyle -%}
+<section class="section--{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="home-header">
+  <div class="home-header-wrap">
+    <div class="icon-box-list">
+      {%- for block in section.blocks -%}
+      {%- assign catch-icon = block.settings.catch-icon -%}
+      {%- assign sub-catch = block.settings.sub-catch -%}
+      {%- assign catch-copy = block.settings.catch-copy -%}
+      {%- assign box-url = block.settings.box-url -%}
+      <a href="{{ box-url }}" class="icon-box{% unless box-url %} no-link{% endunless %}">
+        <figure class="icon-image">{% include 'svg-icons' with catch-icon %}</figure>
+        <div class="icon-text">
+          <p class="sub-catch">{{ sub-catch }}</p>
+          <h4 class="catch-copy">{{ catch-copy }}</h4>
+        </div>
+      </a>
+      {%- endfor -%}
+    </div>
+    <div class="register-box">
+      <div class="buttons">
+        <a href="{{ routes.account_register_url }}" class="register-btn">{{ 'layout.customer.create_account' | t }}</a>
+        {% if show-login-button %}<a href="{{ routes.account_login_url }}" class="login-btn">{{ 'layout.customer.log_in' | t }}</a>{% endif %}
+      </div>
+      {%- if message-text != ''-%}
+      	{%- if message-link -%}
+          <p class="message"><a href="{{ message-link }}"><i class="icon">{% include 'svg-icons' with 'caution' %}</i>{{ message-text }}</a></p>
+        {%- else -%}
+          <p class="message">{{ message-text }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+  {
+    "name": "Home Header",
+	"class": "home-header",
+	"max_blocks": 3,
+    "settings": [
+		{
+          "type": "header",
+          "content": "Icon box"
+		},
+		{
+          "type": "color",
+          "id": "background-color",
+          "label": "背景色",
+          "default": "#eeeeee"
+		},
+		{
+          "type": "color",
+          "id": "accent-color",
+          "label": "強調色",
+          "default": "#006699"
+		},
+		{
+          "type": "color",
+          "id": "hover-color",
+          "label": "ホバー色",
+          "default": "#0099ff"
+		},
+		{
+			"type": "range",
+			"id": "box-padding",
+			"label": "ボックスの上下余白",
+			"min": 10,
+			"max": 30,
+			"step": 5,
+			"unit": "px",
+			"default": 10
+		},
+		{
+			"type": "checkbox",
+			"id": "show-border",
+			"label": "セクションに下線を付ける",
+			"default": true
+		},
+		{
+          "type": "select",
+          "id": "icon-box-style",
+          "label": "アイコンボックスの形状",
+          "options": [
+            { "value": "radius", "label": "角丸" },
+            { "value": "square", "label": "四角形" }
+          ],
+          "default": "radius"
+		},
+		{
+			"type": "range",
+			"id": "icon-box-width",
+			"label": "アイコンボックスの横幅",
+			"min": 50,
+			"max": 70,
+			"step": 5,
+			"unit": "%",
+			"default": 60,
+			"info": "※デスクトップのみ"
+		},
+		{
+          "type": "header",
+          "content": "Register box"
+		},
+		{
+			"type": "checkbox",
+			"id": "show-login-button",
+			"label": "ログインボタンを表示",
+			"default": true
+		},
+		{
+          "type": "color",
+          "id": "button-color",
+          "label": "ボタン色",
+          "default": "#556677"
+		},
+		{
+          "type": "textarea",
+          "id": "message-text",
+          "label": "テキスト",
+          "default": "旧サイトからのアカウント引き継ぎはこちら"
+		},
+		{
+          "type": "url",
+          "id": "message-link",
+          "label": "リンク"
+        },
+		{
+          "type": "color",
+          "id": "link-color",
+          "label": "リンク色",
+          "default": "#cc0000"
+		}
+	],
+	"blocks": [
+		{
+          "type": "icon",
+          "name": "アイコンボックス",
+          "settings": [
+            {
+                "type": "select",
+                "id": "catch-icon",
+                "label": "アイコン",
+                "options": [
+                    { "value": "catch1", "label": "Tシャツ" },
+                    { "value": "catch2", "label": "トラック" },
+                    { "value": "catch3", "label": "BtoB" }
+                ],
+                "default": "catch1"
+            },
+            {
+                "type": "text",
+                "id": "sub-catch",
+                "label": "サブキャッチコピー",
+                "default": "サブキャッチコピー"
+            },
+            {
+                "type": "text",
+                "id": "catch-copy",
+                "label": "キャッチコピー",
+                "default": "キャッチコピー"
+            },
+			{
+				"type": "url",
+				"id": "box-url",
+				"label": "URL"
+			}
+          ]
+		}
+	],
+	"presets": [
+        {
+            "name": "Home header",
+            "category": "Store information",
+			"blocks": [
+                {
+                    "type": "icon"
+                },
+                {
+                    "type": "icon"
+                },
+				{
+                    "type": "icon"
+                }
+            ]
+        }
+    ]
+  }
+{% endschema %}

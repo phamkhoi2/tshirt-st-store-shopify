@@ -1,0 +1,9 @@
+/* マイアカウント */
+/* 住所の背景カラー */
+.address-bg {
+  background-color:#f0f0f0;
+  padding:8px 12px 0px 12px;
+}
+.hide {
+	display: none;
+}

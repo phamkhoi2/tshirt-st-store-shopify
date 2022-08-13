@@ -1,0 +1,22 @@
+{%- for link in linklists[menu].links -%}
+{%- for sub_link in link.links -%}
+{% capture loops %}
+	{%- if sub_link.active -%}
+		{%- for lower_link in sub_link.links -%}
+			 {% if forloop.first %}{{ forloop.length }}{% endif %}
+		{%- endfor -%} 
+	{%- endif -%}
+{% endcapture %}
+{% assign loop = loops | abs %}
+{%- if sub_link.active and loop != 0 -%}
+{{ 'collection-lower-links.css' | asset_url | stylesheet_tag }}
+<div class="container">
+  <ul class="lower-links">
+    {%- for lower_link in sub_link.links -%}
+    <li class="lower-item"><a href="{{ lower_link.url }}" class="lower-link">{{ lower_link.title }}</a></li>
+    {%- endfor -%} 
+  </ul>
+</div>
+{%- endif -%}
+{%- endfor -%}
+{%- endfor -%}

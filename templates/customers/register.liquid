@@ -1,0 +1,67 @@
+<section class="section section--account account account--register">
+    <div class="container container--tiny">
+
+        <div class="section__title section__title--center">
+            <h1 class="section__title-text h2">{{ 'customer.register.title' | t }}</h1>
+          	<span style="color:red" id="noti_error"></span>
+        </div>
+
+        <div class="account__form"> 
+            {% form 'create_customer' %}
+
+                {{ form.errors | default_errors }}
+
+                <div class="o-layout">
+                  	<div class="o-layout__item u-1/1 u-1/2@tab">
+                        <label for="LastName" class="hidden-label">{{ 'customer.register.last_name' | t }}</label>
+                        <input type="text" name="customer[last_name]" id="LastName" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+                    </div>
+                    <div class="o-layout__item u-1/1 u-1/2@tab">
+                        <label for="FirstName" class="hidden-label">{{ 'customer.register.first_name' | t }}</label>
+                        <input type="text" name="customer[first_name]" id="FirstName" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+                    </div>
+                </div>
+				<!--DAQ-194 -->
+                <label for="Email" class="hidden-label">{{ 'customer.register.email' | t }}</label>
+                <span style="color:red" id="email_error"></span>
+          		<input type="email" name="customer[email]" id="email" class="{% if form.errors contains 'email' %} error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+				
+                <label for="password" class="hidden-label">{{ 'customer.register.password' | t }}</label>
+                <input type="password" name="customer[password]" id="password" class="{% if form.errors contains 'password' %} error{% endif %}" placeholder="パスワード は5文字以上40文字以内で入力してください。">
+          		<span style="color:red" id="confirm_error"></span>
+          		<input id="confirm_password" type="password" name="customer[password_confirmation]" aria-label="パスワードを再度入力" placeholder="パスワードを再度入力" required="required">
+          		<input type="hidden" name="customer[id]" />
+          		<input type="hidden" name="customer[verified_email]" value="1">
+          		<input type="hidden" name="customer[send_email_welcome]" value="1">
+          		<label for="Birthday" class="hidden-label">誕生日</label>
+          		<input id="birthday" type="date" name="metafield[accentuate.birthday]" />
+          		<label class="hidden-label" style="width:100%">お買い物で利用するサイズ（複数選択可）</label>
+          		<div style="width:100%;">
+                    <input type="checkbox" name="metafield[accentuate.men]" id="men">
+          			<label class="hidden-label" for="men" style="width:10em;" >男性サイズ</label>
+          		</div>
+          		<div style="width:100%;">
+                	<input type="checkbox" name="metafield[accentuate.women]" id="women">
+          			<label class="hidden-label" for="women" style="width:10em;">女性サイズ</label>
+          		</div>
+          		<div style="width:100%;">
+                	<input type="checkbox" name="metafield[accentuate.kid]" id="kid">
+          			<label class="hidden-label" for="kid" style="width:10em;">子どもサイズ</label>
+          		</div>
+          		<div style="width:100%;">
+                	<input type="checkbox" name="metafield[accentuate.big]" id="big">
+          			<label class="hidden-label" for="big" style="width:10em;">大きなサイズ</label>
+          		</div>
+          		
+                <div class="account__form-buttons">                    
+                    <button type="submit" class="c-btn c-btn--blue-border account__form-submit" >登録</button>
+                    <a href="{{ shop.url }}" class="c-btn c-btn--grey-border account__form-secondary-btn">{{ 'customer.register.cancel' | t }}</a>
+                </div>
+                <p>登録ボタンが処理中に変化すると確認メールが届きます。<br>
+                  メールのリンクをクリックしてユーザー登録を完了させてください。</p>
+				<!--DAQ-194 -->
+            {% endform %} 
+        </div>
+
+    </div>
+</section>

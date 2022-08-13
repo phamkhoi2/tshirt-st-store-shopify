@@ -1,0 +1,29 @@
+{% render "footer-navigation" %}
+
+{% schema %}
+  {
+    "name": "Category navigation",
+	"class": "category-nav",
+    "settings": [
+		{
+            "type": "header", 
+            "content": "Navigation"
+        },
+		{
+            "type": "link_list",
+            "id": "footer_linklist",
+            "label": {
+				"en": "Menu",
+				"ja": "メニュー"
+			},
+            "default": "main-menu"
+        }
+	],
+	"presets": [
+        {
+            "name": "Category navigation",
+            "category": "Collection"
+        }
+    ]
+  }
+{% endschema %}

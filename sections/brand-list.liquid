@@ -1,0 +1,39 @@
+{{ 'brand-list.css' | asset_url | stylesheet_tag }}
+{%- assign menu = linklists[section.settings.brand_link_list] -%}
+
+<div class="container container--medium">
+  <div class="brand-link-wrap">
+    <ul class="brand-link-list">
+      {% for link in menu.links -%}
+      <li class="brand">
+          <figure class="brand-logo">
+            <a href="{{ link.url }}" class="brand-link">
+            	<img class="brand-logo-image"
+                 	src="{{ link.object.image | img_url: '200x' }}"
+                 	srcset="{{ link.object.image | img_url: '300x' }} 560w, {{ link.object.image | img_url: '400x' }} 960w"
+                 	alt="{{ link.title }}">
+              </a>
+            <figcaption class="brand-name">
+              <a href="{{ link.url }}">{{ link.title | replace: '(', '<small>' | replace: ')', '</small>' }}</a>
+            </figcaption>
+          </figure>
+      </li>
+      {% endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "ブランド一覧",
+	"tag": "section",
+	"class": "page-section",
+    "settings": [
+		{
+          "type": "link_list",
+          "id": "brand_link_list",
+          "label": "メニューを選択"
+        }
+	]
+  }
+{% endschema %}

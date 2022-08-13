@@ -1,0 +1,76 @@
+{%- assign scroll = section.settings.mobile-scroll -%}
+{%- assign title = section.settings.brand-menu-title -%}
+{%- assign menu = linklists[section.settings.brand-menu-links] -%}
+{%- assign row = section.settings.mobile-row -%}
+{%- assign desktop-col = section.settings.desktop-col -%}
+{%- assign tablet-col = section.settings.tablet-col -%}
+{%- assign mobile-col = section.settings.mobile-col -%}
+<style type="text/css">
+@media screen and (min-width: 560px) {
+	#brand-menu	.brand {
+      width: calc(100% / {{ tablet-col }});
+	}
+}
+@media screen and (min-width: 960px) {
+	#brand-menu	.brand {
+		width: calc(100% / {{ desktop-col }});
+	}
+}
+{% if scroll  -%} 
+@media screen and (max-width: 559px) {
+	#brand-menu {
+		padding: 0;
+	}
+	#brand-menu .scroll {
+		overflow-x: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	#brand-menu .scroll .brand-link-list {
+      {% if row -%}
+		width: calc(40% * {{ mobile-col  }});
+      {% else -%}
+      	flex-wrap: nowrap;
+      {% endif -%}
+		padding: 0 18px;
+	}
+	#brand-menu .scroll .brand {
+      {% if row -%}
+		flex: 0 0 calc(100% / {{ mobile-col  }});
+      {% else -%}
+      	flex: 0 0 40%;
+      {% endif -%}
+	}
+}
+{% endif -%}
+</style>
+<section class="section">
+  <div id="brand-menu" class="container">
+    {% if title %}<h2 class="section__title-text">{{ title }}</h2>{% endif %}
+    <div class="brand-link-wrap{% if scroll  %} scroll{% endif %}">
+      <ul class="brand-link-list">
+        {% for link in menu.links -%}
+          <li class="brand">
+            <a href="{{ link.url }}" class="brand-link">
+              <figure class="brand-logo">
+                <img data-src="{{ link.object.image | img_url: '100x60' }}"
+                     data-widths="[100, 200]"
+                     data-sizes="auto"
+                     data-srcset="{{ link.object.image | img_url: '200x120' }} 2x"
+                     alt="{{ link.title }}"
+                     title="{{ link.title }}"
+                     width="100" height="60"
+                     class="img-lazyload lazyload js">
+                <noscript>
+                  <img src="{{ link.object.image | img_url: '100x60' }}"
+                     srcset="{{ link.object.image | img_url: '200x120' }} 2x"
+                     alt="{{ link.title }}" title="{{ link.title }}"
+                     width="100" height="60">
+                </noscript>              </figure>
+               <p class="brand-name">{{ link.title | replace: '(', '<small>' | replace: ')', '</small>' }}</p>
+             </a>
+          </li>
+        {% endfor -%}
+      </ul>
+    </div>
+  </div>
+</section>

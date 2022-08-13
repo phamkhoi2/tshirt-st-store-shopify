@@ -1,0 +1,102 @@
+.product-single__form {
+	overflow: visible;
+}
+.swatch-listing {
+	margin-top: 10px;
+	display: -webkit-box;
+	display: flex;
+	margin-left: .25em;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-box-align: center;
+	align-items: center;
+}
+.swatch-listing > span {
+	display: block;
+	height: 40px;
+	width: 40px;
+	margin: 0 .75em .75em 0;
+}
+.swatch-listing .swatch {
+	position: relative;
+	display: block;
+	height: 40px;
+	width: 40px;
+	text-decoration: none;
+	border-radius: 100px;
+	overflow: hidden;
+	padding: 5px;
+	box-shadow: 0 0 0 2px #dee1f3;
+}
+.swatch-listing .swatch img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 100%;
+}
+.swatch-listing .swatch.is-active {
+	box-shadow: 0 0 0 2px #55565b;
+}
+.swatch-listing .swatch::before,
+.swatch-listing .swatch::after {
+	position: absolute;
+	left: 50%;
+	display: block;
+	transition: .2s linear;
+	transform: translateX(-50%);
+	opacity: 0;
+}
+.swatch-listing .swatch::before {
+	content: attr(title);
+	top: -30px;
+	background: #666;
+	color: #fff;
+	font-size: 10px;
+	line-height: 1;
+	letter-spacing: 0;
+	white-space: nowrap;
+	padding: 5px;
+	border-radius: 3px;
+}
+.swatch-listing .swatch::after {
+	content: "";
+	top: -10px;
+	border: 5px solid transparent;
+	border-top-color: #666;
+	border-bottom-width: 0;
+}
+.swatch-listing .swatch:hover {
+	overflow: visible;
+	opacity: 1;
+}
+.swatch-listing .swatch:hover::before,
+.swatch-listing .swatch:hover::after {
+	opacity: 1;
+}
+.product-single__variant.size-option-wrapper {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	margin-top: 0;
+}
+.individual-variant-wrapper {
+	border: 1px solid rgba(17, 17, 17, 0.2);
+	padding: 7px;
+	margin-right: 10px;
+	border-radius: 5px;
+	width: calc(33.33% - 6.66px);
+	margin-top: 10px;
+	float: left;
+}
+.product-single__variant.size-option-wrapper .individual-variant-wrapper:nth-child(3n) {
+	margin-right: 0;
+}
+.individual-variant-wrapper a {
+	padding: 7px 0px;
+	min-width: 92px;
+	display: inline-block;
+	line-height: 10px;
+	text-align: center;
+	width: 100%;
+}

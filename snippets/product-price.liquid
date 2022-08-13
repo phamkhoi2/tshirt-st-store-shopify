@@ -1,0 +1,43 @@
+<!-- snippet/product-price.liquid -->
+{% if product.title %}
+    {%- assign compare_at_price = product.compare_at_price -%}
+    {%- assign price = product.price -%}
+    {%- assign price_max = product.price_max -%}
+    {%- assign price_varies = product.price_varies -%}
+    {%- assign available = product.available -%}
+{% else %}
+    {%- assign compare_at_price = 1999 -%}
+    {%- assign price = 1999 -%}
+    {%- assign price_varies = false -%}
+    {%- assign available = true -%}
+{% endif %}
+
+{%- assign money_price = price | money -%}
+{%- assign money_price_max = price_max | money -%}
+{%- liquid
+    assign float_compare_at_price = compare_at_price | times: 1.0
+    assign per_sale = price |  divided_by: float_compare_at_price
+    assign float_per_off = 1 | minus: per_sale
+    assign per_off = float_per_off | times: 100  | round
+-%}
+
+{% if available %}
+    {% if compare_at_price > price %}
+        <span class="discount_rate">{{ per_off | append: '%OFF' }}</span>
+        <span class="product__price-price product__price-price--sale">
+            <span class="money">{{ money_price }}</span>
+            {%- if price_varies %}<small>{{ 'products.general.from_price' | t }}</small>{% endif -%}
+            {%- if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif -%}
+        </span>
+        <strike class="product__price-cross"><span class="money">{{ compare_at_price | money }}</span></strike>
+    {% else %}
+        <span class="product__price-price">
+            <span class="money">{{ money_price }}</span>
+            {%- if price_varies %}<small>{{ 'products.general.from_price' | t }}</small>{% endif -%}
+            {%- if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif -%}
+        </span>
+    {% endif %}
+{% endif %}
+{% unless available %}
+    <span class="product__price-price product__price-price--sold">{{ 'products.product.sold_out' | t }}</span>
+{% endunless %}

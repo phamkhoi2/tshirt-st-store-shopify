@@ -1,0 +1,50 @@
+<section class="section">
+  <div class="footer-navigation container">
+	<nav class="footer-menu" role="navigation">
+      <ul class="main-menu">
+        {% for link in linklists[section.settings.footer_linklist].links %}
+        <li class="main-menu-item">
+          <a href="{{ link.url }}" class="main-item-link"><span class="link-text">{{ link.title }}</span></a>
+          {% if link.links != blank %}
+              <ul class="sub-menu">
+                {% for sub_link in link.links %}
+                <li class="sub-menu-item">
+                  <a href="{{ sub_link.url }}" class="sub-menu-item-link{% if sub_link.links != blank %} accordion{% endif %}">
+                    <i class="link-icon">
+                      <img data-src="{{ sub_link.object.image | img_url: 'thumb' }}"
+                           data-widths="[30, 60]"
+                           data-sizes="auto"
+                           data-srcset="{{ sub_link.object.image | img_url: '60x60' }} 2x"
+                           alt="{{ sub_link.title }}"
+                           title="{{ sub_link.title }}"
+                           width="30" height="30"
+                           class="img-lazyload lazyload js">
+                      <noscript>
+                        <img src="{{ sub_link.object.image | img_url: 'thumb' }}"
+                             alt="{{ sub_link.title }}" title="{{ sub_link.title }}"
+                             width="30" height="30">
+                      </noscript>
+                    </i>
+                    <span class="link-text">{{ sub_link.title | escape }}</span>
+                  </a>
+                  {% if sub_link.links != blank %}
+                  	<ul class="third-menu">
+                    {% for third_link in sub_link.links %}
+                      <li class="third-menu-item">
+                        <a href= "{{ third_link.url }}" class="third-menu-item-link">
+                          <span class="link-text">{{ third_link.title }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  	</ul>
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</section>

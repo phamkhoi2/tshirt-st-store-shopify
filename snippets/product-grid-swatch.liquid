@@ -1,0 +1,80 @@
+{% for option in product.options %}
+    {%- assign option_name = option | handle | downcase  -%}
+    {%- assign color_swatch_options = "color, colour, couleur, spalva, farbe, cor" | split: ", " -%}
+    {%- assign option_index = forloop.index0 -%}
+
+    {% if color_swatch_options contains option_name %}
+    
+        <div class="product__swatch">
+            <ul class="product__swatch__items o-list-inline">
+
+                {% assign values = '' %}
+                {% for variant in product.variants %}
+                    {% assign value = variant.options[option_index] %}
+                    {% capture wrapped_value %},{{ value }},{% endcapture %}
+                    {% unless values contains wrapped_value %}
+
+                        {%- assign image_url = value | handle | append: '.png' | asset_img_url: '68x' -%}
+                        {%- assign swatch_color = value | handle | replace: '-', '' -%}
+                        {%- assign color_name = value | handle | downcase -%}
+
+                        {% include 'swatch-colors' %}
+
+                        {%- assign custom_color_var = 'swatch_color_' | append: swatch_color -%}
+                        {%- capture custom_color -%}{{ [custom_color_var] }}{%- endcapture -%}
+
+                        {%- if custom_color != blank -%}
+                            {%- assign swatch_css_color = custom_color -%}
+                        {%- elsif css_color_names contains swatch_color -%}
+                            {%- assign swatch_css_color = swatch_color -%}
+                        {%- else -%}
+                            {%- assign swatch_css_color = '#ddd' -%}
+                        {%- endif -%}
+
+                        {%- if variant.image -%}
+                            {%- assign variant_img = variant.image.src | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                        {%- else -%}
+                            {%- assign variant_img = product.featured_image.src | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                        {%- endif -%}
+
+                        <li class="product__swatch__item js-product-swatch-item o-list-inline__item" data-variant-image="{{ variant_img }}" data-variant-url="{{ variant.url }}">
+                            <span class="product__swatch__graphic{% if color_name == 'white' %} product__swatch__graphic--white{% endif %}" style="background-color: {{ swatch_css_color }};{% if settings.product_grid_swatch_image %}background-image: url({{  image_url }}){% endif %}"></span>
+                            <span class="u-hidden-visually">{{ color_name }}</span>
+                        </li>
+
+                        {% capture values %}{{ values }}{{ wrapped_value }}{% endcapture %}
+
+                    {% endunless %}
+
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+{% endfor %}
+
+
+
+{% if settings.secondary_images_hover == 'image_flip' %}
+  <script>
+    $('#product-listing-{{ product.id }} .col-swatch li').each(function(){
+
+      var Original = $('#product-listing-{{ product.id }} .prod-image img').attr('data-original');
+
+      $(this).hover(function() {
+        var newImage = $(this).attr('data-href');
+
+        $( '#product-listing-{{ product.id }} .prod-image img' ).attr({
+          srcset: newImage
+        });
+
+        return false;
+      },
+      function(){
+        $( '#product-listing-{{ product.id }} .prod-image img' ).attr({
+          srcset: Original
+        });
+      });
+    });
+  </script>
+{% endif %}

@@ -1,0 +1,57 @@
+{
+  "wrapper": "div#casualnote.casualnote-wrap",
+  "sections": {
+    "main": {
+      "type": "article-casualnote",
+      "blocks": {
+        "search": {
+          "type": "search",
+          "settings": {}
+        },
+        "posts": {
+          "type": "posts",
+          "settings": {}
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {}
+        },
+        "links": {
+          "type": "links",
+          "settings": {}
+        },
+        "collection": {
+          "type": "collection",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "search",
+        "posts",
+        "tags",
+        "links",
+        "collection"
+      ],
+      "settings": {
+        "show_img": true,
+        "show_breadcrumbs": true,
+        "header_design": "header",
+        "show_date": true,
+        "show_author": false,
+        "show_tags": true,
+        "show_sharing": true,
+        "button_design": "flexible",
+        "share_facebook": true,
+        "share_twitter": true,
+        "share_pinterest": true,
+        "share_hatena": true,
+        "share_pocket": true,
+        "share_line": true,
+        "share_clipboard": true
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

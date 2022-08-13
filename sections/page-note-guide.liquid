@@ -1,0 +1,114 @@
+{{ 'breadcrumbs.css' | asset_url | stylesheet_tag }}
+{{ 'page-note-guide.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+    assign header_image = section.settings.header_image
+    assign article_limit = section.settings.note_article_limit
+
+    assign note_guide_index = settings.note_guide_index
+    assign note_tips_index = settings.note_tips_index
+    assign note_topic_index = settings.note_topic_index
+    assign note_print_index = settings.note_print_index
+
+    assign note_guide_type = settings.note_guide_type
+    assign note_tips_type = settings.note_tips_type
+    assign note_topic_type = settings.note_topic_type
+    assign note_print_type = settings.note_print_type
+
+    assign note_guide_list = settings.note_guide_list
+    assign note_tips_list = settings.note_tips_list
+    assign note_topic_list = settings.note_topic_list
+    assign note_print_list = settings.note_print_list
+
+    assign note_guide_handle = note_guide_index.handle
+    assign note_tips_handle = note_tips_index.handle
+    assign note_topic_handle = note_topic_index.handle
+    assign note_print_handle = note_print_index.handle
+-%}
+
+<header class="page-header{% unless header_image %} text-only{% endunless %}">
+    {%- render 'breadcrumbs' -%}
+    {%- if header_image -%}
+    <div class="page-image">
+        <img
+            srcset="{%- if header_image.width >= 165 -%}{{ header_image | img_url: '165x' }} 165w,{%- endif -%}
+            {%- if header_image.width >= 360 -%}{{ header_image | img_url: '360x' }} 360w,{%- endif -%}
+            {%- if header_image.width >= 535 -%}{{ header_image | img_url: '535x' }} 535w,{%- endif -%}
+            {%- if header_image.width >= 750 -%}{{ header_image | img_url: '750x' }} 750w,{%- endif -%}
+            {%- if header_image.width >= 1070 -%}{{ header_image | img_url: '1070x' }} 1070w,{%- endif -%}
+            {%- if header_image.width >= 1500 -%}{{ header_image | img_url: '1500x' }} 1500w,{%- endif -%}
+            {{ header_image | img_url: 'master' }} {{ header_image.width }}w"
+            src="{{ header_image | img_url: '750x' }}"
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+            alt="{{ collection.title | escape }}"
+            loading="lazy"
+            width="{{ header_image.width }}"
+            height="{{ header_image.height }}"
+        > 
+    </div>
+    {%- endif -%}
+    <h1 class="page-title">
+        <span>{{ page.title }}</span>
+    </h1>
+</header>
+
+<div class="note-guide container">
+    <aside class="note-guide-sidebar">
+        <h2 class="note-title"><span>{{ pages.note.title }}</span></h2>
+        <nav class="note-nav">
+            {%- liquid
+                if note_guide_index
+                    render 'note-sidebar', note_link: note_guide_index, note_type: note_guide_type, note_handle: note_guide_handle, article_limit: article_limit, note_list: note_guide_list
+                endif
+                if note_tips_index
+                    render 'note-sidebar', note_link: note_tips_index, note_type: note_tips_type, note_handle: note_tips_handle, article_limit: article_limit, note_list: note_tips_list
+                endif
+                if note_topic_index
+                    render 'note-sidebar', note_link: note_topic_index, note_type: note_topic_type, note_handle: note_topic_handle, article_limit: article_limit, note_list: note_topic_list
+                endif
+                if note_print_index
+                    render 'note-sidebar', note_link: note_print_index, note_type: note_print_type, note_handle: note_print_handle, article_limit: article_limit, note_list: note_print_list
+                endif
+             -%}
+        </nav>
+    </aside>
+
+    {%- if page.content != blank -%}
+    <div class="note-guide-content rte">
+        {{ page.content }}
+    </div>
+    {%- endif -%}
+</div>
+
+{% schema %}
+{
+    "name": "ご利用ガイド",
+    "class": "note-guide-section",
+    "settings": [
+        {
+            "type": "header",
+            "content": "ヘッダー"
+        },
+        {
+            "type": "image_picker",
+            "id": "header_image",
+            "label": "ヘッダー画像",
+            "info": "この画像がヘッダーに表示されます。"
+        },
+        {
+            "type": "header",
+            "content": "サイドバー"
+        },
+        {
+            "type": "range",
+            "id": "note_article_limit",
+            "min": 1,
+            "max": 10,
+            "step": 1,
+            "unit": "記事",
+            "label": "出力する記事数の上限",
+            "default": 5
+        }
+    ]
+}
+{% endschema %}

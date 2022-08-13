@@ -1,0 +1,32 @@
+<div class="search-draw js-search-draw mfp-hide">
+  <div class="search-draw__wrapper">
+    <div class="search__head">
+      <div class="search__label">
+        <h3 class="search__label-title">{{ 'general.search.label' | t }}</h3>
+      </div>
+    </div>
+    <div class="search__inner">
+      <form action="{{ routes.search_url }}" method="get" class="search__form" role="search">
+        <input type="hidden" name="type" value="{{ settings.search_limit }}">
+        <input type="search" name="q" class="search__form-input js-search-input" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+        <button type="submit" class="search__form-submit">
+          <i class="icon icon--search" aria-hidden="true"></i>
+          <span class="icon-fallback__text">{{ 'general.search.submit' | t }}</span>
+        </button>
+      </form>
+      {% assign search_nav = settings.search_linklist %}
+      {% if linklists[search_nav].links.size > 0 %}
+      <div class="search__nav">
+        <h4 class="search__nav-title h5">{{ linklists[search_nav].title }}</h4>
+        <ul class="search__nav-items o-list-bare">
+          {% for link in linklists[search_nav].links %}
+          <li class="search__nav-item">
+            <a href="{{ link.url }}" class="search__nav-link">{{ link.title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

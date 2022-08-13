@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-56VD9XK');</script>
+<!-- End Google Tag Manager -->
+
+<script async src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>
+<script>
+window.yjDataLayer = window.yjDataLayer || [];
+function ytag() { yjDataLayer.push(arguments); }
+ytag({"type":"ycl_cookie"});
+</script>
+    
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js' | script_tag }}
+    {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+    
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+  
+  {% render 'shogun-head' %}
+</head>
+  <body>
+    {% section 'checkout-template' %}
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            <a href="https://line.me/R/ti/p/%40pdl5276n" target="_blank"><img class="line_banner" src="{{ '20201121_line-checkout_Tep.png' | asset_url: }}" /></a>
+            {{ alternative_payment_methods }}
+          </header>
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+          </main>
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+        </div>
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+  </body>
+  <style type="text/css">
+   @media (min-width: 1000px){
+     .line_banner{
+       margin-top: 10px;
+     }
+   }
+    .line_banner{
+      max-height: 54px; 
+      display: block; 
+      margin-left: auto; 
+      margin-right: auto;
+    }
+  </style>
+  <!--   DAQ-225 -->
+  <script type="text/javascript">
+//     console.log("Test of add cart");
+	var daibiki_product = 37266514378910;
+    var daibiki_paymentid = 61319905438;
+    var credit_paymentid = 60010299550;
+    var paypal_paymentid = 58604290206;
+    var amazon_paymentid = 62229610654;
+    
+    var np_product = 1;
+    var np_paymentid = 1; //64943358110
+
+//     がある場合、代引を選ぶ
+    $(document).on('page:load page:change', function() {
+      	if ($('#payment-gateway-subfields-77269270686').length){
+          var np_html = '<i class="blank-slate__icon icon icon--offsite"></i><p>NP後払いをご利用のお客様へ</p><p>(株)ネットプロテクションズの提供するNP後払いサービスが適用され、 同サービス範囲内で個人情報を提供し代金債権を譲渡します。 ●ご利用限度額:55,000円（税込） ●後払い手数料:290円（税込） ご利用者が未成年の場合、法定代理人の利用同意を得てご利用ください。</p>';
+          $('#payment-gateway-subfields-77269270686 > .blank-slate').html(np_html);
+        }
+      	if ($('#payment-gateway-subfields-'+ paypal_paymentid).length){
+          var paypal_html = '<i class="blank-slate__icon icon icon--offsite"></i><p>PayPalをご利用のお客様へ</p><p>“ご注文完了”をクリック後、安全に決済するために、PayPalにリダイレクトされます。</p>';
+          $('#payment-gateway-subfields-'+ paypal_paymentid + ' > .blank-slate').html(paypal_html);
+        }
+      
+        $( ".edit_checkout" ).submit(function( event ) {
+          var checkout_shipping_address = {{ checkout.shipping_address | json }};     
+          if ((checkout_shipping_address.first_name == "") && ($("input:checked").val() == 77269270686)){
+            alert("NP後払いで決済する場合、配送先の「姓」「名」両方に入力が必要です。\nページ上部の「情報」のリンクから、配送情報を追記していただくと、NP後払いでの決済を選択できるようになります。");
+            event.preventDefault();
+            window.location.reload();
+          }
+          return;
+        });
+      
+		var get_cart_val = send_request_func('GET', '/cart.js', {} );
+      	if (get_cart_val.statusText == "success" || get_cart_val.statusText == "OK") {
+          var has_daibiki_product = false;
+          var quantity_daibiki_product = 0;
+          var has_np_product = false;
+          var quantity_np_product = 0;
+          $.each( get_cart_val.responseJSON.items, function( key, value ) {
+            if (value.id == daibiki_product )
+              {
+				has_daibiki_product = true;
+          		quantity_daibiki_product = value.quantity;
+              }
+            if (value.id == np_product )
+              {
+				has_np_product = true;
+          		quantity_np_product = value.quantity;
+              }
+          });
+          if (has_daibiki_product && !has_np_product) {
+            if (quantity_daibiki_product > 1) {
+              var post_change_data = {
+                'id': daibiki_product,
+                'quantity': 1
+              };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+            } else if (quantity_daibiki_product == 1) {
+              $('input.input-radio[value="'+ daibiki_paymentid +'"]').prop('checked', true);
+              $('#payment-gateway-subfields-'+ daibiki_paymentid).removeClass( "hidden" );
+              sessionStorage.removeItem('selected_payment_id');
+            }
+          }
+          if (!has_daibiki_product && has_np_product) {
+            if (quantity_np_product > 1) {
+              var post_change_data = {
+                'id': np_product,
+                'quantity': 1
+              };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+            } else if (quantity_np_product == 1) {
+              $('input.input-radio[value="'+ np_paymentid +'"]').prop('checked', true);
+              $('#payment-gateway-subfields-'+ np_paymentid).removeClass( "hidden" );
+              sessionStorage.removeItem('selected_payment_id');
+            }
+          }
+          if (has_daibiki_product && has_np_product) {
+              var post_change_data = {
+                  'id': daibiki_product,
+                  'quantity': 1
+                };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              post_change_data = {
+                  'id': np_product,
+                  'quantity': 0
+                };
+              post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+          }
+        }
+      	if (sessionStorage.getItem('selected_payment_id') !== null ) {
+//        sessionStorage.clear(); //so it doesn't trigger next time
+          $('input.input-radio[value="'+ sessionStorage.getItem('selected_payment_id') +'"]').prop('checked', true);
+          $('#payment-gateway-subfields-'+ sessionStorage.getItem('selected_payment_id')).removeClass( "hidden" );
+          sessionStorage.removeItem('selected_payment_id');
+        }
+      
+      	$( "input" ).on( "click", function(e) {
+          
+          var clicked_input_id = e.currentTarget.id;
+          if(clicked_input_id.indexOf("checkout_payment_gateway") != -1){
+            
+              if ($("input:checked").val() == daibiki_paymentid) {
+                daibiki_payment_func();
+              } else if($("input:checked").val() == np_paymentid){
+                np_payment_func();
+              }else if ( $("input:checked").val() == 77269270686 || $("input:checked").val() == amazon_paymentid || $("input:checked").val() == credit_paymentid || $("input:checked").val() == paypal_paymentid) {
+//                 alert("non daibi");
+                var post_change_data = {
+                                        'id': daibiki_product,
+                                        'quantity': 0
+                                      };
+                var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+//                 post_change_data = {
+//                                       'id': np_product,
+//                                       'quantity': 0
+//                                     };
+//               	post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+                if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+        //           console.log("OK change");
+                  sessionStorage.setItem('selected_payment_id',$("input:checked").val());
+                  window.location.reload();
+                } 
+              }
+            }
+        });
+    });
+
+    
+    function daibiki_payment_func() {
+      var get_cart_val = send_request_func('GET', '/cart.js', {} );
+// 	  console.log(get_cart_val);
+      if (get_cart_val.statusText == "success" || get_cart_val.statusText == "OK") {
+          var has_daibiki_product = false;
+          var quantity_daibiki_product = 0;
+          var has_np_product = false;
+          var quantity_np_product = 0;
+        $.each( get_cart_val.responseJSON.items, function( key, value ) {
+          	if (value.id == daibiki_product )
+              {
+				has_daibiki_product = true;
+          		quantity_daibiki_product = value.quantity;
+              }
+            if (value.id == np_product )
+              {
+				has_np_product = true;
+          		quantity_np_product = value.quantity;
+              }
+          });
+        if (has_daibiki_product && !has_np_product) {
+            if (quantity_daibiki_product != 1) {
+              var post_change_data = {
+                'id': daibiki_product,
+                'quantity': 1
+              };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+            } 
+          }
+          if (!has_daibiki_product) {
+              var post_add_data = {
+                  'id': daibiki_product,
+                  'quantity': 1
+                };
+              var post_add_val = send_request_func('POST', '/cart/add.js', post_add_data );
+              var post_change_data = {
+                                      'id': np_product,
+                                      'quantity': 0
+                                    };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_add_val.statusText == "success" || post_add_val.statusText == "OK") {
+                window.location.reload();
+              } 
+          }
+          if (has_daibiki_product && has_np_product) {
+            var post_change_data = {
+                  'id': daibiki_product,
+                  'quantity': 1
+                };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+                post_change_data = {
+                                      'id': np_product,
+                                      'quantity': 0
+                                    };
+              	post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+          }
+
+      } else {
+        console.log("error");
+      }
+    }
+
+      function np_payment_func() {
+      var get_cart_val = send_request_func('GET', '/cart.js', {} );
+// 	  console.log(get_cart_val);
+      if (get_cart_val.statusText == "success" || get_cart_val.statusText == "OK") {
+          var has_daibiki_product = false;
+          var quantity_daibiki_product = 0;
+          var has_np_product = false;
+          var quantity_np_product = 0;
+        $.each( get_cart_val.responseJSON.items, function( key, value ) {
+          	if (value.id == daibiki_product )
+              {
+				has_daibiki_product = true;
+          		quantity_daibiki_product = value.quantity;
+              }
+            if (value.id == np_product )
+              {
+				has_np_product = true;
+          		quantity_np_product = value.quantity;
+              }
+          });
+        if (!has_daibiki_product && has_np_product) {
+            if (quantity_np_product != 1) {
+              var post_change_data = {
+                'id': np_product,
+                'quantity': 1
+              };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+            } 
+          }
+          if (!has_np_product) {
+              var post_add_data = {
+                  'id': np_product,
+                  'quantity': 1
+                };
+              var post_add_val = send_request_func('POST', '/cart/add.js', post_add_data );
+              var post_change_data = {
+                                      'id': daibiki_product,
+                                      'quantity': 0
+                                    };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_add_val.statusText == "success" || post_add_val.statusText == "OK") {
+                window.location.reload();
+              } 
+          }
+          if (has_daibiki_product && has_np_product) {
+            var post_change_data = {
+                  'id': np_product,
+                  'quantity': 1
+                };
+              var post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+                post_change_data = {
+                                      'id': daibiki_product,
+                                      'quantity': 0
+                                    };
+              	post_change_val = send_request_func('POST', '/cart/change.js', post_change_data );
+              if (post_change_val.statusText == "success" || post_change_val.statusText == "OK") {
+                window.location.reload();
+              } 
+          }
+
+      } else {
+        console.log("error");
+      }
+    }
+    function send_request_func(type, url, data) {
+      return jQuery.ajax({
+                              type: type,
+                              url: url,
+                              data: data,
+                              dataType: 'json',
+        					  async: false, 
+                              success: function(data) {
+                              },
+                              error: function(data){
+                              }
+                            });
+    }
+  </script>
+<!--   DAQ-225 -->
+  <script>
+ytag({
+  "type":"yss_retargeting",
+  "config": {
+    "yahoo_ss_retargeting_id": "1000018917",
+    "yahoo_sstag_custom_params": {
+    }
+  }
+});
+</script>
+</html>

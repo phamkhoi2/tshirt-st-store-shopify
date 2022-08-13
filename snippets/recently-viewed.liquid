@@ -1,0 +1,80 @@
+{{ 'jquery.tmpl.min.js' | asset_url | script_tag }}
+{{ 'jquery.products.min.js' | asset_url | script_tag }}
+<script>
+  Shopify.Products.recordRecentlyViewed();
+</script>
+{% style %}
+.recently-viewed {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	text-align: center;
+}
+.recently-viewed::after {
+	content: "";
+	flex: 1;
+}
+.recently-viewed .item-card {
+	width: calc(100% / 2);
+	padding: 1em;
+}
+@media screen and (min-width: 560px) {
+	.recently-viewed .item-card {
+		width: calc(100% / 4);
+	}
+}
+.recently-viewed .products {
+	text-align: center;
+}
+.recently-viewed .products .image a {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding-top: 100%;
+}
+.recently-viewed .products .image a img {
+	position: absolute;
+    top: 0;
+    left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+{% endstyle %}
+
+<div id="recently-viewed-products" class="recently-viewed"></div>
+
+{% raw %}
+<script id="recently-viewed-product-template"  type="text/x-jquery-tmpl">
+	<div class="item-card">
+      <div id="product-${handle}" class="products">
+        <figure class="image">
+          <a href="${url}">
+            <img class="img-lazyload lazyload js"
+				data-src="${Shopify.Products.resizeImage(featured_image, "medium")}"
+				data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512]"
+				data-sizes="auto"
+                data-srcset="${Shopify.Products.resizeImage(featured_image, "large")} 2x"
+				alt="${title}"
+				width="300"
+				height="300">
+            <noscript>
+          		<img src="${Shopify.Products.resizeImage(featured_image, "medium")}" srcset="${Shopify.Products.resizeImage(featured_image, "large")} 2x" alt="${title}" width="300" height="300">
+  			</noscript>
+  			</a>
+  		</figure>
+        <div class="details">
+			<h3 class="product__title h4"><a href="${url}" >${title}</a></h3>
+            <h4 class="product__vendor h6">${vendor}</h4>
+            <p class="product__price h5">
+            	<span class="product__price-price">
+                	<span class="money">${(price / 100).toLocaleString()}<small>円{{if price_varies}}〜{{/if}}</small></span><small class="tax_included">税込</small>
+                </span>
+  			</p>
+            <!--<span class="tags">${tags}</span>-->
+        </div>
+      </div>
+    </div>
+</script>
+{% endraw %}
+

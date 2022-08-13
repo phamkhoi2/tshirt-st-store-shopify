@@ -1,0 +1,162 @@
+{%- assign show_ranking = section.settings.show_ranking -%}
+{%- assign ranking_title = section.settings.ranking_title -%}
+{%- assign ranking_items = section.settings.ranking_items -%}
+{%- assign badge_design = section.settings.badge_design -%}
+{%- assign show_best = section.settings.show_best -%}
+{%- assign best_title = section.settings.best_title -%}
+{%- assign best_items = section.settings.best_items -%}
+{%- capture ranking_item_width -%}
+ {%- if ranking_items == 3 or ranking_items == 6 -%}
+	calc(100% / 3)
+ {%- elsif ranking_items == 4 or ranking_items == 7 or ranking_items == 8 -%}
+	25%
+ {%- else -%}
+	20%
+ {%- endif -%}
+{%- endcapture -%}
+{%- capture best_item_width -%}
+ {%- if best_items == 3 or best_items == 6 -%}
+	calc(100% / 3)
+ {%- elsif best_items == 4 or best_items == 7 or best_items == 8 -%}
+	25%
+ {%- else -%}
+	20%
+ {%- endif -%}
+{%- endcapture -%}
+
+{% if show_ranking %}
+{% style %}
+.ranking-section,
+.best-section {
+	margin-bottom: 2em;
+}
+.ranking-title,
+.best-title {
+	font-size: 1.1em;
+	text-align: center;
+    margin-bottom: 2em;
+}
+.ranking-list,
+.best-list {
+	display: flex;
+	justify-content: space-between;
+}
+.ranking-list::after {
+	content: "";
+	display: block;
+	flex: 1;
+}
+.ranking-list .ranking-item,
+.best-list .best-item {
+	position: relative;
+	padding: 0 1em;
+}
+.ranking-list .ranking-item .badge {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 2em;
+	height: 2em;
+	font-weight: 700;
+	line-height: 1;
+	text-align: center;
+	color: #999;
+	background-color: #fff;
+	border: 1px solid #999;
+{%- if badge_design == "circle" -%}
+	border-radius: 50%;
+{%- elsif badge_design == "rounded" -%}
+	border-radius: 5px;
+{%- endif -%}
+}
+.ranking-list .ranking-item:nth-child(-n+3) .badge {
+	color: #fff;
+	border: none;
+}
+.ranking-list .ranking-item:first-child .badge {
+	background-color: #c90;
+}
+.ranking-list .ranking-item:nth-child(2) .badge {
+	background-color: #999;
+}
+.ranking-list .ranking-item:nth-child(3) .badge {
+	background-color: #633;
+}
+@media screen and (max-width: 559px) {
+	.ranking-list,
+	.best-list {
+		overflow: auto;
+		scroll-snap-type: x;
+	}
+	.ranking-list .ranking-item,
+	.best-list .best-item {
+		min-width: 60%;
+		scroll-snap-align: start;
+	}
+}
+@media screen and (min-width: 560px) {
+	.ranking-title,
+	.best-title {
+		font-size: 1.4em;
+	}
+	.ranking-list,
+	.best-list {
+		flex-wrap: wrap;
+	}
+	.ranking-list .ranking-item {
+		width: {{ ranking_item_width }};
+	}
+	.best-list .best-item {
+		width: {{ best_item_width }};
+	}
+}
+{% endstyle %}
+{% endif %}
+
+{% assign all_collections = collections %}
+
+{%- assign ranking_handle = collection.handle  | append: '-ranking' -%}
+{%- assign ranking = collections[ranking_handle] -%}
+{%- for ranking_collection in all_collections -%}
+{%- if ranking_collection.handle == ranking_handle -%}
+<section class="ranking-section">
+  {% if ranking_title == 'auto' -%}
+  <h2 class="ranking-title">{{ collection.title | append: '人気ランキング' }}</h2>
+  {% elsif ranking_title == 'page' -%}
+  <h2 class="ranking-title">{{ ranking.title }}</h2>
+  {% endif %}
+  <div class="ranking-list">
+    {% for product in ranking.products limit: ranking_items %}
+    <div class="ranking-item">
+      {% include 'product-grid-item' %}
+      <span class="badge">{{ forloop.index }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{%- endif -%}
+{%- endfor -%}
+
+{%- assign best_handle = collection.handle  | append: '-best' -%}
+{%- assign best = collections[best_handle] -%}
+{%- for best_collection in all_collections -%}
+{%- if best_collection.handle == best_handle -%}
+<section class="best-section">
+  {% if best_title == 'auto' -%}
+  <h2 class="best-title">{{ 'スタッフのオススメ' }}</h2>
+  {% elsif best_title == 'page' -%}
+  <h2 class="best-title">{{ best.title }}</h2>
+  {% endif %}
+  <div class="best-list">
+    {% for product in best.products limit: best_items %}
+    <div class="best-item">
+      {% include 'product-grid-item' %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{%- endif -%}
+{%- endfor -%}

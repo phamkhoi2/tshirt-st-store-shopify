@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="{{ 'login.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<section class="section section--account account account--login">
+    <div class="container container--small">
+
+        <div id="RecoverPasswordForm" style="display: none;">
+            <div class="section__title section__title--center">
+                <h1 class="section__title-text h2">{{ 'customer.recover_password.title' | t }}</h1>
+            </div>
+
+            {% form 'recover_customer_password' %}
+
+                {{ form.errors | default_errors }}
+
+                {% if form.posted_successfully? %}
+                    {% assign reset_success = true %}
+                {% endif %}
+
+                <label for="RecoverEmail" class="label--hidden">{{ 'customer.recover_password.email' | t }}</label>
+                <input type="email" value="" name="email" id="RecoverEmail" autocorrect="off" autocapitalize="off">
+
+                <p>{{ 'customer.recover_password.subtext' | t }}</p>
+
+                <div class="account__form-buttons">                    
+                    <input type="submit" class="c-btn c-btn--blue-border account__form-submit" value="{{ 'customer.recover_password.submit' | t }}">
+                    <a href="#" onclick="hideRecoverPasswordForm();return false;" class="c-btn c-btn--grey-border link account__form-secondary-btn">{{ 'customer.recover_password.cancel' | t }}</a>
+                </div>
+
+            {% endform %}
+        </div>
+
+
+
+        <div id="CustomerLoginForm">
+            <div class="section__title section__title--center">
+                <h1 class="section__title-text h2">{{ 'customer.login.title' | t }}</h1>
+            </div>
+
+            <div class="account__note success" id="ResetSuccess" style="display:none;">
+                {{ 'customer.recover_password.success' | t }}
+            </div>
+          
+          <div class="login-form-wrap">
+            <section class="login-form-section">
+			<h2 class="login-form-title h4">{{ 'customer.login.mail_login' | t }}</h2>
+            {% form 'customer_login' %}
+
+                {{ form.errors | default_errors }}
+
+                <label for="CustomerEmail" class="label--hidden">{{ 'customer.login.email' | t }}</label>
+                <input type="email" name="customer[email]" id="CustomerEmail"{% if form.errors contains "email" %} class="error"{% endif %} autocorrect="off" autocapitalize="off" autofocus>
+
+                {% if form.password_needed %}
+                    <label for="CustomerPassword" class="label--hidden">{{ 'customer.login.password' | t }}</label>
+                    <input type="password" value="" name="customer[password]" id="CustomerPassword"{% if form.errors contains "password" %} class="error"{% endif %}>
+                {% endif %}
+                    <div class="account__form-buttons">
+                        <input type="submit" class="c-btn c-btn--blue-border account__form-submit" value="{{ 'customer.login.sign_in' | t }}">
+                        <a href="{{ routes.account_register_url }}" class="c-btn c-btn--grey-border account__form-secondary-btn">{{ 'layout.customer.create_account' | t }}</a>
+                    </div>
+              		<p class="account__reset-link">
+                        <a href="#" onclick="showRecoverPasswordForm();return false;">{{ 'customer.login.forgot_password' | t }}</a>
+                    </p>
+            {% endform %}
+              </section>
+          	<section class="social-login-section">
+              <h2 class="login-form-title h4">{{ 'customer.login.social_login' | t }}</h2>
+              <div class="one-click-social-login"></div>
+              {%- render "line-login__line-login" -%}
+            </section>
+            
+        </div>
+          
+        <!-- 20210401_WOTIOアカウント有効化リンク_Tep　-->
+		<script src="https://wotio.app/customeractivate.js" id="1RxM0tqMUXBh9vk" type="text/javascript"></script>
+		<div id="AAI-customeractivate"></div>
+      </div>
+
+        {% comment %}
+            If accounts are set as optional, the following will be shown as an option
+            during checkout, not on the default /login page.
+        {% endcomment %}
+        {% if shop.checkout.guest_login %}
+            
+                <div class="section__title section__title--center" style="margin-top:15px;">
+                    <h2 class="section__title-text h3">{{ 'customer.login.guest_title' | t }}</h2>
+                </div>
+
+                {% form 'guest_login' %}
+                    <div class="u-text-center">
+                        <input type="submit" class="c-btn c-btn--blue-border " value="{{ 'customer.login.guest_continue' | t }}">                     
+                    </div>
+                {% endform %}
+            
+        {% endif %}
+
+    </div>
+</section>
+
+<script>
+    //Show/hide the recover password form when requested
+    function showRecoverPasswordForm() {
+        document.getElementById('RecoverPasswordForm').style.display = 'block';
+        document.getElementById('CustomerLoginForm').style.display='none';
+    }
+    function hideRecoverPasswordForm() {
+        document.getElementById('RecoverPasswordForm').style.display = 'none';
+        document.getElementById('CustomerLoginForm').style.display = 'block';
+    }
+
+    if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+
+    {% if reset_success %}
+        document.getElementById('ResetSuccess').style.display = 'block';
+    {% endif %}
+</script>

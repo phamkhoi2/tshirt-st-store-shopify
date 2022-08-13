@@ -1,0 +1,120 @@
+{{ 'breadcrumbs.css' | asset_url | stylesheet_tag }}
+{{ 'collection-header.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+    assign collection_mf = collection.metafields.links
+    assign meta_collections = collection_mf.collection
+    assign collection_handles = meta_collections | newline_to_br | replace: '<br />', ',' | split: ','
+
+    assign meta_products = collection_mf.products
+    assign product_handles = meta_products | newline_to_br | replace: '<br />', ',' | split: ','
+    for product_handle in product_handles
+        assign product_handles_size = forloop.length
+    endfor
+
+    assign meta_ranking = collection_mf.ranking
+    assign ranking_handles = meta_ranking | newline_to_br | replace: '<br />', ',' | split: ','
+    for ranking_handle in ranking_handles
+        assign ranking_handles_size = forloop.length
+    endfor
+
+    if collection.image
+        assign header_image = collection.image
+    else 
+        assign header_image = section.settings.header_image
+    endif
+-%}
+
+<header class="collection-header{% unless header_image %} text-only{% endunless %} {{ template.suffix | append: '-header' }}">
+    {%- render 'breadcrumbs' -%}
+    {%- if header_image -%}
+    <div class="collection-image">
+        <img
+            srcset="{%- if header_image.width >= 165 -%}{{ header_image | img_url: '165x' }} 165w,{%- endif -%}
+            {%- if header_image.width >= 360 -%}{{ header_image | img_url: '360x' }} 360w,{%- endif -%}
+            {%- if header_image.width >= 535 -%}{{ header_image | img_url: '535x' }} 535w,{%- endif -%}
+            {%- if header_image.width >= 750 -%}{{ header_image | img_url: '750x' }} 750w,{%- endif -%}
+            {%- if header_image.width >= 1070 -%}{{ header_image | img_url: '1070x' }} 1070w,{%- endif -%}
+            {%- if header_image.width >= 1500 -%}{{ header_image | img_url: '1500x' }} 1500w,{%- endif -%}
+            {{ header_image | img_url: 'master' }} {{ header_image.width }}w"
+            src="{{ header_image | img_url: '750x' }}"
+            sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
+            alt="{{ collection.title | escape }}"
+            loading="lazy"
+            width="{{ header_image.width }}"
+            height="{{ header_image.height }}"
+        > 
+    </div>
+    {%- endif -%}
+    <div class="collection-header-info container">
+        <h1 class="collection-title">
+            {{ collection.title }}
+        </h1>
+        {%- if collection.description != blank -%}
+        <div class="collection-description rte">
+            {{ collection.description }}
+        </div>
+        {%- endif -%}
+    </div>
+</header>
+
+{%- if meta_collections != blank -%}
+<nav class="collection-links-nav container">
+    <ul class="collection-links">
+        {%- for collection_handle in collection_handles -%}
+        {%- assign ch = collection_handle | handleize -%}
+        <li class="collection-item">
+            {{ collections[ch].title | link_to: collections[ch].url, class: 'collection-link' }}
+        </li>
+        {%- endfor -%}
+    </ul>
+</nav>
+{%- endif -%}
+
+{%- if meta_products != blank -%}
+<section class="products-section featured-products container">
+    <h2 class="products-title">{{ 'collection.featured_products' | t }}</h2>
+    <ul class="products-links{% if product_handles_size < 5 %} center{% endif %}">
+        {%- for product_handle in product_handles -%}
+        {%- assign ph = product_handle | handleize -%}
+        {%- if all_products[ph] -%}
+        <li class="products-item">
+            {% include 'product-grid-item', product: all_products[ph] %}
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+    </ul>
+</section>
+{%- endif -%}
+
+{%- if meta_ranking != blank -%}
+<section class="products-section ranking-products container">
+    <h2 class="products-title">{{ 'collection.sales_ranking' | t }}</h2>
+    <ul class="products-links{% if ranking_handles_size < 5 %} center{% endif %}">
+        {%- for ranking_handle in ranking_handles -%}
+        {%- assign rh = ranking_handle | handleize -%}
+        {%- if all_products[rh] -%}
+        <li class="products-item">
+            <span class="rank{% if forloop.index <= 3 %} top3{% endif %}" data-rank="{{ forloop.index }}">{{ forloop.index }}</span>
+            {% include 'product-grid-item', product: all_products[rh] %}
+        </li>
+        {%- endif -%}
+        {%- endfor -%}
+    </ul>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+    "name": "コレクションヘッダー",
+    "class": "collection-header-section",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "header_image",
+            "label": "ヘッダー画像",
+            "info": "コレクション画像が登録されていない場合はこの画像がヘッダーに表示されます。"
+        }
+    ]
+}
+{% endschema %}

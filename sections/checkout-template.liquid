@@ -1,0 +1,31 @@
+{%- assign tax_included = section.settings.show_tax_notice -%}
+{% if tax_included %}
+{% style %}
+.product__price .order-summary__emphasis::after,
+.total-line__price .order-summary__emphasis::after,
+.total-line__price .payment-due__price::after {
+	content: "{{ 'products.general.include_taxes_html' | t }}";
+	font-size: 10px;
+	font-weight: 400;
+	color: #666;
+	margin-left: .5em;
+}
+{% endstyle %}
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Checkout ",
+    "settings": [
+		{
+            "type": "checkbox",
+            "id": "show_tax_notice",
+            "label": {
+				"en": "Show tax notice",
+				"ja": "税込表記"
+			},
+            "default": false
+        }
+	]
+  }
+{% endschema %}

@@ -1,0 +1,67 @@
+.casualnote .article-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	background: center center / cover no-repeat #666;
+	padding: 5rem 5% 7rem;
+	margin-bottom: 4rem;
+}
+.casualnote .article-header::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgb(0 0 0 / .5);
+}
+.casualnote .article-header-content {
+	text-align: center;
+	color: #fff;
+	z-index: 1;
+}
+.casualnote .article-title {
+	font-size: 1.6rem;
+	line-height: 1.4;
+}
+.casualnote .article-header .article-title {
+	color: #fff;
+}
+.casualnote .article-header .breadcrumbs {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgb(255 255 255 / .9);
+	padding: .5rem 0 .5rem 5%;
+}
+.casualnote .article-breadcrumbs {
+	max-width: 90%;
+	padding: 1rem 0;
+	margin: 1rem auto;
+}
+.casualnote .article-content {
+	margin-bottom: 2rem;
+}
+.casualnote .article-footer {
+	padding: 2rem 0;
+	margin: 2rem 0;
+}
+.casualnote .article-footer .tag-list {
+	justify-content: center;
+}
+.casualnote .article-footer .article-paginate__wrap {
+	justify-content: space-between;
+}
+.casualnote .article-in-header {
+	margin-bottom: 2rem;
+}
+@media (min-width: 560px) {
+  	.casualnote .article-header {
+      	padding: 8rem 5% 10rem;
+    }
+	.casualnote .article-title {
+		font-size: 1.8rem;
+	}
+}

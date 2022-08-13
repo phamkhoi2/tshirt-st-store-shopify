@@ -1,0 +1,83 @@
+{%- liquid
+    assign page_title = note_link.title
+    assign page_link = note_link.url
+    assign page_handle = note_link.handle
+
+    assign page_type = note_type
+    assign lower_page_handle = page_handle | append: '-'
+
+    capture lower_page_handles
+        if page_type == 'page'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_pages = pages | sort: 'handle'
+                for page in all_pages
+                    if page.handle contains lower_page_handle
+                        echo page.handle | append: ','
+                    endif
+                endfor
+            endif
+        elsif page_type == 'collection'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_collections = collections | sort: 'handle'
+                for collection in all_collections
+                    if collection.handle contains lower_page_handle
+                        echo collection.handle | append: ','
+                    endif
+                endfor
+            endif
+        elsif page_type == 'blog'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_articles = blogs[note_handle].articles | sort: 'handle'
+                for article in all_articles
+                    echo article.handle | append: ','
+                endfor
+            endif
+        endif
+    endcapture
+
+    assign page_handles = lower_page_handles | split: ',' | reverse
+-%}
+
+{%- if lower_page_handles != blank -%}
+<header class="note-page-header">
+    <h3 class="note-page-title">{{ page_title }}</h3>
+    {{ 'collection.view_all' | t | link_to: page_link, class: 'view-all' }}
+</header>
+<ul class="note-nav-links">
+    {%- liquid
+    if note_list
+        for link in linklists[note_list].links limit: article_limit
+            echo link.title | link_to: link.url, class: 'note-nav-link'
+        endfor
+    else
+        for ph in page_handles limit: article_limit
+            echo '<li class="note-nav-item">'
+                if page_type == 'page'
+                    echo pages[ph].title | link_to: pages[ph].url, class: 'note-nav-link'
+                elsif page_type == 'collection'
+                    echo collections[ph].title | link_to: collections[ph].url, class: 'note-nav-link'
+                elsif page_type == 'blog'
+                    for article in blogs[note_handle].articles
+                        if article.handle == ph
+                            echo article.title | link_to: article.url, class: 'note-nav-link'
+                        endif
+                    endfor
+                endif
+            echo '</li>'
+        endfor
+    endif
+    -%}
+</ul>
+{%- endif -%}

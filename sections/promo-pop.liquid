@@ -1,0 +1,221 @@
+{% comment %}Create variable so delay can be re-set if form has message{% endcomment %}
+{%- assign popup_delay = section.settings.delay -%}
+{%- assign bg_color = section.settings.bg_color -%}
+{%- assign text_color = section.settings.text_color -%}
+{%- assign box_style = section.settings.box_style -%}
+{%- assign box_position = section.settings.box_position -%}
+{%- style -%}
+#shopify-section-promo-pop .promo-pop {
+	{%- if box_position == 'center' -%}
+	right: 50%;
+	bottom: 50%;
+	transform: translate(50%, 50%);
+	text-align: center;
+	{%- endif -%}
+	line-height: 1.6;
+	background-color: {{ bg_color }};
+	color: {{ text_color }};
+	{% if box_style == 'rounded' %}border-radius: 1em;{% endif %}
+	padding: 2em;
+	border: none;
+	box-shadow: 0 0 1em rgb(0 0 0 / 30%);
+}
+#shopify-section-promo-pop .promo-pop__link {
+	font-weight: 700;
+	color: {{ text_color }};
+	background: none;
+	border: 2px solid {{ text_color }};
+	{% if box_style == 'rounded' %}border-radius: 5px;{% endif %}
+	transition: .2s linear;
+}
+#shopify-section-promo-pop .promo-pop__link:hover {
+	background-color: {{ text_color }};
+	color: {{ bg_color }};
+}
+#shopify-section-promo-pop a,
+#shopify-section-promo-pop .section__title-text,
+#shopify-section-promo-pop .promo-pop__close {
+	color: {{ text_color }};
+}
+#shopify-section-promo-pop .section__title-text,
+#shopify-section-promo-pop .rte {
+	line-height: 1.4;
+	margin-bottom: 1rem;
+}
+@media screen and (max-width: 767px) {
+	#shopify-section-promo-pop .promo-pop {
+		max-width: calc(100% - 36px);
+	}
+}
+{%- endstyle -%}
+
+<div class="promo-pop js-promo-pop{% unless section.settings.enable %} promo-pop--disabled{% endunless %}{% unless section.settings.mobile %} promo-pop--no-mobile{% endunless %}" data-promo-enabled="{{ section.settings.enable }}" data-promo-delay="{{ popup_delay }}000" data-promo-expiry="{{ section.settings.expiry }}">    
+    <a href="#" class="promo-pop__close js-promo-pop-close icon-fallback">
+        <i class="icon icon--close" aria-hidden="true"></i>
+        <span class="icon-fallback__text">{{ 'layout.drawers.close' | t }}</span>
+    </a>
+
+    <div class="promo-pop__wrapper">    
+        <div class="promo-pop__content">
+
+            {% unless section.settings.title == blank %}
+                <div class="section__title promo-pop__title">
+                    <h2 class="section__title-text h4">{{ section.settings.title | escape }}</h2>
+                </div>
+            {% endunless %}
+
+            {% unless section.settings.text == blank %}
+                <div class="promo-pop__desc rte">{{ section.settings.text }}</div>              
+            {% endunless %}
+
+            {% if section.settings.enable_newsletter %}
+                <div class="promo-pop__form">
+                    {% form 'customer' %} 
+                        {{ form.errors | default_errors }}
+                        {% if form.posted_successfully? %}
+                            {% comment %}Set delay to 0 so form message is visible instanlty{% endcomment %}
+                            {%- assign popup_delay = 0 -%}
+                            <div class="promo-pop__form-message">
+                                <h2 class="promo-pop__form-message__text h4">{{ 'general.newsletter_form.confirmation' | t }}</h2>
+                            </div>
+                        {% else %}
+                            <div class="promo-pop__fieldset">
+                                <input type="hidden" name="contact[tags]" value="newsletter">
+                                <input type="email"
+                                        name="contact[email]"
+                                        id="Email"
+                                        class="promo-pop__fieldset-item promo-pop__input"
+                                        value="{% if customer %}{{ customer.email }}{% endif %}"
+                                        placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}"
+                                        autocorrect="off"
+                                        autocapitalize="off">
+                            
+                                <button type="submit" class="c-btn c-btn--primary c-btn--arrow promo-pop__fieldset-item promo-pop__btn" name="commit" id="Subscribe">{{ 'general.newsletter_form.submit' | t }}</button>
+                            </div>
+                        {% endif %}
+                    {% endform %}
+                </div> 
+            {% endif %}
+
+            {% unless section.settings.link == blank %}
+                <a href="{{ section.settings.link }}" class="c-btn c-btn--primary c-btn--arrow c-btn--full promo-pop__link"{% unless section.settings.button_link contains shop.url %} target="_blank" rel="noreferrer"{% endunless %}>{{ section.settings.link_title | escape }}</a>
+            {% endunless %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "Popup",
+    "class": "js-section__promo-pop",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "enable",
+            "label": "Enable",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "mobile",
+            "label": "Show on mobile",
+            "default": false,
+            "info": "Disabled by default. For more information why [click here](https://support.safeasmilk.co/article/46-popup-learn-why-it-is-disabled-on-mobile-devices)."
+        },
+		{
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#212121"
+        },
+        {
+          "type": "select",
+          "id": "box_style",
+          "label": "Box style",
+          "options": [
+            { "value": "default", "label": "Default" },
+            { "value": "rounded", "label": "Rounded" }
+          ],
+          "default": "default"
+        },
+		{
+          "type": "select",
+          "id": "box_position",
+          "label": "Box position",
+          "options": [
+            { "value": "default", "label": "Default" },
+            { "value": "center", "label": "Center" }
+          ],
+          "default": "default"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Popup"
+        },
+        {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Use this popup to embed a mailing list sign up form. Alternatively use it as a simple call to action with a link to a product or a page.</p>"
+        },
+        {
+            "type": "text",
+            "id": "link_title",
+            "label": "Button label",
+            "default": "More info"
+        },
+        {
+            "type": "url",
+            "id": "link",
+            "label": "Button link"
+        },
+        {
+            "type": "header",
+            "content": "Display settings"
+        },
+        {
+            "type": "range",
+            "id": "delay",
+            "label": "Popup delay",
+            "unit": "sec",
+            "min": 1,
+            "max": 15,
+            "step": 1,
+            "default": 3
+        },
+        {
+            "type": "range",
+            "id": "expiry",
+            "label": "Popup expiry",
+            "info": "Number of days before popup re-appears",
+            "unit": "day",
+            "min": 3,
+            "max": 30,
+            "step": 1,
+            "default": 7
+        },
+        {
+            "type": "header",
+            "content": "Newsletter"
+        },
+        {
+            "type": "paragraph",
+            "content": "Every sign up will create a 'Customer account' in this store. [Manage customers](/admin/customers?query=&accepts_marketing=1)"
+        },
+        {
+            "type": "checkbox",
+            "id": "enable_newsletter",
+            "label": "Enable newsletter",
+            "default": true
+        }
+    ]
+}
+{% endschema %}

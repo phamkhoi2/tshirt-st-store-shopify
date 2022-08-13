@@ -1,0 +1,186 @@
+{%- assign limit = section.settings.limit -%}
+{%- assign ng_collection = section.settings.collection_exclusion | newline_to_br | replace: '<br />', ',' -%}
+{%- assign ng_product = section.settings.product_exclusion | newline_to_br | replace: '<br />', ',' -%}
+{%- assign ng_page = section.settings.page_exclusion | newline_to_br | replace: '<br />', ',' -%}
+{%- assign blog_list = section.settings.blog_list | split: ',' -%}
+<div class="sitemap rte">
+  <section class="section">
+    <h2>{{ section.settings.collection_label }}</h2>
+    {% paginate collections by limit %}
+    <ul>
+      {% for collection in collections %}
+      {% unless ng_collection contains collection.handle %}
+      <li>{{ collection.title | link_to: collection.url }}</li>
+      {% endunless %}
+      {% endfor %}
+    </ul>
+    {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </section>
+
+  <section class="section">
+    <h2>{{ section.settings.product_label }}</h2>
+    {% paginate collections.all.products by limit %}
+    <ul>
+      {% for product in collections.all.products %}
+      {% unless ng_product contains product.handle %}
+      <li>{{ product.title | link_to: product.url }}</li>
+      {% endunless %}
+      {% endfor %}
+    </ul>
+    {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </section>
+
+  <section class="section">
+    <h2>{{ section.settings.page_label }}</h2>
+    <ul>
+      {% for page in pages %}
+      {% unless ng_page contains page.handle %}
+      <li>{{ page.title | link_to: page.url }}</li>
+      {% endunless %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>{{ section.settings.blog_label }}</h2>
+    <ul>
+      {% for handle in blog_list %}
+      {% for article  in blogs[handle].articles %}
+      <li>{{ article.title | link_to: article.url }}</li>
+      {% endfor %}
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="section">
+    <h2>{{ section.settings.policy_label }}</h2>
+    <ul>
+      {% for policy in shop.policies %}
+      <li>{{ policy.title | link_to: policy.url }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+{% schema %}
+  {
+    "name": "サイトマップ",
+    "settings": [
+		{
+			"type": "header",
+			"content": "Collections"
+		},
+		{
+			"type": "range",
+			"id": "limit",
+			"label": "セクション毎の表示数",
+			"min": 10,
+			"max": 200,
+			"step": 10,
+			"default": 20
+		},
+		{
+			"type": "checkbox",
+			"id": "show_collection",
+			"label": "コレクションページを表示",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "collection_label",
+			"label": "タイトル",
+			"default": "コレクション"
+		},
+		{
+			"type": "textarea",
+			"id": "collection_exclusion",
+			"label": "除外リスト",
+			"info": "ハンドルを入力。複数ある場合は改行。"
+		},
+		{
+			"type": "header",
+			"content": "Products"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_product",
+			"label": "商品ページを表示",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "product_label",
+			"label": "タイトル",
+			"default": "商品ページ"
+		},
+		{
+			"type": "textarea",
+			"id": "product_exclusion",
+			"label": "除外リスト",
+			"info": "ハンドルを入力。複数ある場合は改行。"
+		},
+		{
+			"type": "header",
+			"content": "Pages"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_page",
+			"label": "固定ページを表示",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "page_label",
+			"label": "タイトル",
+			"default": "固定ページ"
+		},
+		{
+			"type": "textarea",
+			"id": "page_exclusion",
+			"label": "除外リスト",
+			"info": "ハンドルを入力。複数ある場合は改行。"
+		},
+		{
+			"type": "header",
+			"content": "Blogs"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_blog",
+			"label": "ブログ記事を表示",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "blog_label",
+			"label": "タイトル",
+			"default": "ブログ"
+		},
+		{
+			"type": "text",
+			"id": "blog_list",
+			"label": "掲載ブログ",
+			"info": "ハンドルを入力。複数ある場合はカンマ区切り。"
+		},
+		{
+			"type": "header",
+			"content": "Policys"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_policy",
+			"label": "法的ページを表示",
+			"default": true
+		},
+		{
+			"type": "text",
+			"id": "policy_label",
+			"label": "タイトル",
+			"default": "法的ページ"
+		}
+	]
+  }
+{% endschema %}

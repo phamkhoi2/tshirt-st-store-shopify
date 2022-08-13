@@ -1,0 +1,65 @@
+{% style %}
+.sp-header-navs {
+	position: relative;
+	display: none;
+	background: rgba(0,0,0,.5);
+	padding-right: 22px;
+}
+.sp-header-navs::after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	content: "\e913";
+	font-family: "sb-icons";
+	font-size: 12px;
+	line-height: 40px;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(0,0,0,.5);
+	padding: 0 5px;
+}
+/*
+.sp-header-nav {
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+*/
+.sp-header-nav .sp-header-nav_items {
+	display: flex;
+	padding: 0 1em 0 0;
+	margin: 0;
+	overflow: auto;
+	scroll-snap-type: x;
+}
+.sp-header-nav .sp-header-nav_item {
+	display: block;
+	padding-left:1em;
+	margin: 0;
+	scroll-snap-align: start;
+}
+.sp-header-nav .sp-header-nav_item:last-child {
+	padding-right: 10px;
+}
+.sp-header-nav .sp-header-nav_link {
+	display: block;
+	color: #fff;
+	line-height: 40px;
+	white-space: nowrap;
+}
+@media screen and (max-width: 767px) {
+	.sp-header-navs {
+		display: block;
+	}
+}
+{% endstyle %}
+<div class="sp-header-navs">
+	<nav class="sp-header-nav" role="navigation">
+	    <ul class="sp-header-nav_items">
+	        {% for link in linklists[section.settings.sp_linklist].links %}
+	            <li class="sp-header-nav_item">
+	                <a href="{{ link.url }}" class="sp-header-nav_link">{{ link.title }}</a>
+	            </li>
+	        {% endfor %}
+	    </ul>
+	</nav>
+</div>

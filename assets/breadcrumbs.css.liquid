@@ -1,0 +1,35 @@
+.breadcrumbs * {
+	white-space: nowrap;
+}
+.breadcrumbs__list {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+    font-size: .9em;
+    line-height: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+.breadcrumbs__item {
+	display: inline-flex;
+    align-items: center;
+}
+.breadcrumbs__item .svg-icon {
+	display: inline-block;
+	width: 1rem;
+	height: 1rem;
+}
+.breadcrumbs__item:not(:last-child)::after {
+	content: "/";
+    color: #999;
+    margin: 0 .3em;
+}
+.breadcrumbs__link {
+	background: linear-gradient(#212121, #212121) left bottom / 0 1px no-repeat;
+}
+.breadcrumbs__link:hover {
+	background-size: 100% 1px;
+}

@@ -1,0 +1,16 @@
+<script>
+  (function () {
+    document.addEventListener("DOMContentLoaded", function() {  
+      const urlParams = new URLSearchParams(window.location.search);
+     if(urlParams.has("link_line")) {
+     const form = document.querySelector("form[action='/account/login']");
+    let redirectInput = document.createElement("input");
+      	redirectInput.setAttribute("name","return_to");
+    	redirectInput.setAttribute("type","hidden");
+    redirectInput.setAttribute("value","/a/line/?domain="+"{{shop.permanent_domain}}"+"&link");
+	form.appendChild(redirectInput);
+       
+    }
+    });     
+  })();
+</script>

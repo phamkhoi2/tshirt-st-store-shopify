@@ -1,0 +1,10 @@
+<div class="header_search-box">
+	<form action="{{ routes.search_url }}" method="get" class="header_search-form" role="search">
+		<input type="hidden" name="type" value="{{ settings.search_limit }}">
+		<input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" class="header_search-input" aria-label="{{ 'general.search.placeholder' | t }}">
+		<button type="submit" class="header_search-submit">
+			<i class="icon icon--search" aria-hidden="true"></i>
+			<span class="icon-fallback__text">{{ 'general.search.submit' | t }}</span>
+		</button>
+	</form>
+</div>

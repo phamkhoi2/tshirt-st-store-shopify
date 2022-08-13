@@ -1,0 +1,173 @@
+<div class="product js-product{% if settings.product_grid_detail_style == 'hover' %} product--details-hover{% endif %}{% unless product.available %} product--sold-out{% endunless %}{% if product.compare_at_price > product.price and product.available %} product--sale{% endif %} product--{% if settings.product_grid_image_size contains "crop" %}crop{% elsif settings.product_grid_image_size contains "fit" %}fit{% else %}natural{% endif %} product--{{ settings.product_grid_align }}{% if page == 'home' %} home-products__item{% endif %} ">
+
+    {% if settings.product_grid_label %}
+
+        <!-- custom label -->
+        {% assign custom_label = false %}
+        {% for collection in product.collections %}
+            {% if collection.title == collections[settings.product_grid_label_collection].title %}
+                {% assign custom_label = true %}
+            {% endif %}
+        {% endfor %}
+
+        <!-- new label -->
+        {% assign new_label = false %}
+        {% assign product_created_at = product.created_at | date: '%s' %}
+        {% assign time_ago = 'now' | date: '%s' | minus: product_created_at | divided_by: 86400 %}
+        {% if time_ago < settings.product_grid_label_new_days %}
+           {% assign new_label = true %}
+        {% endif %}
+		
+  		{% comment %}
+        {% if product.available == false %}
+            <div class="product__label product__label--sold label label--light">
+                <p class="product__label-text label__text">{{ 'products.product.sold_out' | t }}</p>
+            </div>
+        {% elsif custom_label %}
+            <div class="product__label product__label--custom label label--brand">
+                <p class="product__label-text label__text">{{ settings.product_grid_label_title }}</p>
+            </div>
+        {% elsif product.compare_at_price > product.price %}
+            <div class="product__label product__label--sale label label--brand">
+                {% if settings.product_grid_label_sale_style == 'text' %}
+                    <p class="product__label-text label__text">{{ 'products.product.on_sale' | t }}</p>
+                {% else %}
+                    <p class="product__label-text label__text">-{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</p>
+                {% endif %}
+            </div>
+        {% elsif new_label and settings.product_grid_label_new %}
+            <div class="product__label product__label--new label label--brand">
+                <p class="product__label-text label__text">{{ 'products.product.new' | t }}</p>
+            </div>
+        {% endif %}
+  		{% endcomment %}
+        
+    {% endif %}
+    
+    <div class="product-top">
+        <a href="{{ product.url | within: collection }}" class="product-link js-product-link{% if page == 'home' %} home-products__link{% endif %}" title="{{ product.title }}" tabindex="-1">
+            <div class="product__media{% if settings.product_grid_second_hover and product.media[1] != blank %} product__media--hover{% endif %}">
+
+                {% case settings.product_grid_image_size %}
+                    {% when 'natural' %}
+                        {%- assign product_ratio = 'custom' -%}
+                    {% when 'fit-square' or 'crop-square' %}
+                        {%- assign product_ratio = '1:1' -%}
+                    {% when 'fit-short' or 'crop-short' %}
+                        {%- assign product_ratio = '4:3' -%}
+                    {% when 'fit-tall' or 'crop-tall' %}
+                        {%- assign product_ratio = '2:3' -%}
+                {% endcase %}
+
+                <div class="o-ratio o-ratio--{{ product_ratio }}"{% if settings.product_grid_image_size == 'natural' %} style="padding-bottom:{{ 1 | divided_by: product.featured_media.preview_image.aspect_ratio | times: 100 }}%;"{% endif %}>
+
+                    <div class="o-ratio__content">
+                        
+                        <div class="theme-spinner"></div>
+
+                        {% if settings.product_grid_second_hover and product.media[1] != blank %}
+                            <div class="product__img-hover img-lazyload lazyload js"
+                                data-bgset="{% include 'bgset', image: product.media[1].preview_image %}"
+                                data-sizes="auto"
+                                data-parent-fit="cover"></div>
+                            <noscript>
+                                <div class="product__img-hover" style="background-image: url('{{ product.media[1].preview_image | img_url: '720x720' }});">
+                                </div>
+                            </noscript>
+                        {% endif %}
+
+                        {%- assign img_url = product.featured_media.preview_image.src | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                      	{%- assign img_width = 300 -%}
+                      	{%- assign img_height = image_size | divided_by: product.featured_media.aspect_ratio | ceil -%}
+                        <img class="product__img img-lazyload lazyload js"
+                            data-src="{{ img_url }}"
+                            data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512]"
+                            data-sizes="auto"
+                            alt="{{ product.featured_media.preview_image.alt | escape }}"
+                            width="{{ img_width }}"
+                            height="{{ img_height }}">
+                        <noscript>
+                            <img class="product__img"
+                                src="{{ product.featured_media.preview_image.src | img_url: '720x' }}" 
+                                alt="{{ product.featured_media.preview_image.alt | escape }}"
+                                width="{{ img_width }}"
+                                height="{{ img_height }}">
+                        </noscript>
+
+                    </div>
+                </div>
+
+            </div>
+        </a>
+      
+      	{% include 'swym-product-view', product: product %}
+		<button id="productCardWishListButton-{{ section_id }}-{{ forloop_index }}" class="swym-button swym-add-to-wishlist-view-product product_{{product.id}}" data-swaction="addToWishlist" data-product-id="{{product.id | json}}" aria-label="お気に入りに追加"></button>
+    
+        {% unless settings.product_grid_quick_buy == 'disabled' %}
+            <div class="product-btn product-btn--{{ settings.product_grid_quick_buy }}">
+                {% if product.available == false %}
+                    <a href="{{ product.url | within: collection }}" class="c-btn c-btn--full c-btn--light c-btn--small-tab product-btn__btn">{{ 'products.product.sold_out' | t }}</a>
+                {% elsif product.variants.size > 1 %}
+                    <a href="{{ product.url | within: collection }}" class="c-btn c-btn--full c-btn--primary c-btn--arrow c-btn--small-tab product-btn__btn">{{ 'products.product.select_options' | t }}</a>
+                {% else %}
+                    {% form 'product', product, class: "js-product-form" %}
+                        <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                        <button type="submit" name="add" class="c-btn c-btn--full c-btn--plus c-btn--primary c-btn--small-tab product-btn__btn js-product-add">
+                            <span class="js-product-add-text">{{ 'products.product.add_to_cart' | t }}</span>
+                        </button>
+                    {% endform %}
+                {% endif %}
+            </div>
+        {% endunless %}
+    </div>
+
+    <a href="{{ product.url | within: collection }}" class="product-link js-product-link{% if page == 'home' %} home-products__link{% endif %}" title="{{ product.title }}">
+        <div class="product__details">
+            <h3 class="product__title h4">
+                {%- if product.available == false -%}
+                    <span class="product_label sold_out">{{ 'products.product.sold_out' | t }}</span>
+                {%- elsif custom_label -%}
+                    <span class="product_label custom_label">{{ settings.product_grid_label_title }}</span>
+                {%- elsif product.compare_at_price > product.price -%}
+                    {%- if settings.product_grid_label_sale_style == 'text' -%}
+                        <span class="product_label on_sale">{{ 'products.product.on_sale' | t }}</span>
+                    {%- else -%}
+                        <span class="product_label compare_at_price">{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}% OFF</span>
+                    {%- endif -%}
+                {%- elsif new_label and settings.product_grid_label_new -%}
+                    <span class="product_label new">{{ 'products.product.new' | t }}</span>
+                {%- endif -%}
+            	{{- product.title -}}
+          	</h3>
+
+            {% if settings.product_grid_vendor %}
+                <h4 class="product__vendor h6">{{ product.vendor }}</h4>
+            {% endif %}
+
+            <div class="product__details__hover">
+                {% if settings.product_grid_price %}
+                    <p class="product__price h5">
+                        {% include 'product-price' %}
+                    </p>
+                    {% if product.available and product.selected_or_first_available_variant.unit_price_measurement %}
+                        <p class="product__unit-price">
+                            {% include 'product-unit-price', variant: product.selected_or_first_available_variant %}
+                        </p>
+                    {% endif %}
+                {% endif %}
+
+                {% if settings.product_grid_swatch %}
+                    {% include 'product-grid-swatch' %}
+                {% endif %}
+
+                {% if settings.product_reviews and settings.product_grid_reviews %}
+                    <div class="product__reviews">
+                        <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </a>
+
+</div>

@@ -1,0 +1,10 @@
+<li class="note-item">
+    <a href="{{ note_link.url }}" class="note-link">
+        <h2 class="lower-page-label">
+            <strong>{{ note_link.handle | upcase }}</strong>
+            <small>{{ note_link.title }}</small>
+        </h2>
+        <span class="lower-page-length">{{ note_length }}</span>
+        <span class="arrow">{% render 'svg-icons' with 'arrow-right' %}</span>
+    </a>
+</li>

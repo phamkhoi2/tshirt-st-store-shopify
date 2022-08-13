@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "top": {
+      "type": "collection-header-sp",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {}
+    }
+  },
+  "order": [
+    "top",
+    "main"
+  ]
+}

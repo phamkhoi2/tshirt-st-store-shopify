@@ -1,0 +1,78 @@
+{
+  "sections": {
+    "main": {
+      "type": "product-template",
+      "settings": {
+        "layout": "classic",
+        "container": "medium",
+        "show_breadcrumbs": true,
+        "show_vendor": true,
+        "show_tags": true,
+        "product_variant_style": "dropdowns",
+        "use_swatch_images": true,
+        "show_quantity_selector": true,
+        "show_tax_notice": true,
+        "inventory_show_format": "limit_show",
+        "show_inventory": true,
+        "inventory_limit": 30,
+        "enable_payment_button": false,
+        "show_share_buttons": true,
+        "enable_zoom": false,
+        "enable_video_looping": true,
+        "image_size": "medium",
+        "bg_color": "#ffffff",
+        "text_color": "default",
+        "bg_height": "full"
+      }
+    },
+    "testimonials": {
+      "type": "product-testimonials",
+      "disabled": true,
+      "settings": {
+        "title": "Testimonials",
+        "style_desktop": "carousel",
+        "style_mobile": "carousel",
+        "link_title": "Shop now",
+        "link": ""
+      }
+    },
+    "sections": {
+      "type": "product-sections",
+      "disabled": true,
+      "settings": {
+        "container": "medium"
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "show_related_products": true,
+        "related_title": "あなたへのおすすめ",
+        "related_mobile_layout": "carousel",
+        "related_grid_num": 4,
+        "grid_mobile": "2",
+        "related_grid_row": 2
+      }
+    },
+    "recently_viewed": {
+      "type": "product-recently-viewed",
+      "settings": {
+        "show_recently_viewed": true,
+        "recently_viewed_title": "最近チェックした商品",
+        "recently_viewed_grid": 4
+      }
+    },
+    "review": {
+      "type": "product-review",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "testimonials",
+    "sections",
+    "recommendations",
+    "recently_viewed",
+    "review"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "note-guide": {
+      "type": "page-note-guide",
+      "settings": {}
+    }
+  },
+  "order": [
+    "note-guide"
+  ]
+}

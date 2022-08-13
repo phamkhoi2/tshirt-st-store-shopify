@@ -1,0 +1,112 @@
+{%- liquid
+    assign page_title = note_link.title
+    assign page_link = note_link.url
+    assign page_handle = note_link.handle
+
+    assign page_type = note_type
+    assign lower_page_handle = page_handle | append: '-'
+
+    capture lower_page_handles
+        if page_type == 'page'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_pages = pages | sort: 'handle'
+                for page in all_pages
+                    if page.handle contains lower_page_handle
+                        echo page.handle | append: ','
+                    endif
+                endfor
+            endif
+        elsif page_type == 'collection'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_collections = collections | sort: 'handle'
+                for collection in all_collections
+                    if collection.handle contains lower_page_handle
+                        echo collection.handle | append: ','
+                    endif
+                endfor
+            endif
+        elsif page_type == 'blog'
+            if note_list
+                for link in linklists[note_list].links
+                    echo link.handle | append: ','
+                endfor
+            else
+                assign all_articles = blogs[note_handle].articles | sort: 'handle'
+                for article in all_articles
+                    echo article.handle | append: ','
+                endfor
+            endif
+        endif
+    endcapture
+
+    if note_list
+        assign page_length = note_length
+    else
+        assign page_handles =  lower_page_handles | split: ','
+        assign page_handle_last = page_handles | last | split: '-'
+        assign page_length = page_handle_last[1] | abs
+    endif
+
+    capture column
+        if page_length <= 10
+            echo 'column1'
+        else
+            echo 'column2'
+        endif
+    endcapture
+-%}
+{%- if lower_page_handles != blank -%}
+<nav class="note-index {{ column }}">
+    <ul class="note-index-list" data-index="{{ page_length }}">
+    {%- liquid
+        if note_list
+            for link in linklists[note_list].links
+                echo '<li class="note-index-item">'
+                if forloop.index < 10
+                    assign number = forloop.index | prepend: '0'
+                else
+                    assign number = forloop.index
+                endif
+                assign number_html = number | prepend: '<span class="note-number">' | append: '</span>'
+                assign title_html = link.title | prepend: '<span class="note-title">' | append: '</span>' | prepend: number_html
+                echo title_html | link_to: link.url, class: 'note-index-link'
+                echo '</li>'
+            endfor
+        else
+            for ph in page_handles
+                echo '<li class="note-index-item">'
+                    if page_type == 'page'
+                        assign number = pages[ph].handle | replace: '-00', '-0' | split: '-'
+                        assign number_html = number[1] | prepend: '<span class="note-number">' | append: '</span>'
+                        assign title_html = pages[ph].title | prepend: '<span class="note-title">' | append: '</span>' | prepend: number_html
+                        echo title_html | link_to: pages[ph].url, class: 'note-index-link'
+                    elsif page_type == 'collection'
+                        assign number = collections[ph].handle | replace: '-00', '-0' | split: '-'
+                        assign number_html = number[1] | prepend: '<span class="note-number">' | append: '</span>'
+                        assign title_html = collections[ph].title | prepend: '<span class="note-title">' | append: '</span>' | prepend: number_html
+                        echo title_html | link_to: collections[ph].url, class: 'note-index-link'
+                    elsif page_type == 'blog'
+                        for article in blogs[note_handle].articles
+                            if article.handle == ph
+                                assign number = article.handle | replace: '-00', '-0' | split: '-'
+                                assign number_html = number[1] | prepend: '<span class="note-number">' | append: '</span>'
+                                assign title_html = article.title | prepend: '<span class="note-title">' | append: '</span>' | prepend: number_html
+                                echo title_html | link_to: article.url, class: 'note-index-link'
+                            endif
+                        endfor
+                    endif
+                echo '</li>'
+            endfor
+        endif
+    -%}
+    </ul>
+</nav>
+{%- endif -%}

@@ -1,0 +1,177 @@
+.note-breadcrumbs .breadcrumbs {
+    padding: .3rem 18px;
+}
+
+.note-breadcrumbs .breadcrumbs a {
+    color: #345;
+}
+
+@media (min-width: 560px) {
+    .note-breadcrumbs .breadcrumbs {
+        padding: .5rem 24px;
+    }
+}
+
+.note-content {
+    letter-spacing: 0;
+    margin: 2rem 0 4rem;
+}
+
+.note-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.note-link {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 35px 0 15px;
+    background: rgb(0 102 153/.03);
+    border: 1px solid #069;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.note-link .lower-page-label {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 20px 0;
+}
+
+.note-link .lower-page-label strong {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #069;
+    transition: .2s linear;
+}
+
+.note-link .lower-page-label small {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.note-link .lower-page-length {
+    opacity: .5;
+    margin-left: 10px;
+}
+
+.note-link .arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    background: #069;
+    color: #fff;
+    transition: .2s linear;
+}
+
+.note-link:hover {
+    background: #ffe;
+    border-color: #09f;
+    box-shadow: 0 0 0 1px #09f;
+    opacity: 1;
+}
+
+.note-link:hover .lower-page-label strong {
+    color: #09f;
+}
+
+.note-link:hover .arrow {
+    background: #09f;
+}
+
+@media (min-width: 560px) {
+    .note-list {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+.note-main-title {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.note-index {
+    background: rgb(0 102 153/.03);
+    padding: 25px;
+    margin: 0 auto;
+}
+
+.note-index-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(90deg, #cde 50%, transparent 50%) 0 0 / 4px 1px repeat-x;
+}
+
+.note-index-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #cde 50%, transparent 50%) left bottom / 4px 1px repeat-x;
+}
+
+.note-index-link {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #345;
+    padding: 10px;
+}
+
+.note-index-link::after {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #069;
+    border-right: 2px solid #069;
+    transform: rotate(45deg);
+}
+
+.note-index-link .note-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #069;
+    margin-right: 10px;
+}
+
+.note-index-link .note-title {
+    flex: 1;
+}
+
+@media (min-width: 560px) {
+    .note-index {
+        padding: 50px;
+    }
+    .note-index.column1 {
+        max-width: 500px;
+    }
+    .column2 .note-index-list {
+        column-count: 2;
+        column-gap: 40px;
+        background: repeating-linear-gradient(90deg, #cde, #cde 2px, transparent 2px, transparent 4px) right top / calc(50% - 20px) 1px no-repeat, repeating-linear-gradient(90deg, #cde, #cde 2px, transparent 2px, transparent 4px) left top / calc(50% - 20px) 1px no-repeat;
+    }
+}

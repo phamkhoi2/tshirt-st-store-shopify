@@ -1,0 +1,529 @@
+{{ 'casualnote.css' | asset_url | stylesheet_tag }}
+{{ 'casualnote-article.css' | asset_url | stylesheet_tag }}
+{% if section.settings.show_breadcrumbs %}
+  {{ 'breadcrumbs.css' | asset_url | stylesheet_tag }}
+ {% endif %}
+
+{%- liquid
+	assign number_of_comments = article.comments_count
+    
+    assign sidebar_search_title = settings.sidebar_search_title
+    assign sidebar_search_placeholder = settings.sidebar_search_placeholder
+    assign sidebar_articles_title = settings.sidebar_articles_title
+    assign sidebar_articles_number = settings.sidebar_articles_number
+    assign sidebar_articles_show_date = settings.sidebar_articles_show_date
+    assign sidebar_tags_title = settings.sidebar_tags_title
+    assign sidebar_tags_number = settings.sidebar_tags_number
+    assign sidebar_linklist_title = settings.sidebar_linklist_title
+    assign sidebar_linklist = settings.sidebar_linklist
+    assign sidebar_collection_title = settings.sidebar_collection_title
+    assign sidebar_collection = settings.sidebar_collection
+    assign sidebar_collection_number = settings.sidebar_collection_number
+    assign sidebar_collection_ranking = settings.sidebar_collection_ranking
+    assign sidebar_collection_scroll = settings.sidebar_collection_scroll
+-%}
+
+{% if section.settings.header_design == 'header' %}
+<header class="article-header" {% if section.settings.show_img %}style="background-image: url({{ page_image | img_url: '1200x600', crop: 'center' }});"{% endif %}>
+  <div class="article-header-content">
+    <h1 class="article-title">{{ article.title }}</h1>
+    <div class="article-meta">
+      {% if section.settings.show_date %}
+      <span class="article-date">{{ article.published_at | date: format: 'date' }}</span>
+      {% endif %}
+      {% if section.settings.show_author %}
+      <span class="article-author">{{ article.author | prepend: "｜" }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% if section.settings.show_breadcrumbs %}
+  	{% render 'breadcrumbs' %}
+  {% endif %}
+</header>
+{% else %}
+<header class="article-breadcrumbs">
+  {% if section.settings.show_breadcrumbs %}
+  	{% render 'breadcrumbs' %}
+  {% endif %}
+</header>
+{% endif %}
+
+<div class="post-wrap">
+  <article class="main article-content">
+    
+    {% if section.settings.header_design == 'default' %}
+      <header class="article-in-header">
+        {% if section.settings.show_img %}
+        <figure class="article-thumbnail">
+          <img src="{{ page_image | img_url: '900x600', crop: 'center' }}" alt="{{ article.title }}">
+        </figure>
+        {% endif %}
+        <h1 class="article-title">{{ article.title }}</h1>
+        <div class="article-meta">
+          {% if section.settings.show_date %}
+          <span class="article-date">{{ article.published_at | date: format: 'date' }}</span>
+          {% endif %}
+          {% if section.settings.show_author %}
+          {% if section.settings.show_date %}{{'｜'}}{% endif %}
+          <span class="article-author">{{ article.author }}</span>
+          {% endif %}
+        </div>
+      </header>
+    {% endif %}
+    
+    <div class="article-post rte">
+      {{ article.content }}
+    </div>
+    
+    <footer class="article-footer">
+      {% if section.settings.show_sharing %}
+        <div class="article-share">
+          {{ 'social-sharing.css' | asset_url | stylesheet_tag }}
+          <ul class="social-sharing {{  section.settings.button_design }}">
+            {%- if section.settings.share_facebook -%}
+            {% render 'social-sharing' with 'facebook' %}
+            {%- endif -%}
+            {%- if section.settings.share_twitter -%}
+            {% render 'social-sharing' with 'twitter' %}
+            {%- endif -%}
+            {%- if section.settings.share_pinterest -%}
+            {% render 'social-sharing' with 'pinterest' %}
+            {%- endif -%}
+            {%- if section.settings.share_hatena -%}
+            {% render 'social-sharing' with 'hatena' %}
+            {%- endif -%}
+            {%- if section.settings.share_pocket -%}
+            {% render 'social-sharing' with 'pocket' %}
+            {%- endif -%}
+            {%- if section.settings.share_line -%}
+            {% render 'social-sharing' with 'line' %}
+            {%- endif -%}
+            {%- if section.settings.share_clipboard -%}
+            {% render 'social-sharing' with 'clipboard' %}
+            {%- endif -%}
+          </ul>
+        </div>
+      {% endif %}
+      
+      {% if section.settings.show_tags %}
+      {% if article.tags.size > 0 %}
+      <div class="article-tags">
+        <ul class="tag-list">
+          {% for tag in article.tags %}
+          <li class="tag"><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag | prepend: '#' }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% endif %}
+      
+      {% if blog.next_article or blog.previous_article %}
+        <div class="article-paginate">
+            <div class="article-paginate__wrap">
+                <div class="article-paginate__btn article-paginate__item--prev{% unless blog.previous_article %} article-paginate__item--disabled{% endunless %}">
+                    {% if blog.previous_article %}
+                        <a href="{{ blog.previous_article }}" class="c-btn c-btn--grey-border previous">
+                            <i class="icon icon--left-t" aria-hidden="true"></i>
+                            <span class="text">{{ 'blogs.article.older_post' | t  }}</span>
+                        </a>
+                    {% else %}
+                        <span class="c-btn c-btn--grey-border previous">
+                            <i class="icon icon--left-t" aria-hidden="true"></i>
+                            <span class="text">{{ 'blogs.article.older_post' | t  }}</span>
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="article-paginate__btn article-paginate__item--next{% unless blog.next_article %} article-paginate__item--disabled{% endunless %}">
+                    {% if blog.next_article %} 
+                        <a href="{{ blog.next_article }}" class="c-btn c-btn--grey-border next">
+                            <span class="text">{{ 'blogs.article.newer_post' | t }}</span>
+                          	<i class="icon icon--right-t" aria-hidden="true"></i>
+                        </a>
+                    {% else %}
+                        <span class="c-btn c-btn--grey-border next">
+                            <span class="text">{{ 'blogs.article.newer_post' | t }}</span>
+                          	<i class="icon icon--right-t" aria-hidden="true"></i>
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if blog.comments_enabled? %}
+        <div class="article-comments{% unless blog.next_article or blog.previous_article %} article-comments--mt{% endunless %}" id="comments">
+            <div class="container container--tiny">
+
+                <div class="article-comments__comments">
+                    {% if number_of_comments > 0 %}
+                        <h2 class="article-comments__title h4">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</h2>
+                    {% endif %}
+                    {% paginate article.comments by 3 %}
+                        {% if comment and comment.created_at %}
+                            <p class="article-comments__note form-success">
+                                {% if blog.moderated? %}
+                                    {{ 'blogs.comments.success_moderated' | t }}
+                                {% else %}
+                                    {{ 'blogs.comments.success' | t }}
+                                {% endif %}
+                            </p>
+                        {% endif %}
+                        {% if number_of_comments > 0 %}
+                            <ul class="article-comments__items o-list-bare">
+                                {% for comment in article.comments %}
+                                    <li id="{{ comment.id }}" class="article-comments__item">
+                                        <div class="article-comments__content rte">
+                                            {{ comment.content }}
+                                        </div>
+                                        <div class="article-comments__meta">
+                                            <span class="article-comments__meta-item">{{ comment.author }}</span>
+                                            <span class="article-comments__meta-item">{{ comment.created_at | time_tag: format: 'month_day_year' }}</span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if paginate.pages > 1 %}
+                            <div class="article-comments__pagination">
+                                <div class="container">
+                                    <div class="pagination">
+                                        <div class="pagination__items">
+                                            {{ paginate | default_pagination: next: '<i class="icon icon--right-t"></i>', previous: '<i class="icon icon--left-t"></i>' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endpaginate %}
+                </div>
+                
+                <div class="article-comments__form article-form{% if number_of_comments < 1 %} article-form--first{% endif %}">
+                    {% form 'new_comment', article %}
+
+                        <h2 class="article-form__title h4">{{ 'blogs.comments.title' | t }}</h2>
+                        
+                        {{ form.errors | default_errors }}
+
+                        <div class="o-layout">
+
+                            <div class="o-layout__item u-1/1 u-1/2@tab">
+                                <label for="CommentAuthor">{{ 'blogs.comments.name' | t }}</label>
+                                <input type="text" name="comment[author]" id="CommentAuthor" class="input-full{% if form.errors contains 'author' %} input--error{% endif %}" value="{{ form.author }}">
+                            </div>
+
+                            <div class="o-layout__item u-1/1 u-1/2@tab">
+                                <label for="CommentEmail">{{ 'blogs.comments.email' | t }}</label>
+                                <input type="email" name="comment[email]" id="CommentEmail" class="input-full{% if form.errors contains 'email' %} input--error{% endif %}" value="{{ form.email }}" autocorrect="off" autocapitalize="off">
+                            </div>
+
+                            <div class="o-layout__item u-1/1">
+                                <label for="CommentBody">{{ 'blogs.comments.message' | t }}</label>
+                                <textarea name="comment[body]" id="CommentBody" class="input-full{% if form.errors contains 'body' %} input--error{% endif %}">{{ form.body }}</textarea>
+                            </div>
+                        </div>
+
+                        {% if blog.moderated? %}
+                            <p class="article-form__fine-print u-small">{{ 'blogs.comments.moderated' | t }}</p>
+                        {% endif %}
+
+                        <input type="submit" class="c-btn c-btn--primary c-btn--center" value="{{ 'blogs.comments.post' | t }}">
+
+                    {% endform %}
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+    </footer>
+    
+  </article>
+  <aside class="sidebar">
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'search' -%}
+      <section class="sidebar-search">
+        <h3 class="sidebar-title">{{ sidebar_search_title }}</h3>
+        <form action="{{ routes.search_url }}" method="get" class="sidebar-search-form" role="search">
+          <input type="hidden" name="type" value="article">
+          <input type="search" name="q" placeholder="{{ sidebar_search_placeholder }}" class="sidebar-search-input" aria-label="{{ sidebar_search_placeholder }}">
+          <button type="submit" class="sidebar-search-submit" aria-label="検索">
+            {% render 'svg-icons' with 'search' %}
+          </button>
+        </form>
+      </section>
+    {%- when 'posts' -%}
+      <section class="sidebar-posts">
+        <h3 class="sidebar-title">{{ sidebar_articles_title }}</h3>
+        {% for article in blog.articles limit: sidebar_articles_number %}
+        <article id="sidebar-post-{{ article.id }}" class="post-item">
+          <a href="{{ article.url }}" class="post-link">
+          <figure class="post-image">
+            <img src="{{ article.image.src | img_url: '360x240', crop: 'center' }}" alt="{{ article.image.src.alt | escape }}">
+          </figure>
+          <div class="post-meta">
+            <h2 class="post-title"><span>{{ article.title | escape }}</span></h2>
+            {% if sidebar_articles_show_date %}<p class="post-date">{{ article.published_at | date: format: 'abbreviated_date' }}</p>{% endif %}
+          </div>
+          </a>
+        </article>
+        {% endfor %}
+      </section>
+    {%- when 'tags' -%}
+      <section class="sidebar-tags">
+        <h3 class="sidebar-title">{{ sidebar_tags_title }}</h3>
+        <ul class="tag-list">
+        {% assign tags = blog.all_tags | sort: 'total_count' | reverse %}
+        {% for tag in tags limit: sidebar_tags_number %}
+          <li class="tag"><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag | prepend: '#' }}</a></li>
+        {% endfor %}
+        </ul>
+      </section>
+    {%- when 'links' -%}
+      <section class="sidebar-blogs">
+        <h3 class="sidebar-title">{{ sidebar_linklist_title }}</h3>
+        <ul class="blog-list">
+          {%- assign links = sidebar_linklist -%}
+          {% for link in linklists[links].links %}
+            <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {%- when 'collection' -%}
+      <section class="sidebar-collection">
+        <h3 class="sidebar-title">{{ sidebar_collection_title }}</h3>
+        <div class="collection-list{% if sidebar_collection_scroll %} mobile-scroll{% endif %}">
+          {%- for product in collections[sidebar_collection].products limit: sidebar_collection_number -%}
+          	<div class="collection-item">
+              {%if sidebar_collection_ranking %}<span class="ranking-badge">{{ forloop.index }}</span>{% endif %}
+              <a href="{{ product.url }}" class="item-link">
+                <figure class="item-image">
+                  <img src="{{ product.featured_image | img_url: "300x" }}" alt="{{ product.title }}">
+                </figure>
+                <div class="item-meta">
+                  <h4 class="item-title">{{ product.title }}</h4>
+                  <p class="item-vendor">{{ product.vendor }}</p>
+                  <div class="item-price">
+                    {%- liquid
+                      assign compare_at_price = product.compare_at_price
+                      assign price = product.price
+                      assign price_max = product.price_max
+                      assign price_varies = product.price_varies
+                      assign available = product.available
+                      assign money_price = price | money
+                      assign money_price_max = price_max | money
+                    -%}
+                    {%- if available -%}
+                      {%- if compare_at_price > price -%}
+                      <span class="product__price-price product__price-price--sale">
+                        <strong class="money">{{ money_price }}</strong>
+                        {% if price_varies %}{{ 'products.general.from_price' | t }}{% endif %}
+                        {% if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif %}
+                      </span>
+                      <strike class="product__price-cross"><span class="money">{{ compare_at_price | money }}</span></strike>
+                      {%- else -%}
+                      <span class="product__price-price">
+                        <strong class="money">{{ money_price }}</strong>
+                        {% if price_varies %}{{ 'products.general.from_price' | t }}{% endif %}
+                        {% if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif %}</span>
+                      {%- endif -%}
+                    {%- else -%}
+                      <span class="product__price-price product__price-price--sold">{{ 'products.product.sold_out' | t }}</span>
+                    {%- endif -%}
+                  </div>
+                 </div>
+              </a>
+          	</div>
+          {%- endfor -%}
+        </div>
+      </section>
+    {%- endcase -%}
+    {%- endfor -%}
+  </aside>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "articleBody": {{ article.content | strip_html | json }},
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ shop.url | append: article.url | json }}
+  },
+  "headline": {{ article.title | json }},
+  {% if article.excerpt != blank %}
+    "description": {{ article.excerpt | strip_html | json }},
+  {% endif %}
+  {% if article.image %}
+    {% assign image_size = article.image.width | append: 'x' %}
+    "image": [
+      {{ article | img_url: image_size | prepend: "https:" | json }}
+    ],
+  {% endif %}
+  "datePublished": {{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+  "dateModified": {{ article.updated_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+  "dateCreated": {{ article.created_at | date: '%Y-%m-%dT%H:%M:%SZ' | json }},
+  "author": {
+    "@type": "Person",
+    "name": {{ article.author | json }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    {% if page_image %}
+      {% assign image_size = page_image.width | append: 'x' %}
+      "logo": {
+        "@type": "ImageObject",
+        "height": {{ page_image.height | json }},
+        "url": {{ page_image | img_url: image_size | prepend: "https:" | json }},
+        "width": {{ page_image.width | json }}
+      },
+    {% endif %}
+    "name": {{ shop.name | json }}
+  }
+}
+</script>
+
+{% schema %}
+{
+	"name": "ブログ記事",
+	"tag": "section",
+	"class": "casualnote",
+	"blocks": [
+		{
+			"type": "search",
+			"name": "検索窓",
+			"limit": 1
+		},
+		{
+			"type": "posts",
+			"name": "記事一覧",
+			"limit": 1
+		},
+		{
+			"type": "tags",
+			"name": "タグ一覧",
+			"limit": 1
+		},
+		{
+			"type": "links",
+			"name": "リンクリスト",
+			"limit": 1
+		},
+		{
+			"type": "collection",
+			"name": "コレクション",
+			"limit": 1
+		}
+	],
+	"settings": [
+		{
+			"type": "header",
+			"content": "ヘッダー"
+		},
+		{
+            "type": "checkbox",
+            "id": "show_img",
+            "label": "アイキャッチを表示",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_breadcrumbs",
+            "label": "パンくずを表示",
+            "default": true
+        },
+		{
+            "type": "select",
+            "id": "header_design",
+            "label": "見出しデザイン",
+			"options": [
+				{ "value": "default", "label": "記事上" },
+				{ "value": "header", "label": "ヘッダー" }
+			],
+            "default": "header"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_date",
+            "label": "日付を表示",
+            "default": true
+        },
+        {
+            "type": "checkbox",
+            "id": "show_author",
+            "label": "著者を表示",
+            "default": false
+        },
+		{
+			"type": "header",
+			"content": "フッター"
+		},
+        {
+            "type": "checkbox",
+            "id": "show_tags",
+            "label": "タグを表示",
+            "default": true
+        },
+		{
+			"type": "checkbox",
+			"id": "show_sharing",
+			"label": "シェアボタンを表示",
+			"default": true
+		},
+		{
+			"type": "select",
+			"id": "button_design",
+			"label": "ボタンのデザイン",
+			"options": [
+				{ "value": "flexible", "label": "フレキシブル" },
+				{ "value": "square", "label": "正方形" },
+				{ "value": "rounded", "label": "角丸" },
+				{ "value": "circle", "label": "円形" }
+			],
+			"default": "flexible"
+		},
+		{
+			"type": "checkbox",
+			"id": "share_facebook",
+			"label": "Facebook",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_twitter",
+			"label": "Twitter",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_pinterest",
+			"label": "Pinterest",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_hatena",
+			"label": "はてなブックマーク",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_pocket",
+			"label": "Pocket",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_line",
+			"label": "LINE",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "share_clipboard",
+			"label": "クリップボード",
+			"default": true
+		}
+	]
+}
+{% endschema %}

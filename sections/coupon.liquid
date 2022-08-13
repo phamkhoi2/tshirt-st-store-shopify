@@ -1,0 +1,253 @@
+{%- assign title = section.settings.coupon_section_title -%}
+{%- assign bg = section.settings.coupon_section_bg -%}
+{%- assign text = section.settings.coupon_section_text -%}
+{% case section.blocks.size %}
+  {% when 1 %}
+	  {%- assign width = '100%' -%}
+  {% when 2 %}
+	  {%- assign width = 'calc(100% / 2 - 2em)' -%}
+  {% when 3 %}
+	  {%- assign width = 'calc(100% / 3 - 2em)' -%}
+  {% when 4 %}
+	  {%- assign width = 'calc(100% / 2 - 2em)' -%}
+{% endcase %}
+
+{% if section.settings.show_coupon_section %}
+<style>
+.coupon-wrap {
+	background: {{ bg }};
+	color: {{ text }};
+	text-align: center;
+	padding: 3em 0;
+}
+.coupon-wrap .section__title-text {
+	color: {{ text }};
+	margin-bottom: 1em;
+}
+.coupon-list {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin: 0 auto;
+}
+.coupon {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin: 1em;
+}
+.coupon .coupon-image {
+	width: 30%;
+	margin: 0 5% 0 0;
+}
+.coupon .coupon-code {
+	flex: 1;
+}
+.coupon .coupon-code h3 {
+	font-size: 14px;
+	text-align: left;
+	letter-spacing: ０;
+	color: {{ text }};
+	margin: 0 0 .5em;
+}
+.coupon .coupon-code .code {
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    position: relative;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    line-height: 1;
+    padding: .8em 1em;
+    border: 1px solid #ddd;
+    border-radius: 1.5em;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.coupon .coupon-code .code:hover {
+	box-shadow: 0 0 10px #09f;
+	border-color: #09f;
+}
+.coupon .coupon-code .code::before,
+.coupon .coupon-code .code::after {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transition: .2s linear;
+	transform: translateX(-50%);
+	z-index: -1;
+}
+.coupon .coupon-code .code::before {
+	content: "";
+	display: block;
+	border: 6px solid transparent;
+	border-top-color: rgba(0,0,0,.9);
+	border-bottom-width: 0;
+	opacity: 0;
+}
+.coupon .coupon-code .code::after {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	content: "クーポンコードをコピー";
+	font-size: 12px;
+	white-space: nowrap;
+	background: rgba(0,0,0,.9);
+	color: #fff;
+	padding: .8em 1em;
+	border-radius: 3px;
+}
+.coupon .coupon-code .code:hover::before,
+.coupon .coupon-code .code:hover::after {
+	opacity: 1;
+	z-index: 1;
+}
+.coupon .coupon-code .code:hover::before {
+	top: -1em;
+}
+.coupon .coupon-code .code:hover::after {
+	top: -3.7em;
+}
+.coupon .coupon-code .code:active::after {
+	content: "コピーしました"
+}
+.coupon .coupon-code .code code {
+	flex: 1;
+    background: #fff;
+    text-align: center;
+    font: 400 16px/1 "Courier New", Consolas, monospace;
+}
+.coupon .coupon-code .icon {
+	display: block;
+	width: 1em;
+	height: 1em;
+	color: #888;
+}
+@media screen and (min-width: 768px) {
+	.coupon {
+		width: {{ width }};
+		max-width: 500px;
+	}
+}
+</style>
+
+<section class="section coupon-wrap">
+	<div class="container">
+		<h2 class="section__title-text">{{ title }}</h2>
+		<div class="coupon-list">
+			{% for block in section.blocks %}
+			{% assign code = block.settings.coupon_code %}
+			{% assign rate = block.settings.discount_rate %}
+			{% assign amount = block.settings.available_amount %}
+			{% assign image = block.settings.coupon_image %}
+			<div class="coupon">
+				<figure class="coupon-image">
+                  <img data-src="{{ image | img_url: '150x110' }}"
+                       data-widths="[150, 300]"
+                       data-sizes="auto"
+                       data-srcset="{{ image | img_url: '300x220' }} 2x"
+                       alt="{{ amount }}%OFF"
+                       title="{{ amount }}%OFF"
+                       width="150" height="110"
+                       class="img-lazyload lazyload js">
+                  <noscript>
+					<img src="{{ image | img_url: '150x110' }}" srcset="{{ image | img_url: '300x220' }} 2x" alt="{{ amount }}%OFF" title="{{ amount }}%OFF" width="150" height="110">
+                  </noscript>
+ 				</figure>
+				<div class="coupon-code">
+					<h3>{{ amount }}万円以上で使えるクーポン</h3>
+					<button class="code" data-clipboard-text="{{ code }}"><code>{{ code }}</code><i class="icon">{% include 'svg-icons' with 'clipboard' %}</i></button>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+<script src="{{ 'clipboard.js' | asset_url }}" type="lazyload2"></script>
+
+<script type="text/javascript">
+	new Clipboard('.code');
+</script>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Coupon",
+    "class": "coupon_section",
+    "max_blocks": 4,
+    "settings": [
+	    {
+            "type": "header",
+            "content": "Coupon"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_coupon_section",
+            "label": "クーポンを表示する",
+            "default": false
+        },
+        {
+            "type": "text",
+            "id": "coupon_section_title",
+            "label": "見出し",
+            "default": "クーポン"
+        },
+        {
+            "type": "color",
+            "id": "coupon_section_bg",
+            "label": "背景色",
+            "default": "#bbbbbb"
+        },
+		{
+            "type": "color",
+            "id": "coupon_section_text",
+            "label": "文字色",
+            "default": "#ffffff"
+        }
+	],
+	"blocks": [
+		{
+			"type": "html",
+            "name": "クーポン",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "coupon_code",
+                    "label": "クーポンコード",
+                    "default": "omatome"
+                },
+                {
+                    "type": "range",
+                    "id": "discount_rate",
+                    "label": "割引率",
+                    "min": 1,
+                    "max": 10,
+                    "step": 1,
+                    "unit": "%",
+                    "default": 10
+                },
+                {
+                    "type": "range",
+                    "id": "available_amount",
+                    "label": "利用可能額",
+                    "min": 1,
+                    "max": 10,
+                    "step": 1,
+                    "unit": "万円",
+                    "default": 3
+                },
+                {
+                    "type": "image_picker",
+                    "id": "coupon_image",
+                    "label": "クーポン画像",
+                    "info": "推奨サイズ：300x220px"
+                }
+            ]
+        }
+	]
+}
+{% endschema %}

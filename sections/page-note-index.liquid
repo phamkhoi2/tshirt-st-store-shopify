@@ -1,0 +1,262 @@
+{{ 'breadcrumbs.css' | asset_url | stylesheet_tag }}
+{{ 'page-note.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+	assign page_width = section.settings.page_width
+    
+    capture container_width
+      if page_width == 'tiny'
+      	echo 'container--tiny'
+      elsif page_width == 'wide'
+      	echo 'container--medium'
+      elsif page_width == 'full'
+      	echo 'container--full'
+      endif
+    endcapture
+
+    assign page_handle = page.handle
+
+    assign note_guide_index = settings.note_guide_index
+    assign note_tips_index = settings.note_tips_index
+    assign note_topic_index = settings.note_topic_index
+    assign note_print_index = settings.note_print_index
+
+    assign note_guide_type = settings.note_guide_type
+    assign note_tips_type = settings.note_tips_type
+    assign note_topic_type = settings.note_topic_type
+    assign note_print_type = settings.note_print_type
+
+    assign note_guide_list = settings.note_guide_list
+    assign note_tips_list = settings.note_tips_list
+    assign note_topic_list = settings.note_topic_list
+    assign note_print_list = settings.note_print_list
+
+    assign note_guide_handle = note_guide_index.handle
+    assign note_tips_handle = note_tips_index.handle
+    assign note_topic_handle = note_topic_index.handle
+    assign note_print_handle = note_print_index.handle
+
+    capture note_guide_length
+        if note_guide_type == 'page'
+            if note_guide_list
+                for link in linklists[note_guide_list].links
+                    echo 0
+                endfor
+            else
+                for page in pages
+                    if page.handle contains lower_note_guide_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_guide_type == 'collection'
+            if note_guide_list
+                for link in linklists[note_guide_list].links
+                    echo 0
+                endfor
+            else
+                for collection in collections
+                    if collection.handle contains lower_note_guide_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_guide_type == 'blog'
+            if note_guide_list
+                for link in linklists[note_guide_list].links
+                    echo 0
+                endfor
+            else
+                for article in blogs[note_guide_handle].articles
+                    if article.handle contains lower_note_guide_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        endif
+    endcapture
+    assign guide_length = note_guide_length | size
+
+    capture note_tips_length
+        if note_tips_type == 'page'
+            if note_tips_list
+                for link in linklists[note_tips_list].links
+                    echo 0
+                endfor
+            else
+                for page in pages
+                    if page.handle contains lower_note_tips_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_tips_type == 'collection'
+            if note_tips_list
+                for link in linklists[note_tips_list].links
+                    echo 0
+                endfor
+            else
+                for collection in collections
+                    if collection.handle contains lower_note_tips_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_tips_type == 'blog'
+            if note_tips_list
+                for link in linklists[note_tips_list].links
+                    echo 0
+                endfor
+            else
+                for article in blogs[note_tips_handle].articles
+                    if article.handle contains lower_note_tips_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        endif
+    endcapture
+    assign tips_length = note_tips_length | size
+
+    capture note_topic_length
+        if note_topic_type == 'page'
+            if note_topic_list
+                for link in linklists[note_topic_list].links
+                    echo 0
+                endfor
+            else
+                for page in pages
+                    if page.handle contains lower_note_topic_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_topic_type == 'collection'
+            if note_topic_list
+                for link in linklists[note_topic_list].links
+                    echo 0
+                endfor
+            else
+                for collection in collections
+                    if collection.handle contains lower_note_topic_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_topic_type == 'blog'
+            if note_topic_list
+                for link in linklists[note_topic_list].links
+                    echo 0
+                endfor
+            else
+                for article in blogs[note_topic_handle].articles
+                    if article.handle contains lower_note_topic_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        endif
+    endcapture
+    assign topic_length = note_topic_length | size
+
+    capture note_print_length
+        if note_print_type == 'page'
+            if note_print_list
+                for link in linklists[note_print_list].links
+                    echo 0
+                endfor
+            else
+                for page in pages
+                    if page.handle contains lower_note_print_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_print_type == 'collection'
+        	if note_print_list
+                for link in linklists[note_print_list].links
+                    echo 0
+                endfor
+            else
+                for collection in collections
+                    if collection.handle contains lower_note_print_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        elsif note_print_type == 'blog'
+            if note_print_list
+                for link in linklists[note_print_list].links
+                    echo 0
+                endfor
+            else
+                for article in blogs[note_print_handle].articles
+                    if article.handle contains lower_note_print_handle
+                        echo 0
+                    endif
+                endfor
+            endif
+        endif
+    endcapture
+    assign print_length = note_print_length | size
+-%}
+
+<div class="note-breadcrumbs">
+    {%- render 'breadcrumbs' -%}
+</div>
+<section class="section section--page page">
+	<div class="container {{ container_width }}">
+		<div class="note-main-title">
+            <h1 class="section__title-text h2">{{ page.title }}</h1>
+        </div>
+
+        {%- if page.content != blank -%}
+        <div class="note-page-content rte">
+      		{{ page.content }}
+    	</div>  
+        {%- endif -%}
+      
+      	<div class="note-content">
+            {%- liquid
+                if page_handle == note_guide_handle
+                    render 'note-index', note_link: note_guide_index, note_type: note_guide_type, note_handle: note_guide_handle, note_list: note_guide_list, note_length: guide_length
+                elsif page_handle == note_tips_handle
+                    render 'note-index', note_link: note_tips_index, note_type: note_tips_type, note_handle: note_tips_handle, note_list: note_tips_list, note_length: tips_length
+                elsif page_handle == note_topic_handle
+                    render 'note-index', note_link: note_topic_index, note_type: note_topic_type, note_handle: note_topic_handle, note_list: note_topic_list, note_length: topic_length
+                elsif page_handle == note_print_handle
+                    render 'note-index', note_link: note_print_index, note_type: note_print_type, note_handle: note_print_handle, note_list: note_print_list, note_length: print_length
+                endif
+            -%}
+      	</div>
+	</div>
+</section>
+
+{% schema %}
+{
+    "name": "Tshirt.st NOTE",
+    "class": "page-note-section",
+    "settings": [
+        {
+            "type": "select",
+            "id": "page_width",
+            "label": "ページ幅",
+            "options": [
+                {
+                    "value": "tiny",
+                    "label": "デフォルト"
+                },
+                {
+                    "value": "wide",
+                    "label": "ワイド"
+                },
+                {
+                    "value": "full",
+                    "label": "全幅"
+                }
+            ],
+            "default": "tiny"
+        }
+    ]
+}
+{% endschema %}

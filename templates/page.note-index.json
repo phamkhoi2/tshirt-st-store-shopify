@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "note-index": {
+      "type": "page-note-index",
+      "settings": {
+        "page_width": "wide"
+      }
+    }
+  },
+  "order": [
+    "note-index"
+  ]
+}

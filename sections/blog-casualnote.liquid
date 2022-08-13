@@ -1,0 +1,204 @@
+{{ 'casualnote.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+	assign paginate_number = section.settings.paginate_number
+    
+    assign sidebar_search_title = settings.sidebar_search_title
+    assign sidebar_search_placeholder = settings.sidebar_search_placeholder
+    assign sidebar_articles_title = settings.sidebar_articles_title
+    assign sidebar_articles_number = settings.sidebar_articles_number
+    assign sidebar_articles_show_date = settings.sidebar_articles_show_date
+    assign sidebar_tags_title = settings.sidebar_tags_title
+    assign sidebar_tags_number = settings.sidebar_tags_number
+    assign sidebar_linklist_title = settings.sidebar_linklist_title
+    assign sidebar_linklist = settings.sidebar_linklist
+    assign sidebar_collection_title = settings.sidebar_collection_title
+    assign sidebar_collection = settings.sidebar_collection
+    assign sidebar_collection_number = settings.sidebar_collection_number
+    assign sidebar_collection_ranking = settings.sidebar_collection_ranking
+    assign sidebar_collection_scroll = settings.sidebar_collection_scroll
+-%}
+
+<div class="post-wrap">
+  <main class="main post-list">
+    {% paginate blog.articles by paginate_number %}
+    {% for article in blog.articles %}
+    <article id="post-{{ article.id }}" class="post-item">
+      <a href="{{ article.url }}" class="post-link">
+      <figure class="post-image">
+        <img src="{{ article.image.src | img_url: '600x400', crop: 'center' }}" alt="{{ article.image.src.alt | escape }}">
+      </figure>
+      <div class="post-meta">
+        <h2 class="post-title"><span>{{ article.title | escape }}</span></h2>
+        <p class="post-excerpt">
+          {%- if article.excerpt.size > 0 -%}
+          {{ article.excerpt | strip_html | truncate: 100 }}
+          {%- else -%}
+          {{ article.content | strip_html | truncate: 100 }}
+          {%- endif -%}
+        </p>
+        <p class="post-date">{{ article.published_at | date: format: 'abbreviated_date' }}</p>
+      </div>
+      </a>
+    </article>
+    {% endfor %}
+    {% if paginate.pages > 1 %}
+    <nav class="post-pagination">
+      {{ paginate | default_pagination: next: '<i class="icon icon--right-t"></i>', previous: '<i class="icon icon--left-t"></i>' }}
+    </nav>
+    {% endif %}
+	{% endpaginate %}
+  </main>
+  <aside class="sidebar">
+    {%- for block in section.blocks -%}
+    {%- case block.type -%}
+    {%- when 'search' -%}
+      <section class="sidebar-search">
+        <h3 class="sidebar-title">{{ sidebar_search_title }}</h3>
+        <form action="{{ routes.search_url }}" method="get" class="sidebar-search-form" role="search">
+          <input type="hidden" name="type" value="article">
+          <input type="search" name="q" placeholder="{{ sidebar_search_placeholder }}" class="sidebar-search-input" aria-label="{{ sidebar_search_placeholder }}">
+          <button type="submit" class="sidebar-search-submit" aria-label="検索">
+            {% render 'svg-icons' with 'search' %}
+          </button>
+        </form>
+      </section>
+    {%- when 'posts' -%}
+      <section class="sidebar-posts">
+        <h3 class="sidebar-title">{{ sidebar_articles_title }}</h3>
+        {% for article in blog.articles limit: sidebar_articles_number %}
+        <article id="sidebar-post-{{ article.id }}" class="post-item">
+          <a href="{{ article.url }}" class="post-link">
+          <figure class="post-image">
+            <img src="{{ article.image.src | img_url: '360x240', crop: 'center' }}" alt="{{ article.image.src.alt | escape }}">
+          </figure>
+          <div class="post-meta">
+            <h2 class="post-title"><span>{{ article.title | escape }}</span></h2>
+            {% if sidebar_articles_show_date %}<p class="post-date">{{ article.published_at | date: format: 'abbreviated_date' }}</p>{% endif %}
+          </div>
+          </a>
+        </article>
+        {% endfor %}
+      </section>
+    {%- when 'tags' -%}
+      <section class="sidebar-tags">
+        <h3 class="sidebar-title">{{ sidebar_tags_title }}</h3>
+        <ul class="tag-list">
+        {% assign tags = blog.all_tags | sort: 'total_count' | reverse %}
+        {% for tag in tags limit: sidebar_tags_number %}
+          <li class="tag"><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag | prepend: '#' }}</a></li>
+        {% endfor %}
+        </ul>
+      </section>
+    {%- when 'links' -%}
+      <section class="sidebar-blogs">
+        <h3 class="sidebar-title">{{ sidebar_linklist_title }}</h3>
+        <ul class="blog-list">
+          {%- assign links = sidebar_linklist -%}
+          {% for link in linklists[links].links %}
+            <li>{{ link.title | link_to: link.url }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {%- when 'collection' -%}
+      <section class="sidebar-collection">
+        <h3 class="sidebar-title">{{ sidebar_collection_title }}</h3>
+        <div class="collection-list{% if sidebar_collection_scroll %} mobile-scroll{% endif %}">
+          {%- for product in collections[sidebar_collection].products limit: sidebar_collection_number -%}
+          	<div class="collection-item">
+              {%if sidebar_collection_ranking %}<span class="ranking-badge">{{ forloop.index }}</span>{% endif %}
+              <a href="{{ product.url }}" class="item-link">
+                <figure class="item-image">
+                  <img src="{{ product.featured_image | img_url: "300x" }}" alt="{{ product.title }}">
+                </figure>
+                <div class="item-meta">
+                  <h4 class="item-title">{{ product.title }}</h4>
+                  <p class="item-vendor">{{ product.vendor }}</p>
+                  <div class="item-price">
+                    {%- liquid
+                      assign compare_at_price = product.compare_at_price
+                      assign price = product.price
+                      assign price_max = product.price_max
+                      assign price_varies = product.price_varies
+                      assign available = product.available
+                      assign money_price = price | money
+                      assign money_price_max = price_max | money
+                    -%}
+                    {%- if available -%}
+                      {%- if compare_at_price > price -%}
+                      <span class="product__price-price product__price-price--sale">
+                        <strong class="money">{{ money_price }}</strong>
+                        {% if price_varies %}{{ 'products.general.from_price' | t }}{% endif %}
+                        {% if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif %}
+                      </span>
+                      <strike class="product__price-cross"><span class="money">{{ compare_at_price | money }}</span></strike>
+                      {%- else -%}
+                      <span class="product__price-price">
+                        <strong class="money">{{ money_price }}</strong>
+                        {% if price_varies %}{{ 'products.general.from_price' | t }}{% endif %}
+                        {% if settings.product_grid_show_tax_notice %}<small class="tax_included">{{ 'products.general.include_taxes_html' | t }}</small>{% endif %}</span>
+                      {%- endif -%}
+                    {%- else -%}
+                      <span class="product__price-price product__price-price--sold">{{ 'products.product.sold_out' | t }}</span>
+                    {%- endif -%}
+                  </div>
+                 </div>
+              </a>
+          	</div>
+          {%- endfor -%}
+        </div>
+      </section>
+    {%- endcase -%}
+    {%- endfor -%}
+  </aside>
+</div>
+
+{% schema %}
+{
+	"name": "ブログ記事一覧",
+	"tag": "section",
+	"class": "casualnote",
+	"blocks": [
+		{
+			"type": "search",
+			"name": "検索窓",
+			"limit": 1
+		},
+		{
+			"type": "posts",
+			"name": "記事一覧",
+			"limit": 1
+		},
+		{
+			"type": "tags",
+			"name": "タグ一覧",
+			"limit": 1
+		},
+		{
+			"type": "links",
+			"name": "リンクリスト",
+			"limit": 1
+		},
+		{
+			"type": "collection",
+			"name": "コレクション",
+			"limit": 1
+		}
+	],
+	"settings": [
+		{
+			"type": "header",
+			"content": "記事一覧"
+		},
+		{
+			"type": "range",
+			"id": "paginate_number",
+			"label": "表示する記事数",
+			"min": 1,
+			"max": 20,
+			"default": 10,
+			"unit": "記事"
+		}
+	]
+}
+{% endschema %}

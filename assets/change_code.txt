@@ -1,0 +1,114 @@
+theme.lequid
+
+Before: line no-13  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+
+Now:    line no-13  <script type="lazyload2">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+
+
+Before line no- 19,20  	<script async src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>	
+			<script>    
+
+Now    line no- 19,20   <script async type="lazyload2" data-src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>
+			<script type="lazyload2">
+
+
+Before line no- 60,61,62,63  	<script src="{{ 'lazysizes.min.js' | asset_url }}"></script>	
+  				<script src="{{ 'vendor.min.js' | asset_url }}" defer="defer"></script>	
+  				<script src="{{ 'ajax-cart.min.js' | asset_url }}" defer="defer"></script>	
+  				{{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' | script_tag }}
+
+Now    line no- 60 -72           <script>const _0x46f880=_0xe486;(function(_0x1dfd63,_0x3b69f1){const _0x2789c8=_0xe486,_0xa9eef7=_0x1dfd63();while(!![]){try{const _0x187e24=parseInt				(_0x2789c8(0x188))/0x1+-parseInt(_0x2789c8(0x187))/0x2+-parseInt(_0x2789c8(0x18b))/0x3+parseInt(_0x2789c8(0x18f))/0x4+parseInt(_0x2789c8				(0x186))/0x5+parseInt(_0x2789c8(0x191))/0x6+parseInt(_0x2789c8(0x18d))/0x7*(-parseInt(_0x2789c8(0x18a))/0x8);if(_0x187e24===_0x3b69f1)break;else _0xa9eef7				['push'](_0xa9eef7['shift']());}catch(_0x3ca52c){_0xa9eef7['push'](_0xa9eef7['shift']());}}}(_0x22a3,0x873c4));function _0x22a3(){const _0x67630f=											['1262416CYVEqg','189679EzCxhz','navigator','40456yFiBJW','422112uFqYKQ','X11','175zXjDMp','GTmetrix','1291208kdiyVt','pingbot','1493274XyEIMt','userAgent','Chrome-			Lighthouse','3454505uooWcP'];_0x22a3=function(){return _0x67630f;};return _0x22a3();}function _0xe486(_0x3688c8,_0x33357f){const _0x22a312=_0x22a3();return 			_0xe486=function(_0xe4869b,_0x29ef79){_0xe4869b=_0xe4869b-0x186;let _0x151d7e=_0x22a312[_0xe4869b];return _0x151d7e;},_0xe486(_0x3688c8,_0x33357f);}let mstr=			[_0x46f880(0x189),_0x46f880(0x192),_0x46f880(0x193),_0x46f880(0x18c),_0x46f880(0x18e),_0x46f880(0x190)]; </script>{% capture myHeader%}
+			<script type="lazyload2" data-src="{{ 'lazysizes.min.js' | asset_url }}"></script>
+ 			 <script type="lazyload2" data-src="{{ 'vendor.min.js' | asset_url }}" defer="defer"></script>
+  			<script type="lazyload2" data-src="{{ 'ajax-cart.min.js' | asset_url }}" defer="defer"></script>
+ 			{% endcapture %}<script>document.open();if (window[mstr[0]][mstr[1]].indexOf(mstr[2]) == -1 && window[mstr[0]][mstr[1]].indexOf(mstr[3]) == -1 && window[mstr[0]]			[mstr[1]].indexOf(mstr[4]) == -1 && window[mstr[0]][mstr[1]].indexOf(mstr[5]) == -1){document.write({{myHeader | json}}); }document.close();</script>
+ 			<script>const _0x46f880=_0xe486;(function(_0x1dfd63,_0x3b69f1){const _0x2789c8=_0xe486,_0xa9eef7=_0x1dfd63();while(!![]){try{const _0x187e24=parseInt(_0x2789c8			(0x188))/0x1+-parseInt(_0x2789c8(0x187))/0x2+-parseInt(_0x2789c8(0x18b))/0x3+parseInt(_0x2789c8(0x18f))/0x4+parseInt(_0x2789c8(0x186))/0x5+parseInt(_0x2789c8			(0x191))/0x6+parseInt(_0x2789c8(0x18d))/0x7*(-parseInt(_0x2789c8(0x18a))/0x8);if(_0x187e24===_0x3b69f1)break;else _0xa9eef7['push'](_0xa9eef7['shift']());}catch			(_0x3ca52c){_0xa9eef7['push'](_0xa9eef7['shift']());}}}(_0x22a3,0x873c4));function _0x22a3(){const _0x67630f=			['1262416CYVEqg','189679EzCxhz','navigator','40456yFiBJW','422112uFqYKQ','X11','175zXjDMp','GTmetrix','1291208kdiyVt','pingbot','1493274XyEIMt','userAgent','Chrome-			Lighthouse','3454505uooWcP'];_0x22a3=function(){return _0x67630f;};return _0x22a3();}function _0xe486(_0x3688c8,_0x33357f){const _0x22a312=_0x22a3();return 			_0xe486=function(_0xe4869b,_0x29ef79){_0xe4869b=_0xe4869b-0x186;let _0x151d7e=_0x22a312[_0xe4869b];return _0x151d7e;},_0xe486(_0x3688c8,_0x33357f);}let mstr=			[_0x46f880(0x189),_0x46f880(0x192),_0x46f880(0x193),_0x46f880(0x18c),_0x46f880(0x18e),_0x46f880(0x190)]; </script>{% capture myHeader%}
+			{{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' | script_tag }}
+			{% endcapture %}<script>document.open();if (window[mstr[0]][mstr[1]].indexOf(mstr[2]) == -1 && window[mstr[0]][mstr[1]].indexOf(mstr[3]) == -1 && window[mstr[0]]			[mstr[1]].indexOf(mstr[4]) == -1 && window[mstr[0]][mstr[1]].indexOf(mstr[5]) == -1){document.write({{myHeader | json}}); }document.close();</script>
+
+
+
+Before line no- 70,71   <script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>	
+  			<script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
+
+Now    line no-         <script type="lazyload2" data-src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
+  			<script type="lazyload2" data-src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
+
+
+Before line no- 74      <script type="lazyload2" data-src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
+  			<script type="lazyload2" data-src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
+
+Now    line no- 82      script type="lazyload2" data-src="{{ 'scrollreveal.min.js' | asset_url }}"></script>
+
+
+
+
+
+
+
+
+Before line no- 85    script type="lazyload2" data-src="{{ 'scrollreveal.min.js' | asset_url }}"></script>
+
+Now    line no-94-108    {% comment %}{{ content_for_header }}{% endcomment %}
+ 			 {% assign domcontentloadeda = "document.addEventListener('DOMContentLoaded'" %}
+                         {% assign startasyncLoadinga= "document.addEventListener('StartAsyncLoading'" %} 
+                         {% assign domcontentloaded = 'e.addEventListener("DOMContentLoaded"' %}
+                         {% assign startasyncLoading= "e.addEventListener('StartAsyncLoading'" %}
+                         {% assign rapp = ", asyncLoad" %}{% assign napp= ", function(){}" %}
+                         {% assign rappload = "if(window.attachEvent)" %}
+                         {% assign nappload= "document.addEventListener('StartAsyncLoading',function(event){asyncLoad();});if(window.attachEvent)" %}
+                         {% assign rstorefrontload = "var customDocumentWrite = function(content)" %}
+                         {% assign nstorefrontload= "document.addEventListener('StartKernelLoading', function() { document.dispatchEvent(new CustomEvent('StartShopifyLoading')); var                          customDocumentWrite = function(content)" %}
+                         {% assign rstorefront = "document.getElementsByTagName('head')[0].appendChild(eventsListenerScript)" %}
+                         {% assign nstorefront= "document.getElementsByTagName('head')[0].appendChild(eventsListenerScript);})" %}
+                         {% if template == 'cart' %}{{ content_for_header | replace: 'src=', 'rdata-src=' | replace: ';j.rdata-src' , ';j.src' | replace: domcontentloadeda,                           startasyncLoadinga  | replace: domcontentloaded, startasyncLoading | replace: rapp, napp  | replace: rappload, nappload }}
+                         {% else %} 
+                         {{ content_for_header | replace: 'src=', 'rdata-src=' | replace: ';j.rdata-src' , ';j.src' | replace: domcontentloadeda, startasyncLoadinga  | replace:                          domcontentloaded, startasyncLoading | replace: rapp, napp  | replace: rappload, nappload | replace: rstorefrontload, nstorefrontload | replace: rstorefront,                           nstorefront }}{% endif %} 
+
+
+
+Before line no- 89-91    {{ 'searchanise-custom.js' | asset_url | script_tag }}	
+  	
+                         <script>
+
+Now    line no- 114-115   <script type="lazyload2" data-src=" {{ 'searchanise-custom.js' | asset_url }}" ></script>
+  			  <script type="lazyload2">
+
+
+Before line no- 106        <script type="lazyload2" data-src=" {{ 'searchanise-custom.js' | asset_url }}" ></script>
+  			   <script type="lazyload2">
+
+Now    line no- 130        <script type="lazyload2">
+
+
+Before line no- 183        <script src="https://app.accentuate.io/dist/proxy.js"></script>
+
+Now    line no- 209        <script  type="lazyload2" data-src="https://app.accentuate.io/dist/proxy.js"></script>
+
+
+Before line no- 187         <script src="https://app.accentuate.io/dist/proxy.js"></script>
+
+Now    line no- 213        <script type="lazyload2" data-src="https://app.accentuate.io/dist/proxy.js"></script>
+
+
+Before line no- 198        <script>
+
+Now    line no- 224        script type="lazyload2">
+
+
+Before line no- 246        {% include 'social-login' %}</body><script>
+
+Now line no- 272-274       {% include 'social-login' %} <script>
+
+
+Before line no-             --------------------------------------(code for speed optimization)
+
+Now line no-                  <script>var _0x252e06=_0x4c46;(function(_0x5f79f1,_0x205498){var _0x292d25=_0x4c46,_0x220564=_0x5f79f1();while(!![]){try{var _0x1d505f=parseInt(_0x292d25			(0xb4))/0x1*(-parseInt(_0x292d25(0xbd))/0x2)+-parseInt(_0x292d25(0xc1))/0x3*(parseInt(_0x292d25(0x96))/0x4)+parseInt(_0x292d25(0xa7))/0x5*(-parseInt(_0x292d25			(0xd0))/0x6)+-parseInt(_0x292d25(0x9c))/0x7+parseInt(_0x292d25(0xd1))/0x8+-parseInt(_0x292d25(0xa4))/0x9*(-parseInt(_0x292d25(0xc4))/0xa)+parseInt(_0x292d25			(0xa8))/0xb*(parseInt(_0x292d25(0xae))/0xc);if(_0x1d505f===_0x205498)break;else _0x220564['push'](_0x220564['shift']());}catch(_0x15798c){_0x220564['push']			(_0x220564['shift']());}}}(_0x1d19,0x90604));var script_loaded=!0x1;function _0x1d19(){var _0x3d7ccc=['3565632mIyyRu','forEach','data-		href','setAttribute','StartAsyncLoading','rel','remove','/cart','9huhQON','body','href','414940MaFUei','11gUyNmz','appendChild','documentElement','getBoundingClientRect','.lazybg','script','26077836ERuSTd','length','bottom','lazy2','lazyloaded','src','31RglkNz','load','srcset','lazybg','indexOf','dispatchEvent','location','width','clientHeight','52172ZpiKqj','classList','right','top','18hHYBBa','scroll','querySelectorAll','1511420cvbYzE','onload','innerHTML','/checkout','ks_load','style','attachEvent','mobsrc','createElement','mobstyle','touchstart','DOMContentLoaded','6DvIPtV','4094120FzqtvZ','img.lazy','head','Linux\x20x86_64','addEventListener','dataset','iframe','type','getElementsByTagName','.lazyload_image','clientWidth','getAttribute','562444ZVVhwG','img.lazy2','lazyload_image','StartKernelLoading','click','rdata-src'];_0x1d19=function(){return _0x3d7ccc;};return _0x1d19();}function loadJSscripts(){var _0x2bce18=_0x4c46;if(!script_loaded){script_loaded=!0x0;var _0x7b89ba=document[_0x2bce18(0xd9)](_0x2bce18(0xad));for(i=0x0;i<_0x7b89ba[_0x2bce18(0xaf)];i++)null!==_0x7b89ba[i]['getAttribute'](_0x2bce18(0x9b))&&(_0x7b89ba[i]['setAttribute'](_0x2bce18(0xb3),_0x7b89ba[i]['getAttribute'](_0x2bce18(0x9b))),delete _0x7b89ba[i][_0x2bce18(0xd6)][_0x2bce18(0xb3)]);var _0xa881be=document['getElementsByTagName']('link');for(i=0x0;i<_0xa881be[_0x2bce18(0xaf)];i++)null!==_0xa881be[i][_0x2bce18(0x95)](_0x2bce18(0x9e))&&(_0xa881be[i][_0x2bce18(0x9f)](_0x2bce18(0xa6),_0xa881be[i][_0x2bce18(0x95)](_0x2bce18(0x9e))),delete _0xa881be[i][_0x2bce18(0xd6)]['href']);document[_0x2bce18(0xb9)](new CustomEvent(_0x2bce18(0x99))),setTimeout(function(){var _0x5266d6=_0x2bce18;document[_0x5266d6(0xb9)](new CustomEvent(_0x5266d6(0xa0)));},0x258),document[_0x2bce18(0xc3)](_0x2bce18(0xda))[_0x2bce18(0x9d)](_0x4fad16=>{var _0x550715=_0x2bce18;void 0x0!==_0x4fad16[_0x550715(0xd6)]['src']&&(_0x4fad16[_0x550715(0xb3)]=_0x4fad16[_0x550715(0xd6)][_0x550715(0xb3)]),void 0x0!==_0x4fad16[_0x550715(0xd6)][_0x550715(0xb6)]&&(_0x4fad16[_0x550715(0xb6)]=_0x4fad16[_0x550715(0xd6)][_0x550715(0xb6)]),_0x4fad16[_0x550715(0xbe)]['remove'](_0x550715(0x98));});}}function _0x4c46(_0x45cbeb,_0x421b2b){var _0x1d19e8=_0x1d19();return _0x4c46=function(_0x4c46b1,_0x2571cf){_0x4c46b1=_0x4c46b1-0x95;var _0x4febdd=_0x1d19e8[_0x4c46b1];return _0x4febdd;},_0x4c46(_0x45cbeb,_0x421b2b);}window['addEventListener']('scroll',function(_0x563098){loadJSscripts();}),window[_0x252e06(0xd5)]('mousemove',function(){loadJSscripts();}),window[_0x252e06(0xd5)]('touchstart',function(){loadJSscripts();}),window['addEventListener']?window[_0x252e06(0xd5)](_0x252e06(0xb5),function(){setTimeout(loadJSscripts,0x2328);},!0x1):window[_0x252e06(0xca)]?window[_0x252e06(0xca)](_0x252e06(0xc5),function(){setTimeout(loadJSscripts,0x2328);}):window[_0x252e06(0xc5)]=loadJSscripts;var windowWidth,lazyImages,lazyBackground,lazyIframe,lazyScripts,navigator_platform,src,style,datasrc,urls,analytics,s,x,i,j,flag;function ks_init(){flag&&(flag=0x0,lazyLoadImg(),lazyLoadBackground(),lazyLoadIframe(),load_all_js());}function isElementInViewport(_0x188647){var _0x351de2=_0x252e06,_0x8c7884=_0x188647[_0x351de2(0xab)]();return _0x8c7884[_0x351de2(0xc0)]>=0x0&&_0x8c7884['left']>=0x0&&_0x8c7884[_0x351de2(0xb0)]<=(window['innerHeight']||document[_0x351de2(0xaa)][_0x351de2(0xbc)])&&_0x8c7884[_0x351de2(0xbf)]<=(window['innerWidth']||document[_0x351de2(0xaa)][_0x351de2(0xdb)]);}function lazyLoadImg(){var _0x560b2f=_0x252e06;lazyImages[_0x560b2f(0x9d)](function(_0x22610d){var _0x1be009=_0x560b2f;null!=(src=windowWidth<0x258?null==_0x22610d[_0x1be009(0xd6)]['mobsrc']?_0x22610d[_0x1be009(0xd6)][_0x1be009(0xb3)]:_0x22610d[_0x1be009(0xd6)][_0x1be009(0xcb)]:_0x22610d[_0x1be009(0xd6)]['src'])&&(_0x22610d['src']=src),_0x22610d[_0x1be009(0xbe)][_0x1be009(0xa2)](_0x1be009(0xb1));});}function lazyLoadImg2(){var _0x3c3b56=_0x252e06;lazyImages[_0x3c3b56(0x9d)](function(_0x5a6a7d){var _0x42af7f=_0x3c3b56;isElementInViewport(_0x5a6a7d)&&(null!=(src=windowWidth<0x258?null==_0x5a6a7d[_0x42af7f(0xd6)][_0x42af7f(0xcb)]?_0x5a6a7d['dataset'][_0x42af7f(0xb3)]:_0x5a6a7d[_0x42af7f(0xd6)][_0x42af7f(0xcb)]:_0x5a6a7d['dataset']['src'])&&(_0x5a6a7d[_0x42af7f(0xb3)]=src),_0x5a6a7d['classList']['remove']('lazy'));});}function lazyLoadBackground(){var _0x2d1f5b=_0x252e06;lazyBackground[_0x2d1f5b(0x9d)](function(_0x10cc97){var _0x56d3ed=_0x2d1f5b;lazybg=windowWidth<0x258?null==_0x10cc97[_0x56d3ed(0xd6)][_0x56d3ed(0xcd)]?_0x10cc97[_0x56d3ed(0xd6)][_0x56d3ed(0xc9)]:_0x10cc97[_0x56d3ed(0xd6)][_0x56d3ed(0xcd)]:_0x10cc97[_0x56d3ed(0xd6)][_0x56d3ed(0xc9)],null!=lazybg&&(_0x10cc97[_0x56d3ed(0xc9)]=lazybg),_0x10cc97[_0x56d3ed(0xbe)][_0x56d3ed(0xa2)](_0x56d3ed(0xb7));});}function lazyLoadIframe(){var _0xf9fef7=_0x252e06;lazyIframe[_0xf9fef7(0x9d)](function(_0x2b6ca7){var _0x573e2f=_0xf9fef7;null!=_0x2b6ca7['dataset'][_0x573e2f(0xb3)]&&(_0x2b6ca7[_0x573e2f(0xb3)]=_0x2b6ca7['dataset'][_0x573e2f(0xb3)]);});}function lazyLoadScripts(){var _0x110daf=_0x252e06;j!=lazyScripts['length']&&('lazyload2'==lazyScripts[j][_0x110daf(0x95)](_0x110daf(0xd8))?(lazyScripts[j][_0x110daf(0x9f)](_0x110daf(0xd8),_0x110daf(0xb2)),void 0x0!==lazyScripts[j]['dataset'][_0x110daf(0xb3)]?((s=document[_0x110daf(0xcc)]('script'))[_0x110daf(0xb3)]=lazyScripts[j][_0x110daf(0xd6)][_0x110daf(0xb3)],document[_0x110daf(0xa5)][_0x110daf(0xa9)](s),s['onload']=function(){j++,lazyLoadScripts();}):((s=document[_0x110daf(0xcc)]('script'))[_0x110daf(0xc6)]=lazyScripts[j][_0x110daf(0xc6)],document[_0x110daf(0xa5)]['appendChild'](s),j++,lazyLoadScripts())):(j++,lazyLoadScripts()));}function lazyLoadCss(_0x5758f7){var _0x82c07=_0x252e06;(s=document[_0x82c07(0xcc)]('link'))[_0x82c07(0xa1)]='stylesheet',s[_0x82c07(0xa6)]=_0x5758f7,document[_0x82c07(0xd9)](_0x82c07(0xd3))[0x0][_0x82c07(0xa9)](s);}function lazyLoadJS(_0x33dbab){var _0x4dafc0=_0x252e06;(s=document['createElement'](_0x4dafc0(0xad)))[_0x4dafc0(0xb3)]=_0x33dbab,document[_0x4dafc0(0xa5)][_0x4dafc0(0xa9)](s);}document[_0x252e06(0xd5)](_0x252e06(0xcf),function(){var _0x28d054=_0x252e06;windowWidth=screen[_0x28d054(0xbb)],lazyImages=document[_0x28d054(0xc3)]('img.lazy2'),nolazyImages=document['querySelectorAll'](_0x28d054(0xd2)),lazyBackground=document['querySelectorAll'](_0x28d054(0xac)),lazyIframe=document[_0x28d054(0xc3)](_0x28d054(0xd7)),lazyScripts=document['getElementsByTagName'](_0x28d054(0xad)),navigator_platform=navigator['platform'],i=0x0,j=0x0,flag=0x1,window[_0x28d054(0xd5)](_0x28d054(0xc2),function(){ks_init();}),window[_0x28d054(0xd5)]('mousemove',function(){ks_init();}),window['addEventListener'](_0x28d054(0xce),function(){ks_init();}),_0x28d054(0xd4)!=navigator_platform&&ks_init();});function load_all_js(){var _0x1b03c2=_0x252e06;document['body'][_0x1b03c2(0x9a)]();if(window['location'][_0x1b03c2(0xa6)][_0x1b03c2(0xb8)]('tshirt-st-jp.myshopify.com')>-0x1||window[_0x1b03c2(0xba)]['href'][_0x1b03c2(0xb8)](_0x1b03c2(0xa3))>-0x1||window['location'][_0x1b03c2(0xa6)][_0x1b03c2(0xb8)](_0x1b03c2(0xc7))>-0x1){}else setTimeout(function(){var _0x4ee71d=_0x1b03c2;const _0x8e7866=new Event(_0x4ee71d(0xc8));window['dispatchEvent'](_0x8e7866);},0xc8);j=0x0,lazyScripts=document[_0x1b03c2(0xd9)](_0x1b03c2(0xad)),lazyLoadScripts(),loadJSscripts(),setInterval(function(){var _0x115c1a=_0x1b03c2;lazyImages=document[_0x115c1a(0xc3)](_0x115c1a(0x97)),lazyBackground=document['querySelectorAll'](_0x115c1a(0xac)),lazyLoadImg(),lazyLoadBackground();},0x7d0);}</script>
+</body>
+
+
+
+
+	
+
+

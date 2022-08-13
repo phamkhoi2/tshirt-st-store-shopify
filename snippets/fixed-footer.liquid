@@ -1,0 +1,51 @@
+<div id="fixed_footer" class="fixed_footer{% if section.settings.scroll-action %} scroll{% endif %}" style="background-color: {{ section.settings.fixed-footer_bg }};">
+	{%- comment %}
+    <div class="footer-trigger mobile-draw-trigger-icon u-flex">
+	    <a href="#" class="footer-trigger__link footer-trigger__link--mobile js-mobile-draw-trigger icon-fallback">
+	        <i class="icon icon--menu" aria-hidden="true"></i>
+	        <span class="icon-text">{{ 'layout.navigation.menu' | t }}</span>
+	    </a>
+	</div>
+  	{%- endcomment %}
+  	<div class="footer-trigger mobile-draw-trigger-icon u-flex">
+	    <a href="{{ routes.account_url }}" class="footer-trigger__link footer-trigger__link--browsing_history icon-fallback js-no-transition">
+	        <i class="icon">{% include 'svg-icons' with 'history' %}</i>
+	        <span class="icon-text">{{ 'layout.navigation.browsing_history' | t }}</span>
+	    </a>
+	</div>
+	<div class="footer-trigger wishlist-draw-trigger-icon u-flex">
+	    <a href="/pages/wishlist" class="footer-trigger__link footer-trigger__link--wishlist icon-fallback js-no-transition">
+	        <i class="icon">{% include 'svg-icons' with 'heart-empty' %}</i>
+	        <span class="icon-text">{{ 'layout.wishlist.title' | t }}</span>
+	    </a>
+	</div>
+	<div class="footer-trigger cart-draw-trigger-icon u-flex">
+	    <a href="{{ routes.cart_url }}" class="footer-trigger__link footer-trigger__link--cart js-cart-trigger icon-fallback{% if cart.item_count > 0 %} js-cart-full{% endif %} js-no-transition">
+	        <i class="icon icon--cart" aria-hidden="true"></i>
+	        <span class="icon-text">{{ 'layout.navigation.cart' | t }}</span>
+	    </a>
+	</div>
+	<div class="footer-trigger search-draw-trigger-icon u-flex">
+	    <a href="{{ routes.search_url }}" class="footer-trigger__link footer-trigger__link--search icon-fallback js-search-trigger js-no-transition">
+	        <i class="icon icon--search" aria-hidden="true"></i>
+	        <span class="icon-text">{{ 'layout.navigation.search' | t }}</span>
+	    </a>
+	</div>
+	{% if shop.customer_accounts_enabled %}
+        {% if customer %}
+            <div class="footer-trigger account-draw-trigger-icon u-flex">
+                <a href="{{ routes.account_url }}" class="footer-trigger__link footer-trigger__link--account icon-fallback js-account-trigger js-no-transition">
+                	<i class="icon icon--user" aria-hidden="true"></i>
+					<span class="icon-text">{{ 'layout.customer.account' | t }}</span>
+                </a>
+            </div>
+        {% else %}
+        	<div class="footer-trigger account-draw-trigger-icon u-flex">
+                <a href="{{ routes.account_login_url }}" class="footer-trigger__link footer-trigger__link--log_in icon-fallback js-log_in-trigger js-no-transition">
+                	<i class="icon icon--user" aria-hidden="true"></i>
+					<span class="icon-text">{{ 'layout.customer.log_in' | t }}</span>
+                </a>
+            </div>
+		{% endif %}
+    {% endif %}
+</div>

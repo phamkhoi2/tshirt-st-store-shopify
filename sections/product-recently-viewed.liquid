@@ -1,0 +1,57 @@
+{% assign grid = section.settings.recently_viewed_grid %}
+
+{% if section.settings.show_recently_viewed %} 
+
+<div class="js-product-recently_viewed">
+    <section class="section" data-section-id="{{ section.id }}">
+      	
+      	{% unless section.settings.recently_viewed_title == blank %}
+        <div class="container container--medium">
+          <div class="section__title section__title--center">
+            <h2 class="section__title-text">{{ section.settings.recently_viewed_title | escape }}</h2>
+          </div>
+        </div>
+        {% endunless %}
+      
+		{% include 'recently-viewed' %}
+        <script>
+          var glid = {{ grid }};
+          Shopify.Products.showRecentlyViewed( { howManyToShow: glid } );
+          window.moneyFormat = {{ shop.money_format | json }};
+        </script>
+  </section>
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": {
+		"en": "Product Recently Viewed",
+		"ja": "閲覧履歴"
+    },
+    "settings": [
+		{
+            "type": "checkbox",
+            "id": "show_recently_viewed",
+            "label": "閲覧履歴を表示",
+            "info": "レコメンドの下に表示します。",
+            "default": false
+        },
+        {
+            "id": "recently_viewed_title",
+            "type": "text",
+            "label": "タイトル",
+            "default": "最近チェックした商品"
+        },
+		{
+            "type": "range",
+            "id": "recently_viewed_grid",
+            "label": "表示数",
+            "min": 4,
+            "max": 20,
+            "step": 4,
+            "default": 4
+        }
+	]
+  }
+{% endschema %}

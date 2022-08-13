@@ -1,0 +1,16 @@
+<script>
+  (function() {
+    const customerId = '{{customer.id}}';
+    if (localStorage.getItem('lineLoginUpdate') && customerId) {
+      let lineLogin = JSON.parse(localStorage.getItem('lineLoginUpdate'));
+      lineLogin.customerId = customerId;
+      $.ajax({
+        type: 'POST',
+        url: `${lineLogin.url}/customers/updateFields`,
+        data: lineLogin,
+      }).then(r => {
+        localStorage.removeItem('lineLoginUpdate');
+      });
+    }
+  })();
+</script>

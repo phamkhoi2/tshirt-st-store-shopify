@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "top": {
+      "type": "collection-header",
+      "settings": {}
+    },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "grid": 4,
+        "grid_mobile": "2",
+        "rows": 8,
+        "sort_enable": true
+      }
+    }
+  },
+  "order": [
+    "top",
+    "main"
+  ]
+}

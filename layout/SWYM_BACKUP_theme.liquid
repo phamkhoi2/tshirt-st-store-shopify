@@ -1,0 +1,249 @@
+<!doctype html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+  	<meta name="theme-color" content="{{ settings.color_brand }}">
+  	<link rel="canonical" href="{{ canonical_url }}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-56VD9XK');</script>
+<!-- End Google Tag Manager -->
+
+<script async src="https://s.yimg.jp/images/listing/tool/cv/ytag.js"></script>
+<script>
+window.yjDataLayer = window.yjDataLayer || [];
+function ytag() { yjDataLayer.push(arguments); }
+ytag({"type":"ycl_cookie"});
+</script>
+	{% include 'network' %}
+
+  	{%- if settings.favicon != blank %}
+	    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+	{%- endif -%}
+  	{%- if settings.site_icon_square != blank %}
+	    <link rel="icon" href="{{ settings.site_icon_square | img_url: '192x192' }}" type="image/png">
+	    <link rel="apple-touch-icon" href="{{ settings.site_icon_square | img_url: '180x180' }}" type="image/png">
+	    <meta name="application-name" content="{{ shop.name }}">
+	    <meta name="msapplication-square70x70logo" content="{{ settings.site_icon_square | img_url: '70x70' }}">
+	    <meta name="msapplication-square150x150logo" content="{{ settings.site_icon_square | img_url: '150x150' }}">
+  		{% if settings.site_icon_wide != blank -%}
+	    <meta name="msapplication-wide310x150logo" content="{{ settings.site_icon_wide | img_url: '310x150' }}">
+  		{%- endif %}
+	    <meta name="msapplication-square310x310logo" content="{{ settings.site_icon_square | img_url: '310x310' }}">
+	    <meta name="msapplication-TileColor" content="{{ settings.site_color }}">
+	{%- endif %}
+
+  	<!-- Title and description ================================================== -->
+  	<title>
+  	{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  	</title>
+  	{% if page_description %}
+  		<meta name="description" content="{{ page_description | escape }}">
+  	{% endif %}
+
+  	{% include 'social-meta-tags' %}
+
+  	<!-- JS before CSSOM =================================================== -->
+  	<script type="text/javascript">
+		theme = {};
+		theme.t = {};
+		theme.map = {};
+		theme.cart_ajax = {{ settings.cart_ajax }};
+	</script>
+  	<script src="{{ 'lazysizes.min.js' | asset_url }}"></script>
+  	<script src="{{ 'vendor.min.js' | asset_url }}" defer="defer"></script>
+  	<script src="{{ 'ajax-cart.min.js' | asset_url }}" defer="defer"></script>
+
+  	<!-- CSS ================================================== -->
+	{% include 'css-include' %}
+    {% comment %}{{'myaccount.css' | asset_url | stylesheet_tag}}{% endcomment %}
+
+	<!-- JS after CSSOM=================================================== -->
+  	<script src="{{ 'theme.min.js' | asset_url }}" defer="defer"></script>
+  	<script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
+
+  	{% if settings.anim_load %}
+		<script src="{{ 'scrollreveal.min.js' | asset_url }}"></script>
+	{% endif %}
+  	{% if template contains 'customers' %}
+  		<script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+  	{% endif %}
+
+	<!-- Header hook for plugins ================================================== -->
+  	{{ content_for_header }}
+  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  {% comment %}
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  {% endcomment %}
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  {% comment %}
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    //$( document ).tooltip();
+  } );
+  </script>
+  <style>
+  label {
+    display: inline-block;
+    width: 5em;
+  }
+  </style>
+  {% endcomment %}
+
+  {% render 'shogun-head' %}
+</head>
+
+<body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" data-anim-fade="{{ settings.anim_fade }}" data-anim-load="{{ settings.anim_load }}" data-anim-interval-style="{{ settings.anim_interval_style }}" data-anim-zoom="{{ settings.anim_zoom }}" data-anim-interval="{% if settings.anim_load_style == 'interval' %}true{% else %}false{% endif %}">
+	<script type="text/javascript">
+		//loading class for animations
+		document.body.className += ' ' + 'js-theme-loading';
+		setTimeout(function(){
+			document.body.className = document.body.className.replace('js-theme-loading','js-theme-loaded');
+		}, 300);
+	</script>
+
+	<div class="page-transition"></div>
+
+	<div class="page-container">
+		{% section 'mobile-drawer' %}
+		{% section 'header' %}
+
+		<div class="main">
+			{{ content_for_layout }}
+		</div>
+
+		{% section 'footer' %}
+		{% section 'promo-pop' %}
+		{% section 'age-checker' %}
+	</div>
+
+	{% if settings.search_enable %}
+		{% include 'ajax-search' %}
+	{% endif %}
+
+	<div class="ajaxcart-draw js-cart-draw mfp-hide">
+		<div class="ajaxcart-draw__wrapper js-cart-draw-inner">
+			<div class="ajaxcart-draw__scroll">
+				<div class="ajaxcart__head">
+		            <div class="ajaxcart__label">
+		                <h3 class="ajaxcart__label-title">{{ 'cart.general.title' | t }}</h3>
+		            </div>
+		        </div>
+	       		<div id="CartContainer"></div>
+	       		<div id="EmptyCart">
+	       			<div class="ajaxcart-empty">
+	       				<h5 class="ajaxcart-empty__title">{{ 'cart.general.empty' | t }}</h5>
+	       				<span class="emoji ajaxcart-empty__emoji">
+	       					<i class="icon icon--sad"></i>
+	       				</span>
+	       				<a href="{{ routes.root_url }}" class="c-btn c-btn--primary c-btn--full">{{ 'cart.general.empty_link' | t }}</a>
+	       			</div>
+	       		</div>
+	       	</div>
+		</div>
+	</div>
+	
+	{% include 'ajax-cart-template' %}
+
+	<script>
+		//cart functions
+		theme.ajaxCartInit = function() {
+			ajaxCart.init({
+				cartContainer: '#CartContainer',
+				cartCountSelector: '#CartCount',
+				cartCostSelector: '#CartCost',
+				emptySelector: '#EmptyCart',
+				{% if settings.cart_ajax %}
+				triggerSelector: '.js-cart-trigger',
+				formSelector: '.js-product-form',
+				addToCartSelector: '.js-product-add',
+				{% endif %}
+				moneyFormat: {{ shop.money_format | json }}
+			});
+		};
+	</script>
+	<!-- Venue theme by Safe As Milk - http://safeasmilk.co/ -->
+	<!-- Theme version 4.6.2 -->
+
+{% include 'swymSnippet' %}
+  {% include 'swym-custom'%}
+
+ {% include 'smile-initializer' %}
+
+{% include 'social-login' %}
+{% if template contains 'customers/register' %}
+  <script src="https://app.accentuate.io/dist/proxy.js"></script>
+  {{ 'custom_register.js' | asset_url | script_tag }}
+{% endif %} 
+{% if template contains 'customers/account' %}  
+  <script src="https://app.accentuate.io/dist/proxy.js"></script>
+  {{ 'custom_myaccount.js' | asset_url | script_tag }}
+{% endif %}  
+<!-- CRITEO START -->
+{% include 'criteo-tracking' %}
+<!-- CRITEO END -->
+
+
+
+
+<!-- **BEGIN** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
+    {% render 'hextom_fsb_main', product: product, customer: customer %}
+    <!-- **END** Hextom FSB Integration // Main Include - DO NOT MODIFY -->
+</body>
+  <style>
+    .stamped-form-review-body > label {
+      width: auto;
+    }
+    #stamped-main-widget ::-webkit-input-placeholder {
+	color: #fff !important;
+}
+#stamped-main-widget ::-moz-placeholder {
+	color: #fff !important;
+}
+#stamped-main-widget :-ms-input-placeholder {
+	color: #fff !important;
+}
+#stamped-main-widget :-moz-placeholder {
+	color: #fff !important;
+}
+#stamped-main-widget ::placeholder {
+	color: #fff !important;
+}
+  </style>
+  <script>
+function addEventListenerStamped(el, eventName, handler) { 
+   if (el.addEventListener) { el.addEventListener(eventName, handler); }
+   else { el.attachEvent('on' + eventName, function () { handler.call(el); }); } 
+}
+
+addEventListenerStamped(document, 'stamped:reviews:loaded', function(e) {
+  $(".stamped-form-contact-name > label").text("表示名");
+  $(".stamped-form-contact-email > label").text("メール");
+  $(".stamped-form-review-title > label").text("タイトル");
+  $(".stamped-form-review-body > label").text("他のユーザーの参考になる商品レビューをよろしくお願い致します。");
+  $("#stamped-button-submit").attr("value", "送信する");
+});
+  </script>
+<script>
+ytag({
+  "type":"yss_retargeting",
+  "config": {
+    "yahoo_ss_retargeting_id": "1000018917",
+    "yahoo_sstag_custom_params": {
+    }
+  }
+});
+</script>
+</html>

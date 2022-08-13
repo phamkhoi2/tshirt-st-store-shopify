@@ -1,0 +1,154 @@
+<section class="section section--page page">
+	<div class="container container--medium">
+		<div class="section__title section__title--center">
+      <h1 class="section__title-text h2">{{ section.settings.title }}</h1>
+    </div>
+
+    <div class="user-guide_container{% if section.settings.sticky %} sticky_wrapper{% endif %}">
+      {% if section.blocks.size > 0 %}
+          <aside class="user-guide_navigation{% if section.settings.sticky %} sidebar{% endif %}" style="width:{{ section.settings.width }}%;">
+             <div class="icon__container">
+              <button class="icon-list"></button>
+            </div>
+            <nav class="guide-menu_wrap{% if section.settings.sticky %} sidebar__inner{% endif %}" role="navigation">
+              <div class="guide-menu">
+                {% for block in section.blocks %}
+                  {% unless block.settings.heading == blank %}
+                    <h3 class="guide-heading">{{ block.settings.heading }}</h3>
+                  {% endunless %}
+                  <ul class="guide-links">
+                    {% for link in linklists[block.settings.guide-menu].links %}
+                      <li><a href="{{ link.url }}"><span>{{ link.title }}</span></a></li>
+                    {% endfor %}
+                  </ul>
+                {% endfor %}
+              </div>
+            </nav>
+          </aside>
+      {% endif %}
+      <div class="user-guide_content">
+        <h2 class="guide-title">{{ page.title }}</h2>
+    		{{ page.content }}
+      </div>
+    </div>
+	</div>
+</section>
+
+{{ 'sticky-sidebar.min.js' | asset_url | script_tag }}
+{% if section.settings.sticky %}
+<script type="text/javascript">
+(function($) {
+  const sidebar = new StickySidebar('.sidebar', {
+    topSpacing: 20,
+    bottomSpacing: 20,
+    containerSelector: '.sticky_wrapper',
+    innerWrapperSelector: '.sidebar__inner',
+  })
+  const mediaQuery = matchMedia('(min-width: 768px)')
+  const mediaQueryHandler = mq => {
+   if (mq.matches) {
+     sidebar.initialize()
+   } else {
+     sidebar.destroy()
+   }
+  }
+  mediaQueryHandler(mediaQuery)
+  mediaQuery.addListener(mediaQueryHandler)
+})(jQuery);
+</script>
+{% endif %}
+
+<script type="text/javascript">
+(function($) {
+  var a = new StickySidebar('.user-guide_navigation', {
+    topSpacing: 20,
+    containerSelector: '.user-guide_container',
+    innerWrapperSelector: '.icon__container'
+  });
+})(jQuery);
+</script>
+{% schema %}
+{
+  "name": {
+    "en": "User Guide",
+    "ja": "ご利用ガイド"
+  },
+  "class": "user-guide",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": {
+        "en": "Page setup",
+        "ja": "ページ設定"
+      }
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": {
+        "en": "title",
+        "ja": "タイトル"
+      },
+      "default": {
+        "en": "User Guide",
+        "ja": "ご利用ガイド"
+      }
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "min": 20,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "label": {
+        "en": "Sidebar width",
+        "ja": "サイドバーの幅"
+      },
+      "default": 25
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": {
+        "en": "Enable sticky navigation",
+        "ja": "スティッキーナビを有効化"
+      },
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": {
+        "en": "Menu",
+        "ja": "メニュー"
+      },
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": {
+            "en": "Heading",
+            "ja": "見出し"
+          },
+          "default": {
+            "en": "Menu",
+            "ja": "メニュー"
+          }
+        },
+        {
+          "type": "link_list",
+          "id": "guide-menu",
+          "label": {
+            "en": "Select menu",
+            "ja": "メニューを選択"
+          },
+          "default": "main-menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

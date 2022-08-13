@@ -1,0 +1,83 @@
+{{ 'casualnote-pickup.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+	assign article1 = section.settings.article1
+    assign article2 = section.settings.article2
+    assign article3 = section.settings.article3
+-%}
+
+<div class="casualnote-pickup">
+<header class="casualnote-header">
+  <h1 class="casualnote-title">{{ blog.title | escape }}</h1>
+</header>
+
+<section class="pickup-list">
+  <article id="pickup-post-{{ article1.id }}" class="post-item first">
+    <a href="{{ article1.url }}" class="post-link">
+    <figure class="post-image">
+      <img src="{{ article1.image.src | img_url: '1200x820', crop: 'center'}}" alt="{{ article1.image.src.alt | escape }}">
+    </figure>
+    <div class="post-meta">
+      <h2 class="post-title"><span>{{ article1.title | escape }}</span></h2>
+      <p class="post-excerpt">
+        {%- if article1.excerpt.size > 0 -%}
+	        {{ article1.excerpt | strip_html | truncate: 100 }}
+        {%- else -%}
+	        {{ article1.content | strip_html | truncate: 100 }}
+        {%- endif -%}
+      </p>
+      <p class="post-date">{{ article1.published_at | date: format: 'abbreviated_date' }}</p>
+    </div>
+    </a>
+  </article>
+
+  <article id="pickup-post-{{ article2.id }}" class="post-item second">
+    <a href="{{ article2.url }}" class="post-link">
+    <figure class="post-image">
+        <img src="{{ article2.image.src | img_url: '600x400', crop: 'center' }}" alt="{{ article2.image.src.alt | escape }}">
+    </figure>
+    <div class="post-meta">
+      <h2 class="post-title"><span>{{ article2.title | escape }}</span></h2>
+      <p class="post-date">{{ article2.published_at | date: format: 'abbreviated_date' }}</p>
+    </div>
+    </a>
+  </article>
+
+  <article id="pickup-post-{{ article3.id }}" class="post-item third">
+    <a href="{{ article3.url }}" class="post-link">
+      <figure class="post-image">
+        <img src="{{ article3.image.src | img_url: '600x400', crop: 'center' }}" alt="{{ article3.image.src.alt | escape }}">
+    </figure>
+    <div class="post-meta">
+      <h2 class="post-title"><span>{{ article1.title | escape }}</span></h2>
+      <p class="post-date">{{ article3.published_at | date: format: 'abbreviated_date' }}</p>
+    </div>
+    </a>
+  </article>
+</section>
+</div>
+
+{% schema %}
+  {
+    "name": "ピックアップ記事",
+	"tag": "section",
+	"class": "casualnote",
+    "settings": [
+      {
+        "type": "article",
+        "id": "article1",
+        "label": "ピックアップ記事1"
+      },
+      {
+        "type": "article",
+        "id": "article2",
+        "label": "ピックアップ記事2"
+      },
+      {
+        "type": "article",
+        "id": "article3",
+        "label": "ピックアップ記事3"
+      }
+	]
+  }
+{% endschema %}

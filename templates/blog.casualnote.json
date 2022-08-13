@@ -1,0 +1,52 @@
+{
+  "wrapper": "div#casualnote.casualnote-wrap",
+  "sections": {
+    "pickup": {
+      "type": "blog-casualnote-pickup",
+      "settings": {
+        "article1": "casualnote\/casualnote20200613",
+        "article2": "casualnote\/casualnote20200509",
+        "article3": "casualnote\/casualnote20190612"
+      }
+    },
+    "main": {
+      "type": "blog-casualnote",
+      "blocks": {
+        "search": {
+          "type": "search",
+          "settings": {}
+        },
+        "posts": {
+          "type": "posts",
+          "settings": {}
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {}
+        },
+        "links": {
+          "type": "links",
+          "settings": {}
+        },
+        "collection": {
+          "type": "collection",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "search",
+        "posts",
+        "tags",
+        "links",
+        "collection"
+      ],
+      "settings": {
+        "paginate_number": 12
+      }
+    }
+  },
+  "order": [
+    "pickup",
+    "main"
+  ]
+}

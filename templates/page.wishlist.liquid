@@ -1,0 +1,14 @@
+<section class="section section--page page">
+	<div class="container container--medium">
+		<div class="section__title section__title--center">
+            <h1 class="section__title-text h2 wishlist-title">{{ page.title }}</h1>
+        </div>
+
+        
+      
+      	 <div id="wishlist-items-container"></div>
+	</div>
+</section>
+
+<script src="{{ 'swym-wishlist-page.js' | asset_url }}" ></script>
+{{ 'swym-wishlist-page.css' | asset_url | stylesheet_tag }}

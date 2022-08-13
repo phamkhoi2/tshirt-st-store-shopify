@@ -1,0 +1,63 @@
+
+<script>
+// Include script file
+function addScript(){
+ var head = document.getElementsByTagName('head')[0];
+ var script = document.createElement('script');
+ script.src = "{{ 'lazysizes.min.js' | asset_url}}";
+ script.type = 'text/javascript';
+
+ head.append(script);
+}
+  function adScript(){
+ var head = document.getElementsByTagName('head')[1];
+ var script = document.createElement('script');
+ script.src = "{{ 'vendor.min.js' | asset_url }}";
+ script.type = 'text/javascript';
+
+ head.append(script);
+}
+  function dScript(){
+ var head = document.getElementsByTagName('head')[2];
+ var script = document.createElement('script');
+ script.src = "{{ 'ajax-cart.min.js' | asset_url }}";
+ script.type = 'text/javascript';
+
+ head.append(script);
+}
+   function ddScript(){
+ var head = document.getElementsByTagName('head')[3];
+ var script = document.createElement('script');
+ script.src = "{{ 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'}}";
+ script.type = 'text/javascript';
+
+ head.append(script);
+}
+  
+   function gfg_Run() {
+      timer = setTimeout(function() {
+         addScript();
+      }, 400);
+  }
+  function gfg_Runs() {
+      timer = setTimeout(function() {
+         adScript();
+      }, 300);
+  }
+  
+  function gfg_Runss() {
+      timer = setTimeout(function() {
+         dScript();
+      }, 200);
+  }
+  
+  function gfg_Runs() {
+      timer = setTimeout(function() {
+         ddScript();
+      }, 100);
+  }
+  gfg_Run();
+  gfg_Runs();
+  gfg_Runss();
+  gfg_Runs();
+</script>

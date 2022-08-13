@@ -1,0 +1,152 @@
+{%- include "line-login__login-redirect" -%}
+
+
+<section class="section section--account account account--main">
+    <div class="container container--tiny">
+        <div class="section__title section__title--center section__title--desc">
+            <h1 class="section__title-text h2">{{ 'customer.account.title' | t }}</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="o-layout">
+            <div class="o-layout__item u-1/1 u-2/3@tab">
+
+                <h2 class="h3 toggle-switch">{{ 'customer.orders.title' | t }}</h2>
+				
+              	<div class="accordion orders">
+                {% paginate customer.orders by 20 %}
+                    {% if customer.orders.size != 0 %}
+                  		<div class="table-wrap">
+                        <table class="responsive-table">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'customer.orders.order_number' | t }}</th>
+                                    <th>{{ 'customer.orders.date' | t }}</th>
+                                    <th>{{ 'customer.orders.payment_status' | t }}</th>
+                                    <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                                    <th>{{ 'customer.orders.total' | t }}</th>
+                                  	<th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in customer.orders %}
+                                    <tr class="responsive-table__row">
+                                        <td data-label="{{ 'customer.orders.order_number' | t }}">
+                                            <a href="{{ order.customer_url }}" class="link-order_number">{{ order.name }}</a>
+                                        </td>
+                                        <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | date: format: 'month_day_year' }}</td>
+                                        <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                                        <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}　
+                                      	{% if order.line_items.first.fulfillment.tracking_url %}
+                                          	  <a href="{{ order.line_items.first.fulfillment.tracking_url }}" class="btn-tracking">
+                                                  {{ 'customer.orders.search' | t }}
+                                          	  </a>
+                                          {% endif %}
+                                        </td>
+                                        <td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+                                      	<td data-label="">                                          
+                                            <a class="btn-receipt" target="_blank" href="{{ shop.url }}/apps/sufio/invoice/?id={{ order.id }}&number={{ order.order_number }}">
+                                              {{ 'customer.orders.receipt' | t }} 
+                                            </a>                                   
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                  	</div>
+                    {% else %}
+                        <p>{{ 'customer.orders.none' | t }}</p>
+                    {% endif %}
+                    {% if paginate.pages > 1 %}
+                        <div class="account__pagination">
+                            <div class="container">
+                                <div class="pagination">
+                                    <div class="pagination__items">
+                                        {{ paginate | default_pagination: next: '<i class="icon icon--right-t"></i>', previous: '<i class="icon icon--left-t"></i>' }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endpaginate %}
+              </div>
+            </div>
+            <div class="o-layout__item u-1/1 u-1/3@tab">
+
+                <h2 class="h3 toggle-switch">{{ 'customer.account.details' | t }}</h2>
+				
+              	<div class="accordion address hide">
+                  {%- if customer.default_address -%}
+                    <div class="address-bg">
+                	{{ customer.default_address | format_address }}
+                      <div style="text-align : right;">
+                        <a href="{{ routes.account_addresses_url }}">編集</a>
+                      </div>
+                  </div>
+                  {%- endif -%}
+              	</div>
+              
+              	<h2 class="h3 view_addresses"><a href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t }}<span class="count" data-count="{{ customer.addresses_count }}"></span></a></h2>
+              	<h2 class="h3 wishlist"><a href="/pages/wishlist">{{ 'layout.wishlist.title' | t }}</a></h2>
+              	<h2 class="h3 recently-viewed"><a href="/pages/recently-viewed">{{ 'layout.navigation.browsing_history' | t }}</a></h2>
+              	<form id="myaccount_edit">  
+                <input type="hidden" name="customer[id]" value="{{ customer.id }}" /> 
+
+                  <h2 class="h3 toggle-switch">{{ 'customer.account.birthday' | t }}</h2>
+                  
+                  <div class="accordion hide">
+          			<input type="date" name="metafield[accentuate.birthday]" value="{{ customer.metafields.accentuate.birthday }}" />
+                    <span style="color:red" id="myaccount_error"></span>
+                    <div class="account__form-buttons"> 
+                        <button type="submit" class="c-btn c-btn--blue-border account__form-submit" >更新</button>
+                    </div>
+                  </div>
+                  
+                  <h2 class="h3 toggle-switch">{{ 'customer.account.size' | t }}</h2>
+                  
+                  <div class="accordion hide">
+                    <div style="width:100%;">
+                    	<input type="checkbox" name="metafield[accentuate.men]" id="men" {% if customer.metafields.accentuate.men %} checked {% endif %}>
+                    	<label class="form-check-label" for="men" style="width:10em;">男性サイズ</label>
+                    </div>
+                    <div style="width:100%;">
+                    	<input type="checkbox" name="metafield[accentuate.women]" id="women" {% if customer.metafields.accentuate.women %} checked {% endif %}>
+                    	<label class="hidden-label" for="women" style="width:10em;">女性サイズ</label>
+                    </div>
+                    <div style="width:100%;">
+                    	<input type="checkbox" name="metafield[accentuate.kid]" id="kid" {% if customer.metafields.accentuate.kid %} checked {% endif %}>
+                    	<label class="hidden-label" for="kid" style="width:10em;">子どもサイズ</label>
+                    </div>
+                    <div style="width:100%;">
+                    	<input type="checkbox" name="metafield[accentuate.big]" id="big" {% if customer.metafields.accentuate.big %} checked {% endif %}>
+                    	<label class="hidden-label" for="big" style="width:10em;">大きなサイズ</label>
+                    </div>
+                    <div style="width:100%;">
+                       <label class="hidden-label" style="width:10em;">{{ 'customer.account.size_msg' | t }}</label>
+                    </div>
+                    <span style="color:red" id="myaccount_error"></span>
+                    <div class="account__form-buttons"> 
+                      <button type="submit" class="c-btn c-btn--blue-border account__form-submit" >更新</button>
+                    </div>
+                  </div>
+              </form>
+              <h2 class="h3">{% render 'line-login__unlink-account' %}</h2>
+              <h2 class = "h3 toggle-switch">{{ 'customer.open_account.title' | t }}</h2>
+              	<div class="accordion hide">
+                  <div style="width:100%; padding-bottom: 15px">
+                       <label class="hidden-label" style="width:10em;">
+                         {{ 'customer.open_account.first_half_msg' | t }}{{ 'こちらのウェブサイト' | link_to: 'https://paid.jp/v/do/lp/company_site?cid=106371','株式会社DAQ ｜BtoB掛け払い（後払い）決済サービス「Paid（ペイド）」'}}{{ 'customer.open_account.second_half_msg' | t }}<br>{{ 'customer.open_account.example_msg' | t }}
+                    	</label><br>
+                    <a href="https://paid.jp/v/contents/lp/company_site.jsp?cid=106371" target="_blank"><img src="https://paid.jp/img/company/useguide/link_banner/468_60_01.gif" width="468" height="60" alt="Paid 仕入れをご検討中のお客様へ" border="0"></a>
+                  </div>
+                </div>
+              <h2 class="h3 logout"><a href="{{ routes.account_logout_url }}">{{ 'layout.customer.log_out' | t }}</a></h2>
+
+            </div>
+           	<div class="o-layout__item u-1/1 u-3/3@tab"><!--DAQ-194 -->
+              
+          	</div><!--DAQ-194 -->
+        </div>
+    </div>
+</section>

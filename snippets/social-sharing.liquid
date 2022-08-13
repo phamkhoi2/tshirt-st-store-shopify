@@ -1,0 +1,68 @@
+{%- case social-sharing -%}
+  {%- when 'facebook' -%}
+  <li class="social-sharing-item">
+    <a  target="_blank" href="https://www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" data-balloon="{{ 'general.social.alt_text.share_on_facebook' | t }}" class="social-sharing-btn share-facebook" rel="nofollow">
+      {%- render 'share-icons' with 'facebook' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.facebook' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'twitter' -%}
+  <li class="social-sharing-item">
+    <a target="_blank" href="//twitter.com/share?text={{ product.title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" data-balloon="{{ 'general.social.alt_text.share_on_twitter' | t }}" class="social-sharing-btn share-twitter" rel="nofollow">
+      {%- render 'share-icons' with 'twitter' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.twitter' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'pinterest' -%}
+  <li class="social-sharing-item">
+    <a target="_blank" href="https://pinterest.com/pin/create/button/?url={{ shop.url | append: product.url  }}&amp;media={{ product.featured_media | img_url: '1024x1024' }}&amp;description={{ product.title | url_param_escape }}" data-balloon="{{ 'general.social.alt_text.share_on_pinterest' | t }}" class="social-sharing-btn share-pinterest" rel="nofollow">
+      {%- render 'share-icons' with 'pinterest' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.pinterest' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'hatena' -%}
+  <li class="social-sharing-item">
+    <a target="_blank" href="https://b.hatena.ne.jp/add?mode=confirm&url={{ shop.url | append: product.url  }}&title={{ product.title | url_param_escape }}" data-balloon="{{ 'general.social.alt_text.share_on_hatena' | t }}" class="social-sharing-btn share-hatena" rel="nofollow">
+      {%- render 'share-icons' with 'hatena' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.hatena' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'pocket' -%}
+  <li class="social-sharing-item">
+    <a target="_blank" href="https://getpocket.com/edit?url={{ shop.url | append: product.url  }}&title={{ product.title | url_param_escape }}" data-balloon="{{ 'general.social.alt_text.share_on_pocket' | t }}" class="social-sharing-btn share-pocket" rel="nofollow">
+      {%- render 'share-icons' with 'pocket' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.pocket' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'line' -%}
+  <li class="social-sharing-item">
+    <a target="_blank" href="https://social-plugins.line.me/lineit/share?url={{ shop.url | append: product.url  }}" data-balloon="{{ 'general.social.alt_text.share_on_line' | t }}" class="social-sharing-btn share-line" rel="nofollow">
+      {%- render 'share-icons' with 'line' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.line' | t }}</span>
+    </a>
+  </li>
+
+  {%- when 'clipboard' -%}
+  <li class="social-sharing-item">
+    <button data-balloon="{{ 'general.social.alt_text.copy_to_clipboard' | t }}" id="copy-button" class="social-sharing-btn share-clipboard" rel="nofollow">
+      {%- render 'share-icons' with 'clipboard' -%}
+      <span class="icon-fallback__text">{{ 'general.social.links.clipboard' | t }}</span>
+    </button>
+    <script>
+      const copy_btn = document.getElementById('copy-button');
+      copy_btn.addEventListener('click', function(){
+        const element = document.createElement('input');
+        element.value = location.href;
+        document.body.appendChild(element);
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+      });
+    </script>
+  </li>
+{%- endcase -%}

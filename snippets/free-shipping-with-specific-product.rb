@@ -1,4 +1,4 @@
-HIDE_RATES_FOR_PRODUCT_AND_COUNTRY = [
+FREE_RATES_FOR_PRODUCT = [
 	{
 	  product_selector_match_type: :include,
 	  product_selector_type: :tag,
@@ -51,7 +51,7 @@ HIDE_RATES_FOR_PRODUCT_AND_COUNTRY = [
   end
   
 
-  class HideRatesForProductCountryCampaign
+  class FreeRatesForProductCampaign
 	def initialize(campaigns)
 	  @campaigns = campaigns
 	end
@@ -86,7 +86,7 @@ HIDE_RATES_FOR_PRODUCT_AND_COUNTRY = [
   end
   
   CAMPAIGNS = [
-	HideRatesForProductCountryCampaign.new(HIDE_RATES_FOR_PRODUCT_AND_COUNTRY),
+	FreeRatesForProductCampaign.new(FREE_RATES_FOR_PRODUCT),
   ]
   
   CAMPAIGNS.each do |campaign|

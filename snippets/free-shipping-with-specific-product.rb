@@ -32,25 +32,6 @@ FREE_RATES_FOR_PRODUCT = [
 
   end
   
-
-  class RateNameSelector
-	def initialize(match_type, rate_names)
-	  @match_type = match_type
-	  @comparator = match_type == :exact ? '==' : 'include?'
-	  @rate_names = rate_names&.map { |rate_name| rate_name.downcase.strip }
-	end
-  
-	def match?(shipping_rate)
-	  if @match_type == :all
-		true
-	  else
-		next if shipping_rate.price == Money.zero
-		shipping_rate.apply_discount(shipping_rate.price, message: "Free Shipping Item(s)!")
-	  end
-	end
-  end
-  
-
   class FreeRatesForProductCampaign
 	def initialize(campaigns)
 	  @campaigns = campaigns
@@ -71,14 +52,9 @@ FREE_RATES_FOR_PRODUCT = [
 		product_match = cart.line_items.any? { |line_item| product_selector.match?(line_item) }
   
 		next unless product_match 
-  
-		rate_name_selector = RateNameSelector.new(
-		  campaign[:rate_match_type],
-		  campaign[:rate_names],
-		)
-  
+   
 		shipping_rates.each do |shipping_rate|
-			rate_name_selector.match?(shipping_rate)
+			shipping_rate.apply_discount(shipping_rate.price, message: "Free Shipping Item(s)!")
 		  break
 		end
 	  end

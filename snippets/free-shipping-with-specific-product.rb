@@ -32,6 +32,7 @@ FREE_RATES_FOR_PRODUCT = [
 
   end
   
+
   class FreeRatesForProductCampaign
 	def initialize(campaigns)
 	  @campaigns = campaigns
@@ -54,7 +55,8 @@ FREE_RATES_FOR_PRODUCT = [
 		next unless product_match 
    
 		shipping_rates.each do |shipping_rate|
-			shipping_rate.apply_discount(shipping_rate.price, message: "Free Shipping Item(s)!")
+			shipping_rate.apply_discount(shipping_rate.price, message: "")
+			next shipping_rate.name == '通常送料' ? shipping_rate.change_name('送料無料') : ''
 		  break
 		end
 	  end

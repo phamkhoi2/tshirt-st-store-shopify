@@ -12,7 +12,7 @@ $(document).ready( () => {
 				$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
 				setTimeout(() => { 
 					!$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').addClass('hide') : '';
-				}, 2000);
+				}, 2500);
 			}else if(CART.cartFreeshipStatus === 'true' && PRODUCT.productFreeshipStatus === 'true'){
 				form_add_cart.submit();
 			}

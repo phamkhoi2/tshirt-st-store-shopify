@@ -387,7 +387,7 @@
                     {% endif %}
 
                     <div class="product-single__add js-product-buttons{% unless product.available %} product-single__add--sold{% endunless %}">
-                      <p class="warning-same-cart hide">同梱不可の商品です</p>
+                      <div class="warning-same-cart hide">現在カートに入っている商品と本商品は同梱して注文することは出来ません。（送料無料商品とその他の商品は同梱不可）</div>
                       <button type="submit" name="add" class="c-btn c-btn--full c-btn--plus c-btn--{% if section.settings.enable_payment_button %}light{% else %}primary{% endif %} product-single__add-btn js-product-add">
                         <span class="js-product-add-text">{{ 'products.product.add_to_cart' | t }}</span>
                       </button>

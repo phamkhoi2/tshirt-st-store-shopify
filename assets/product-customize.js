@@ -10,9 +10,6 @@ $(document).ready( () => {
 			}else if((CART.cartFreeshipStatus === 'true' && PRODUCT.productFreeshipStatus === 'false')
 					|| (CART.cartFreeshipStatus === 'false' && PRODUCT.productFreeshipStatus === 'true')){
 				$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
-				setTimeout(() => { 
-					!$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').addClass('hide') : '';
-				}, 2500);
 			}else if(CART.cartFreeshipStatus === 'true' && PRODUCT.productFreeshipStatus === 'true'){
 				form_add_cart.submit();
 			}
@@ -20,4 +17,11 @@ $(document).ready( () => {
 			form_add_cart.submit();
 		}
 	})
+
+	if($('.warning-same-cart')){
+		$('.warning-same-cart button').click((e) =>{
+			console.log("Click");
+			!$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').addClass('hide') : '';
+		});
+	}
 })

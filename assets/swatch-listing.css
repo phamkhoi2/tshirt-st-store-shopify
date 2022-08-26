@@ -105,7 +105,7 @@
 	display: none;
 }
 .warning-same-cart{
-	color: red;
+	color: #000000;
 	font-style: italic;
 	margin-bottom: 0px;
     position: fixed;
@@ -117,12 +117,20 @@
     text-align: center;
     padding: 20px 35px;
     transform: translateX(-50%);
-    border: 1px solid rgba(189,188,188,.5);
+    box-shadow: 1px 0px 16px 0px #b6b6b680;
     border-radius: 5px;
-    background-color: #faf8f8;
+    background-color: #ffffff;
     min-height: 150px;
     display: flex;
     align-items: center;
+}
+
+.warning-same-cart button{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: none;
+	cursor: pointer;
 }
 
 .overlay.hiden{

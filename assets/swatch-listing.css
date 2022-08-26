@@ -106,7 +106,6 @@
 }
 .warning-same-cart{
 	color: #000000;
-	font-style: italic;
 	margin-bottom: 0px;
     position: fixed;
     z-index: 2;
@@ -114,7 +113,7 @@
     left: 50%;
     max-width: 500px;
 	width: 100%;
-    text-align: center;
+    text-align: left;
     padding: 20px 35px;
     transform: translateX(-50%);
     box-shadow: 1px 0px 16px 0px #b6b6b680;

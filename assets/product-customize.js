@@ -21,7 +21,7 @@ $(document).ready( () => {
 	
 	if($('.warning-same-cart')){
 		$('.warning-same-cart button').click((e) =>{
-			console.log("heloo");
+			
 			!$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').addClass('hide') : '';
 			$('html').css({'overflow': ''});
 		});

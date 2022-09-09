@@ -35,8 +35,6 @@ $(document).ready( () => {
 				.then((response) => response.json())
 				.then((data) => {
 
-					
-
 					if(data.items.length > 0){
 						for(let i = 0; i < data.items.length; i++) {
 
@@ -45,8 +43,6 @@ $(document).ready( () => {
                             fetch(`/products/${handle}.json`)
 							.then((response) => response.json())
 							.then((data) => {
-								console.log(data);
-								console.log(data.product.tags);
 
 								let hasFreeShippingTag = "false";
 
@@ -67,8 +63,6 @@ $(document).ready( () => {
 						}
 					}
 					
-					
-
 			});
 
 			$('input.bulk-qty').on('click', (e) => {
@@ -79,7 +73,7 @@ $(document).ready( () => {
 				}
 			})
 		}
-	}, 2900);
+	}, 2600);
 
 
 })

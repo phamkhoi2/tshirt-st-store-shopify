@@ -77,8 +77,11 @@ $(document).ready( () => {
 					}
 				})
 			}
+			//console.log("sfsdfdsf");
+		}else{
+			//console.log("12345");
 		}
-	}, 2200);
+	}, 3000);
 
 
 })

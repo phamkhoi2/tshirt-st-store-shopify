@@ -65,13 +65,18 @@ $(document).ready( () => {
 					
 			});
 
-			$('input.bulk-qty').on('click', (e) => {
+			if(CART.cartEmptyStatus == "true"){
+				$('input.bulk-qty').attr('readonly','readonly');
+				$('input.bulk-qty').css({"opacity": '0.3'});
+			}else{
+				$('input.bulk-qty').on('click', (e) => {
 
-				if(e.target.hasAttribute('readonly')){
-					$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
-					$('html').css({'overflow': 'hidden'});
-				}
-			})
+					if(e.target.hasAttribute('readonly')){
+						$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
+						$('html').css({'overflow': 'hidden'});
+					}
+				})
+			}
 		}
 	}, 2200);
 

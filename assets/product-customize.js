@@ -27,14 +27,14 @@ $(document).ready( () => {
 		});
 	}
 
-	let setTimeHandleButtonFunction = setTimeout(() => {
+	let checkTimeRenderChart = setInterval(() => {
 		
 		if($('.td-handle').length > 0){
 
 			fetch('/cart.json')
 				.then((response) => response.json())
 				.then((data) => {
-
+					
 					if(data.items.length > 0){
 						for(let i = 0; i < data.items.length; i++) {
 
@@ -77,11 +77,13 @@ $(document).ready( () => {
 					}
 				})
 			}
-			//console.log("sfsdfdsf");
+			
 		}else{
-			//console.log("12345");
+			console.log("Waiting...");
 		}
-	}, 3000);
+	}, 1000);
 
-
+	let clearFuncInterval = setTimeout(() => {
+		clearInterval(checkTimeRenderChart);
+	}, 6500);
 })

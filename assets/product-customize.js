@@ -29,7 +29,7 @@ $(document).ready( () => {
 
 	let checkTimeRenderChart = setInterval(() => {
 		
-		if($('.td-handle').length > 0){
+		if($('.td-handle').length > 0 && CART.cartEmptyStatus != "true"){
 
 			fetch('/cart.json')
 				.then((response) => response.json())
@@ -65,18 +65,13 @@ $(document).ready( () => {
 					
 			});
 
-			if(CART.cartEmptyStatus == "true"){
-				$('input.bulk-qty').attr('readonly','readonly');
-				$('input.bulk-qty').css({"opacity": '0.3'});
-			}else{
-				$('input.bulk-qty').on('click', (e) => {
+			$('input.bulk-qty').on('click', (e) => {
 
-					if(e.target.hasAttribute('readonly')){
-						$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
-						$('html').css({'overflow': 'hidden'});
-					}
-				})
-			}
+				if(e.target.hasAttribute('readonly')){
+					$('.warning-same-cart').hasClass('hide') ? $('.warning-same-cart').removeClass('hide') : '';
+					$('html').css({'overflow': 'hidden'});
+				}
+			})
 			
 		}else{
 			console.log("Waiting...");

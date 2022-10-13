@@ -1,0 +1,31 @@
+{% assign product_freeship_status = false %}
+{% assign cart_freeship_status = false %}
+{% assign cart_empty_status = true %}
+
+{% if cart.item_count > 0 %}
+{% assign cart_empty_status = false %}
+{% for item in cart.items %}
+	{% for tag in item.product.tags %}
+		{%- if tag contains '送料無料' -%}
+			{% assign cart_freeship_status = true %}
+		{%- endif -%}
+	{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% for tag in product.tags %}
+	{%- if tag contains '送料無料' -%}
+		{% assign product_freeship_status = true %}
+	{%- endif -%}
+{% endfor %}
+
+<script>
+	var PRODUCT = PRODUCT || {};
+	var CART = CART || {};
+
+	PRODUCT.productFreeshipStatus = "{{ product_freeship_status }}";
+	
+	CART.cartFreeshipStatus = "{{ cart_freeship_status }}";
+	CART.cartEmptyStatus = "{{ cart_empty_status }}";
+
+</script>

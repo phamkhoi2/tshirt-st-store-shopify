@@ -13,7 +13,8 @@
   {% when 'large' %}
   {%- assign image_size = '920x' -%}
   {% endcase %}
-
+  <!-- Render check cart bag -->
+  {%- render 'check-items-cart' -%}
   <section class="section section--product-single js-product-single" data-section-id="{{ section.id }}" data-section-type="product-single">
 
     <div class="product-single product-single--{{ section.settings.layout }} product-single--text-{{ section.settings.text_color }} product-single--{{product.id}} js-product-{{product.id}}">
@@ -386,7 +387,9 @@
                     {% endif %}
 
                     <div class="product-single__add js-product-buttons{% unless product.available %} product-single__add--sold{% endunless %}">
-
+                      <div class="warning-same-cart hide">現在カートに入っている商品と本商品は同梱して注文することは出来ません。（送料無料商品とその他の商品は同梱不可）
+                        <button type="button">x</button>
+                      </div>
                       <button type="submit" name="add" class="c-btn c-btn--full c-btn--plus c-btn--{% if section.settings.enable_payment_button %}light{% else %}primary{% endif %} product-single__add-btn js-product-add">
                         <span class="js-product-add-text">{{ 'products.product.add_to_cart' | t }}</span>
                       </button>
@@ -693,7 +696,7 @@
         // console.log(tr_skelaton);
         $(".bulk-add-to-cart-test .first_tr").append(tr_skelaton);
       });
-    }, 800);
+    }, 700);
     var sizeoptionarraylength = sizeoptionarray.length;
     //             showing the dynamic table for color vs size
     setTimeout(function() {
@@ -704,7 +707,7 @@
         var variant_count_for_inv = $(this).attr("data-inventory-count");
         // console.log("inv for varid:"+variant_id_for_inv+" is "+variant_count_for_inv +"");
       });
-      console.log(product_array);
+      //console.log(product_array);
       if (typeof product_array !== 'undefined' && product_array != '') {
         $(product_array).each(function(key, value) {
           value_handle = value.handle;
@@ -717,6 +720,8 @@
           var product_image = "";
           var optionvalis = '';
           var variant_option = value.options;
+          var free_shipping = value.tags.includes('送料無料') ? true : false;
+          
           $(hasimage).each(function(key, value) {
             product_image = value;
           });
@@ -733,7 +738,7 @@
           var productcolor = '<strong class="color-name">' + value.variants[0].option1 + '</strong>';
           // console.log(value.variants);
           // Show color swatch end
-          tr_skelaton_hand = '<tr class=" td-handle append-id-test_' + value_handle + '" ><td><a href="' + handle + '">' + productlist + productcolor + '</a></td></tr>';
+          tr_skelaton_hand = '<tr class="td-handle append-id-test_' + value_handle + '" ><td><a href="' + handle + '">' + productlist + productcolor + '</a></td></tr>';
           $(".bulk-add-to-cart-test").append(tr_skelaton_hand);
           var value_variants = value.variants;
           var value_variants_length = value_variants.length;
@@ -747,7 +752,7 @@
             var variant_price = (variant_price / 100)
             variant_sku = value1.sku;
             // var variant_count_for_inv = $('#'+variant_id).attr("data-inventory-count");
-            var add_variant_id_div = '<td class="' + variant_id + '" data-test="' + value_handle + '"><span class="bulk-qty-span"><label class="u-hidden-visually" for="input_' + value1.id + '">' + value1.option1 + '</label><input type="text" id="input_' + value1.id + '" class="bulk-qty" data-title="' + variant_title + '" data-vid="' + variant_id + '" data-var-availability="" data-color-name="' + variant_option1 + '"  min="0" pattern="[0-9]*" value=""></span><span class="tsrt-details-p-q">¥' + variant_price + '</span><span class=" tsrt-details-p-q tsrt-qty-frommeta-' + variant_sku + '"></span><span class="cart-message"></span></td>';
+            var add_variant_id_div = '<td data-variant="' + variant_id + '" class="' + variant_id + '" data-test="' + value_handle + '"><span class="bulk-qty-span"><label class="u-hidden-visually" for="input_' + value1.id + '">' + value1.option1 + '</label><input type="text" id="input_' + value1.id + '" class="bulk-qty" data-title="' + variant_title + '" data-vid="' + variant_id + '" data-var-availability="" data-free-shipping="' + free_shipping + '" data-color-name="' + variant_option1 + '"  min="0" pattern="[0-9]*" value=""></span><span class="tsrt-details-p-q">¥' + variant_price + '</span><span class=" tsrt-details-p-q tsrt-qty-frommeta-' + variant_sku + '"></span><span class="cart-message"></span></td>';
             $(".append-id-test_" + value_handle + "").append(add_variant_id_div);
             $.each(product_qty_frommetafield, function(key, value) {
               var valueind = value.split("|");
@@ -836,7 +841,7 @@
         });
       }
       //               
-    }, 2000);
+    }, 1900);
   });
 	
   {%- if product.metafields.related != blank -%}
@@ -952,6 +957,8 @@ $.ajax(settings).done(function (response) {
 {%- if section.settings.enable_zoom -%}
 {% render 'product-dialog' %}
 {%- endif -%}
+<script src="{{ 'product-customize.js' | asset_url }}" defer="defer"></script>
+
 
 {% schema %}
 {
